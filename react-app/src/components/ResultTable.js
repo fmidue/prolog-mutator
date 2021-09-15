@@ -2,6 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, {selectFilter} from 'react-bootstrap-table2-filter';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const resultOptions ={
     0: 'OK',
@@ -52,12 +53,22 @@ const columns =[
 ];
 
 
+const paginationOptions ={
+    paginationSize: 5,
+    pageStartIndex: 1,
+    alwaysShowAllBtns: false,
+    prePageText: '<',
+    nextPageText: '>',
+    nextPageTitle: 'Next',
+    prePageTitle: 'Previous',
+    showTotal: true,
+}
 
 
 export default function ResultTable(){
     return(
         <Container>
-            <BootstrapTable keyField = 'id' data={items} columns={columns} filter={filterFactory()} bootstrap4={true}/> 
+            <BootstrapTable keyField = 'id' data={items} columns={columns} filter={filterFactory()} bootstrap4={true} pagination={paginationFactory(paginationOptions)}/> 
         </Container>
     )
 }
