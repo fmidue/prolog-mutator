@@ -57,7 +57,7 @@ const columns =[
 export default function ResultTable(){
     return(
         <Container>
-            <BootstrapTable keyField = 'id' data={items} columns={columns} filter={filterFactory()}/> 
+            <BootstrapTable keyField = 'id' data={items} columns={columns} filter={filterFactory()} bootstrap4={true}/> 
         </Container>
     )
 }
