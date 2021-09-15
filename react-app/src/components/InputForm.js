@@ -8,12 +8,16 @@ export default function InputForm(){
     return(
         <Container className = "medium-container">
             <Row className="justify-content-center">
-            <Form.Group controlId="formFile" className="mb-3">
-                <Form.Label>Please upload your Prolog Code here.</Form.Label>
-                <Form.Control type="file" className="form-control" />
-            </Form.Group>
-                <Button as="input" type="submit" value="Start Mutation" className="mb-3" />{''}
+            <Form>
+                <Form.File.Label>Please upload your Prolog Code here</Form.File.Label>
+                <Form.File 
+                    id="custom-file"
+                    label="Upload file here"
+                    custom
+                />
+            </Form>
             </Row>
+            <Button as="input" type="submit" value="Start Mutation" className="my-3" />{''}
         </Container>
     )
 }
