@@ -44,3 +44,8 @@
   width: 50% !important;
   margin-top: 25px;
 }
+
+.table thead th{
+  vertical-align: middle !important;
+  font-size: x-large;
+}

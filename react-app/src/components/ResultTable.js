@@ -29,14 +29,14 @@ const columns =[
         dataField: 'name',
         text: 'Mutant Name',
         style: {color: 'white'},
-        headerStyle: {color: 'white'}
+        headerStyle: {color: 'white', backgroundColor:'#424856'}
     },
     {
         dataField: 'type',
         text:'Mutation Type',
         sort: true,
         style: {color: 'white'},
-        headerStyle: {color: 'white'}
+        headerStyle: {color: 'white', backgroundColor:'#424856'},
     },
     {
         dataField: 'result',
@@ -47,7 +47,7 @@ const columns =[
         }),
         sort: true,
         style : {color: 'white'},
-        headerStyle: {color: 'white'},
+        headerStyle: {color: 'white', backgroundColor:'#424856'},
 
     }
 ];
