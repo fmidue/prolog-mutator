@@ -65,10 +65,25 @@ const paginationOptions ={
 }
 
 
-export default function ResultTable(){
-    return(
-        <Container>
-            <BootstrapTable keyField = 'id' data={items} columns={columns} filter={filterFactory()} bootstrap4={true} pagination={paginationFactory(paginationOptions)}/> 
-        </Container>
-    )
+class ResultTable extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            show:true
+        };
+    }
+
+    render(){
+        return(
+            <div>
+                {this.state.show &&
+                <Container>
+                    <BootstrapTable keyField = 'id' data={items} columns={columns} filter={filterFactory()} bootstrap4={true} pagination={paginationFactory(paginationOptions)}/> 
+                </Container>}
+            </div>
+            
+        )
+    }
 }
+
+export default ResultTable;
