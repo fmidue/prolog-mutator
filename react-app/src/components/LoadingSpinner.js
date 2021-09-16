@@ -12,7 +12,7 @@ class LoadingSpinner extends React.Component{
     render(){
         return(
             <div>
-                {!this.state.hidden && <Spinner animation='border' variant='light'/>}
+                {!this.state.hidden && <Spinner className="mb-3" animation='border' variant='light'/>}
             </div>
         )
     }
