@@ -3,6 +3,7 @@ import ResultTable from "./ResultTable";
 import LoadingSpinner from './LoadingSpinner';
 import Button from 'react-bootstrap/Button';
 
+const httpReq = require("../assets/HttpReq")
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -28,6 +29,8 @@ class ResultSection extends React.Component{
             showSpinner: !this.state.showSpinner,
             showTable:!this.state.showTable
         })
+        const data= httpReq.httpGet("http://localhost:5000/")
+        console.log("data",data)
     }
 
     render(){
