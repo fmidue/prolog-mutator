@@ -29,7 +29,7 @@ function disjConjMut(text){
                 subCode = text.substring(0,pos[j]+1)
                 tempCode = tempCode.concat(subCode)
             }else{
-                subCode = text.substring(pos[j-1],pos[j]+1)
+                subCode = text.substring(pos[j-1]+2,pos[j]+1)
                 tempCode = tempCode.concat(subCode)
             }
             if(j!=numOp-1){
