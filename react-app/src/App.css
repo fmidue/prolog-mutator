@@ -45,7 +45,16 @@
   margin-top: 25px;
 }
 
+.small-container{
+  width: 25% !important;
+  margin-top:25px;
+}
+
 .table thead th{
   vertical-align: middle !important;
   font-size: x-large;
+}
+
+.card {
+  color:black;
 }
