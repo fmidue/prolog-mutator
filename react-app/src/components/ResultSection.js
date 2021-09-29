@@ -69,10 +69,6 @@ class ResultSection extends React.Component{
     }
 
     handleMutButtonClick(){
-        this.setState({
-            showSpinner: !this.state.showSpinner,
-            showTable:!this.state.showTable
-        })
         const data = new FormData()
         data.append('config', this.state.configFile)
         data.append('solution', this.state.solutionFile)
