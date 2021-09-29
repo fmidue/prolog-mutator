@@ -56,10 +56,7 @@ const paginationOptions ={
 
 
 class ResultTable extends React.Component{
-    constructor(props){
-        super(props);
-    }
-
+    
     render(){
         return(
                 <Container>
