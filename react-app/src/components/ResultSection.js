@@ -1,13 +1,10 @@
 import React from "react";
-import ResultTable from "./ResultTable";
-import LoadingSpinner from './LoadingSpinner';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import ResultCard from "./ResultCard";
 
-
-const httpReq = require("../assets/HttpReq")
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -17,8 +14,10 @@ class ResultSection extends React.Component{
             solutionLabel:"Upload your Solution file here",
             configText:"",
             solutionText:"",
-            showSpinner:true,
-            showTable:false,
+            configFile:{},
+            solutionFile:{},
+            responseLoaded:false,
+            responseText:"",
             items: [
                 {id:1, name:'File1', type:'A', result:'0'},
                 {id:2, name:'File2', type:'A', result:'1'},
@@ -37,7 +36,8 @@ class ResultSection extends React.Component{
     handleUploadSolutionFile(e){
         if(e.target.files.length>0){
             this.setState({
-                solutionLabel:e.target.files[0].name
+                solutionLabel:e.target.files[0].name,
+                solutionFile:e.target.files[0]
             })
             var file = e.target.files[0];
             var reader = new FileReader();
@@ -49,7 +49,8 @@ class ResultSection extends React.Component{
     handleUploadConfigFile(e){
         if(e.target.files.length>0){     
             this.setState({
-                configLabel:e.target.files[0].name
+                configLabel:e.target.files[0].name,
+                configFile: e.target.files[0]
             })
             var file = e.target.files[0];
             var reader = new FileReader();
@@ -59,13 +60,22 @@ class ResultSection extends React.Component{
     }
 
     handleMutButtonClick(){
-        console.log(this.state)
         this.setState({
             showSpinner: !this.state.showSpinner,
             showTable:!this.state.showTable
         })
-        //const data= httpReq.httpGet("http://localhost:5000/")
-        //console.log("data",data)
+        const data = new FormData()
+        data.append('config', this.state.configFile)
+        data.append('solution', this.state.solutionFile)
+        fetch("http://localhost:8080/test-files", {            
+            method: "POST",
+            body: data
+        }).then(res => res.text())
+        .then(data => this.setState({
+            responseText: data,
+            responseLoaded: true,
+        }))
+        .catch(e =>{console.log(e)})
     }
 
     render(){
@@ -93,8 +103,8 @@ class ResultSection extends React.Component{
                 </Row>
                 </Container>
                 <Button as="input" type="submit" value="Start Mutation" className="my-3" onClick={this.handleMutButtonClick} />{''}
-                {this.state.showSpinner && <LoadingSpinner/>}
-                {this.state.showTable && <ResultTable items={this.state.items} />}
+                {this.state.responseLoaded && 
+                <ResultCard responseText={this.state.responseText}/>}
             </div>
             
         )
