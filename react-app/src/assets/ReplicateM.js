@@ -1,8 +1,6 @@
 /*
 Credits to https://gist.github.com/jmurinello/7ccea1cd441e24ae4e80d98ee7f1cdda
 */
-'use strict'
-
 const pair = (x, y) =>
   typeof x === 'number' ? [x].concat(y)
                         : x.concat(y)

@@ -5,7 +5,7 @@ Example: #Operator : (;) and (,) => 2
          #Mutants produced = 2 * 3 = 8
 */
 
-const replM = require("./replicateM")
+const replM = require("./ReplicateM")
 
 
 function disjConjMut(text){
@@ -20,9 +20,9 @@ function disjConjMut(text){
     var numOp = pos.length
     var opArr = replM.replicateM(numOp,[",",";"]) 
     
-    for( i= 0; i < opArr.length; i++){
+    for(var i= 0; i < opArr.length; i++){
         var tempCode = ""
-        for (j=0; j < numOp;j++){
+        for (var j=0; j < numOp;j++){
             
             var subCode 
             if(j==0){
@@ -43,16 +43,16 @@ function disjConjMut(text){
 
 
 function separatePredicate(textArr){
-    factArr = []
-    predArr = []
-    for(i=0; i<textArr.length; i++){
+    var factArr = []
+    var predArr = []
+    for(var i=0; i<textArr.length; i++){
         if(textArr[i].includes(":-")){
             predArr.push(textArr[i])
         }else{
             factArr.push(textArr[i])
         }
     }
-    textObj = {}
+    var textObj = {}
     textObj["facts"] = factArr
     textObj["predicates"] = predArr
     return textObj
