@@ -1,0 +1,3 @@
+[submodule "prolog-test-server"]
+	path = prolog-test-server
+	url = https://github.com/owestphal/prolog-test-server.git
