@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col'
 import ResultCard from "./ResultCard";
 
 
@@ -19,15 +20,9 @@ class ResultSection extends React.Component{
             responseLoaded:false,
             responseText:"",
             textEditorValue:"",
-            items: [
-                {id:1, name:'File1', type:'A', result:'0'},
-                {id:2, name:'File2', type:'A', result:'1'},
-                {id:3, name:'File3', type:'B', result:'0'},
-                {id:4, name:'File4', type:'C', result:'0'},
-                {id:5, name:'File5', type:'B', result:'1'},
-                {id:6, name:'File6', type:'A', result:'1'},
-                {id:7, name:'File7', type:'B', result:'0'},
-            ],
+            dropdownDisabled: true,
+            checked:false,
+            disjConj:"Individually",
         }
         this.handleMutButtonClick = this.handleMutButtonClick.bind(this)
         this.handleUploadSolutionFile = this.handleUploadSolutionFile.bind(this)
@@ -87,36 +82,65 @@ class ResultSection extends React.Component{
     render(){
         return( 
             <div>
-                <Container className = "medium-container">
-                <Row className="justify-content-center">
-                <Form>
-                    <Form.File.Label>Please upload your Prolog Config and Solution here</Form.File.Label>
-                    <Form.File 
-                        id="config-file"
-                        label={this.state.configLabel}
-                        onChange={(e) => 
-                            this.handleUploadConfigFile(e)}
-                        custom
-                    />
-                    <Form.File className="mt-3"
-                        id="solution-file"
-                        label={this.state.solutionLabel}
-                        onChange={(e) => 
-                            this.handleUploadSolutionFile(e)}
-                        custom
-                    />
-                </Form>
-                </Row>
-                </Container>
+                <div id = "fileUploader">
+                    <Container className = "medium-container">
+                        <Row className="justify-content-center">
+                            <Form>
+                                <Form.File.Label>Please upload your Prolog Config and Solution here</Form.File.Label>
+                                <Form.File 
+                                    id="config-file"
+                                    label={this.state.configLabel}
+                                    onChange={(e) => 
+                                        this.handleUploadConfigFile(e)}
+                                    custom
+                                />
+                                <Form.File className="mt-3"
+                                    id="solution-file"
+                                    label={this.state.solutionLabel}
+                                    onChange={(e) => 
+                                        this.handleUploadSolutionFile(e)}
+                                    custom
+                                />
+                            </Form>
+                        </Row>
+                    </Container>
+                </div>
+                
+                <div id="codeEditor">                   
+                    <Container className="medium-container">
+                        <Form>
+                            <Form.Group controlId="exampleForm.ControlTextarea1">
+                                <Form.Label>This is your code:</Form.Label>
+                                <Form.Control as="textarea" value={this.state.textEditorValue} rows={3} onChange={this.handleTextEditorChange}/>
+                            </Form.Group>
+                        </Form>
+                    </Container>
+                </div>     
+
+                <div id="disjConjSelect">           
+                    <Container className="medium-container">
+                        <Form>
+                            <Row>
+                            <Col sm={8}>
+                            <div key="disjConjCheck" className="mb-3">
+                                <Form.Check
+                                type= "checkbox"
+                                id= "disjConjCheck"
+                                label="Disjunction to Conjunction Mutation"/>
+                            </div>
+                            </Col>
+                            <Col sm={4}>
+                            <Form.Control as="select" size="sm">
+                                <option value="0">Individually</option>
+                                <option value="1">Summarily</option>
+                            </Form.Control>
+                            </Col>
+                            </Row>
+                        </Form>
+                    </Container>
+                </div> 
+
                 <Button as="input" type="submit" value="Start Mutation" className="my-3" onClick={this.handleMutButtonClick} />{''}
-                <Container className="medium-container">
-                    <Form>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>This is your code:</Form.Label>
-                            <Form.Control as="textarea" value={this.state.textEditorValue} rows={3} onChange={this.handleTextEditorChange}/>
-                        </Form.Group>
-                    </Form>
-                </Container>
                 {this.state.responseLoaded && 
                 <ResultCard responseText={this.state.responseText}/>}
             </div>
