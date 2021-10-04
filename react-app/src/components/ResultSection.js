@@ -15,6 +15,7 @@ class ResultSection extends React.Component{
             solutionLabel:"Upload your Solution file here",
             configText:"",
             solutionText:"",
+            solutionStructure:[],
             configFile:{},
             solutionFile:{},
             responseLoaded:false,
@@ -23,6 +24,7 @@ class ResultSection extends React.Component{
             dropdownDisabled: true,
             checked:false,
             disjConj:"Individually",
+            mutantCode:[],
         }
         this.handleMutButtonClick = this.handleMutButtonClick.bind(this)
         this.handleUploadSolutionFile = this.handleUploadSolutionFile.bind(this)
@@ -32,6 +34,17 @@ class ResultSection extends React.Component{
 
     handleUploadSolutionFile(e){
         if(e.target.files.length>0){
+            const data = new FormData()
+            data.append('pl-source', e.target.files[0])
+            fetch("http://localhost:8080/parse-file", {
+            method: "POST",
+            body: data
+            }).then(res => res.text()).then(data=> console.log(data))
+            //.then(data => this.setState({
+            //    solutionStructure: data
+            //}))
+            .catch(e =>{console.log(e)})
+
             this.setState({
                 solutionLabel:e.target.files[0].name,
                 solutionFile:e.target.files[0]
