@@ -170,7 +170,7 @@ function unparseList(listArr){
 function getVariable(varArr){
     let variableText = "("
     varArr.forEach((obj) => {
-        if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi) && Array.isArray(obj.contents[1])){
+        if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi) && Array.isArray(obj.contents[1]) && obj.contents[1].length != 0){
             variableText += obj.contents[0]
             let variableParsed = getVariable(obj.contents[1])
             variableText +=  variableParsed + ","
@@ -180,7 +180,6 @@ function getVariable(varArr){
             var varText = unparseVar(obj)
             variableText += varText + ","
         }else if (obj.tag === "Struct" && obj.contents[0] === "." && Array.isArray(obj.contents[1])){
-            
             let variableParsed = "[" + unparseList(obj.contents[1]) + "]"
             variableText += variableParsed + ","
         }
@@ -200,6 +199,46 @@ function parseLhs(lhs){
     return lhsText;
 }
 
+function parseDisjunctor(objArr){
+    let textDisj = ""
+    objArr.forEach((obj)=>{
+        if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi)&& Array.isArray(obj.contents[1])){
+            textDisj += obj.contents[0]
+            let variableParsed = getVariable(obj.contents[1])
+            textDisj += variableParsed + ";"
+        } else if (obj.contents[0] === ";" && Array.isArray(obj.contents[1])){
+            let opParsed = parseDisjunctor(obj.contents[1])
+            textDisj += opParsed 
+        } else if (obj.contents[0] === "\\=" && Array.isArray(obj.contents[1])){
+            let opParsed = parseOperator(obj.contents[1], "\\=")
+            textDisj += opParsed 
+        } else if (obj.tag === "Var"){
+            var varText = unparseVar(obj)
+            textDisj += varText + ","
+        }
+    })
+    return textDisj
+}
+
+function parseOperator(objArr,operator){
+    let opText = ""
+    objArr.forEach((obj)=>{
+        if (obj.tag === "Var"){
+            var varText = unparseVar(obj)
+            opText += varText + operator
+        //} else if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi) && Array.isArray(obj.contents[1]) && obj.contents[1].length != 0){
+        //    opText += obj.contents[0]
+        //    let variableParsed = getVariable(obj.contents[1])
+        //    opText +=  variableParsed + ","
+        }else if (obj.tag === "Struct" && obj.contents[1].length == 0){
+            opText += obj.contents[0] + operator
+        }
+    })
+    const operatorLn = operator.length
+    opText = opText.slice(0,-operatorLn)
+    return opText
+}
+
 function parseRhs(rhs){
     //Return null if it is a fact
     let rhsText = ""
@@ -211,6 +250,13 @@ function parseRhs(rhs){
                 rhsText += obj.contents[0]
                 let variableParsed = getVariable(obj.contents[1])
                 rhsText += variableParsed + ","
+            }
+            else if(obj.contents[0] === ";" && Array.isArray(obj.contents[1])){
+                let variableParsed = parseDisjunctor(obj.contents[1])
+                rhsText += variableParsed + ","
+            }else if (obj.contents[0] === "\\=" && Array.isArray(obj.contents[1])){
+                let opParsed = parseOperator(obj.contents[1], "\\=")
+                rhsText += opParsed  + ","
             }
         })
         
