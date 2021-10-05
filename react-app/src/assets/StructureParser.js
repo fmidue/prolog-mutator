@@ -206,13 +206,16 @@ function parseRhs(rhs){
     if(Array.isArray(rhs) && rhs.length === 0){
         return null;
     } else{
-        if (rhs[0].tag === "Struct" && rhs[0].contents[0].match(/[a-z]+/gi)&& Array.isArray(rhs[0].contents[1])){
-            rhsText += rhs[0].contents[0]
-            let variableParsed = getVariable(rhs[0].contents[1])
-            rhsText += variableParsed
-        }
+        rhs.forEach((obj)=>{
+            if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi)&& Array.isArray(obj.contents[1])){
+                rhsText += obj.contents[0]
+                let variableParsed = getVariable(obj.contents[1])
+                rhsText += variableParsed + ","
+            }
+        })
+        
     }
-    rhsText += "."
+    rhsText = rhsText.slice(0,-1) + "."
     return rhsText
 }
 
