@@ -1,4 +1,4 @@
-const task35struct = [
+const testUnparse = [
     {
         "lhs": {
             "tag": "Struct",
@@ -137,6 +137,11 @@ const task35struct = [
     }
 ]
 
+
+const relationalOperators = ["\\=", "<", ">", "=", "=<", ">=", "=:="]
+
+const arithmeticalOperators = ["+","-","*","/"]
+
 function unparseVar(obj){
     if (!Array.isArray(obj.contents) && obj.contents.tag === "Wildcard"){
         return "_";
@@ -161,6 +166,8 @@ function unparseList(listArr){
             list += "_|"
         }else if (obj.tag ==="Struct" && obj.contents[0] === "[]"){
             list += ""
+        }else if (obj.tag ==="Struct" && Array.isArray(obj.contents[1])&& obj.contents[1].length == 0){
+            list += obj.contents[0] + ","
         }
     })
     var returnList = list.slice(0,-1) ;
@@ -182,6 +189,12 @@ function getVariable(varArr){
         }else if (obj.tag === "Struct" && obj.contents[0] === "." && Array.isArray(obj.contents[1])){
             let variableParsed = "[" + unparseList(obj.contents[1]) + "]"
             variableText += variableParsed + ","
+        }else if (relationalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+            let opParsed = parseOperator(obj.contents[1], obj.contents[0])
+            variableText += opParsed + ","
+        }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+            let opParsed = parseOperator(obj.contents[1],obj.contents[0])
+            variableText += opParsed + ","
         }
     })
     //remove last comma and add closing bracket
@@ -208,15 +221,19 @@ function parseDisjunctor(objArr){
             textDisj += variableParsed + ";"
         } else if (obj.contents[0] === ";" && Array.isArray(obj.contents[1])){
             let opParsed = parseDisjunctor(obj.contents[1])
-            textDisj += opParsed 
-        } else if (obj.contents[0] === "\\=" && Array.isArray(obj.contents[1])){
-            let opParsed = parseOperator(obj.contents[1], "\\=")
-            textDisj += opParsed 
+            textDisj += opParsed + ";"
+        } else if (relationalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+            let opParsed = parseOperator(obj.contents[1], obj.contents[0])
+            textDisj += opParsed + ";"
         } else if (obj.tag === "Var"){
             var varText = unparseVar(obj)
-            textDisj += varText + ","
+            textDisj += varText + ";"
+        } else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+            let opParsed = parseOperator(obj.contents[1],obj.contents[0])
+            textDisj += opParsed + ";"
         }
     })
+    textDisj = textDisj.slice(0,-1)
     return textDisj
 }
 
@@ -232,6 +249,9 @@ function parseOperator(objArr,operator){
         //    opText +=  variableParsed + ","
         }else if (obj.tag === "Struct" && obj.contents[1].length == 0){
             opText += obj.contents[0] + operator
+        }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+            let opParsed = parseOperator(obj.contents[1],obj.contents[0])
+            opText += opParsed + operator
         }
     })
     const operatorLn = operator.length
@@ -254,9 +274,12 @@ function parseRhs(rhs){
             else if(obj.contents[0] === ";" && Array.isArray(obj.contents[1])){
                 let variableParsed = parseDisjunctor(obj.contents[1])
                 rhsText += variableParsed + ","
-            }else if (obj.contents[0] === "\\=" && Array.isArray(obj.contents[1])){
-                let opParsed = parseOperator(obj.contents[1], "\\=")
+            }else if (relationalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+                let opParsed = parseOperator(obj.contents[1], obj.contents[0])
                 rhsText += opParsed  + ","
+            }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+                let opParsed = parseOperator(obj.contents[1],obj.contents[0])
+                textDisj += opParsed
             }
         })
         
@@ -282,4 +305,4 @@ function structParser(obj){
     console.log(lineParsed)
 }
 
-structParser(task35struct)
+structParser(testUnparse)
