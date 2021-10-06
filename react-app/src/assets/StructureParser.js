@@ -243,15 +243,22 @@ function parseOperator(objArr,operator){
         if (obj.tag === "Var"){
             var varText = unparseVar(obj)
             opText += varText + operator
-        //} else if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi) && Array.isArray(obj.contents[1]) && obj.contents[1].length != 0){
-        //    opText += obj.contents[0]
-        //    let variableParsed = getVariable(obj.contents[1])
-        //    opText +=  variableParsed + ","
         }else if (obj.tag === "Struct" && obj.contents[1].length == 0){
             opText += obj.contents[0] + operator
         }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+            let inStructure = false
             let opParsed = parseOperator(obj.contents[1],obj.contents[0])
-            opText += opParsed + operator
+            for (var i = 0; i < obj.contents[1].length ; i++){
+                if (obj.contents[1][i].tag ==="Struct"){
+                    inStructure = true;
+                    break
+                }
+            }
+            if (inStructure){
+                opText += "(" + opParsed + ")" + operator
+            }else{
+                opText += opParsed + operator
+            }
         }
     })
     const operatorLn = operator.length
@@ -272,8 +279,19 @@ function parseRhs(rhs){
                 rhsText += variableParsed + ","
             }
             else if(obj.contents[0] === ";" && Array.isArray(obj.contents[1])){
+                let inStructure = false;
                 let variableParsed = parseDisjunctor(obj.contents[1])
-                rhsText += variableParsed + ","
+                for (var i = 0; i < obj.contents[1].length ; i++){
+                    if (obj.contents[1][i].tag ==="Struct"){
+                        inStructure = true;
+                        break
+                    }
+                }
+                if (inStructure){
+                    rhsText += "(" + variableParsed + "),"
+                }else{
+                    rhsText += variableParsed + ","
+                }
             }else if (relationalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
                 let opParsed = parseOperator(obj.contents[1], obj.contents[0])
                 rhsText += opParsed  + ","
