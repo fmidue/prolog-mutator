@@ -142,6 +142,8 @@ const relationalOperators = ["\\=", "<", ">", "=", "=<", ">=", "=:="]
 
 const arithmeticalOperators = ["+","-","*","/"]
 
+const disjConjOperators = [";" , ","]
+
 function unparseVar(obj){
     if (!Array.isArray(obj.contents) && obj.contents.tag === "Wildcard"){
         return "_";
@@ -212,28 +214,28 @@ function parseLhs(lhs){
     return lhsText;
 }
 
-function parseDisjunctor(objArr){
+function parseDisjConj(objArr,operator){
     let textDisj = ""
     objArr.forEach((obj)=>{
         if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi)&& Array.isArray(obj.contents[1])){
             textDisj += obj.contents[0]
             let variableParsed = getVariable(obj.contents[1])
-            textDisj += variableParsed + ";"
-        } else if (obj.contents[0] === ";" && Array.isArray(obj.contents[1])){
-            let opParsed = parseDisjunctor(obj.contents[1])
-            textDisj += opParsed + ";"
+            textDisj += variableParsed + operator
+        } else if (disjConjOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
+            let opParsed = parseDisjConj(obj.contents[1],obj.contents[0])
+            textDisj += opParsed + operator
         } else if (relationalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1], obj.contents[0])
-            textDisj += opParsed + ";"
+            textDisj += opParsed + operator
         } else if (obj.tag === "Var"){
             var varText = unparseVar(obj)
-            textDisj += varText + ";"
+            textDisj += varText + operator
         } else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1],obj.contents[0])
-            textDisj += opParsed + ";"
+            textDisj += opParsed + operator
         }
     })
-    textDisj = textDisj.slice(0,-1)
+    textDisj = textDisj.slice(0,-1) 
     return textDisj
 }
 
@@ -278,9 +280,9 @@ function parseRhs(rhs){
                 let variableParsed = getVariable(obj.contents[1])
                 rhsText += variableParsed + ","
             }
-            else if(obj.contents[0] === ";" && Array.isArray(obj.contents[1])){
+            else if(disjConjOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
                 let inStructure = false;
-                let variableParsed = parseDisjunctor(obj.contents[1])
+                let variableParsed = parseDisjConj(obj.contents[1], obj.contents[0])
                 for (var i = 0; i < obj.contents[1].length ; i++){
                     if (obj.contents[1][i].tag ==="Struct"){
                         inStructure = true;
