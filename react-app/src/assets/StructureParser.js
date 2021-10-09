@@ -227,26 +227,26 @@ function parseDisjConj(objArr,operator,fromdisjconj){
         if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi)&& Array.isArray(obj.contents[1])){
             textDisj += obj.contents[0]
             let variableParsed = getVariable(obj.contents[1])
-            textDisj += variableParsed + "~" + operator 
+            textDisj += variableParsed + "~" + operator + "~"
         } else if (disjConjOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseDisjConj(obj.contents[1],obj.contents[0],true)
-            textDisj += opParsed + "~" + operator 
+            textDisj += opParsed + "~" + operator + "~"
         } else if (relationalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1], obj.contents[0],true)
-            textDisj += opParsed + "~" + operator 
+            textDisj += opParsed + "~" + operator + "~"
         } else if (obj.tag === "Var"){
             var varText = unparseVar(obj)
-            textDisj += varText + "~" + operator 
+            textDisj += varText + "~" + operator + "~"
         } else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1],obj.contents[0],true)
-            textDisj += opParsed + "~" + operator 
+            textDisj += opParsed + "~" + operator + "~"
         }
     })
     if (fromdisjconj){
-        textDisj = textDisj.slice(0,-2) 
+        textDisj = textDisj.slice(0,-3) 
         returnText = "(" + textDisj + ")"
     }else{
-        returnText = textDisj.slice(0,-2)
+        returnText = textDisj.slice(0,-3)
     }
     return returnText
 }
@@ -257,15 +257,15 @@ function parseOperator(objArr,operator,fromstructure){
     objArr.forEach((obj)=>{
         if (obj.tag === "Var"){
             var varText = unparseVar(obj)
-            opText += varText + operator
+            opText += varText + "~" + operator + "~"
         }else if (obj.tag === "Struct" && obj.contents[1].length == 0){
-            opText += obj.contents[0] + operator
+            opText += obj.contents[0] + "~" + operator + "~"
         }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1],obj.contents[0],true)
-            opText += opParsed + operator
+            opText += opParsed + "~" +  operator + "~"
         }
     })
-    const operatorLn = operator.length
+    const operatorLn = operator.length + 2
     if (fromstructure){
         opText = opText.slice(0,-operatorLn) 
         returnText = "(" + opText + ")"
@@ -285,7 +285,7 @@ function parseRhs(rhs){
             if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi)&& Array.isArray(obj.contents[1])){
                 rhsText += obj.contents[0]
                 let variableParsed = getVariable(obj.contents[1])
-                rhsText += variableParsed + "~,"
+                rhsText += variableParsed + "~,~"
             }
             // Capture Disjunctive or Conjunctive Equations 
             else if(disjConjOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
@@ -299,57 +299,91 @@ function parseRhs(rhs){
                     }
                 }
                 if (inStructure){
-                    rhsText += "(" + variableParsed + ")~,"
+                    rhsText += "(" + variableParsed + ")~,~"
                 }else{
-                    rhsText += variableParsed + "~,"
+                    rhsText += variableParsed + "~,~"
                 }
             }else if (relationalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
                 let opParsed = parseOperator(obj.contents[1], obj.contents[0],false)
-                rhsText += opParsed  + "~,"
+                rhsText += opParsed  + "~,~"
             }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
                 let opParsed = parseOperator(obj.contents[1],obj.contents[0],false)
-                rhsText += opParsed  + "~,"
+                rhsText += opParsed  + "~,~"
             }
         })
         
     }
-    rhsText = rhsText.slice(0,-2) + "."
+    rhsText = rhsText.slice(0,-3) + "."
     return rhsText
 }
 
-function findDisjConj(text){
+function findOperators(text){
     let returnValue = {}
-    var regex = /(~[,;])/g 
-    var result
+    var regex = /(~(.*?)~)/g 
+    var resultIndex
     var index = [];
-    while ((result = regex.exec(text))){
-        index.push(result.index)
+    while ((resultIndex = regex.exec(text))){
+        index.push(resultIndex.index)
     }
-    returnValue = removeEscapeChar(text,index)
+    var resultChar = text.match(regex)
+    var realIndex = realIndexNoEscapeChar(index)
+    if(resultChar !== null){
+        var charPos = getCharacterPosition(realIndex,resultChar)
+    } else{
+        var charPos = []
+    }
+    
+    var realText = text.replace(/~/g,"")
+    
+    returnValue["realText"] = realText;
+    returnValue["realIndex"] = realIndex;
+    returnValue["charPos"] = charPos;
     return returnValue
 }
 
+
+function getCharacterPosition(index,char){
+    let positionObject = {}
+    let relOpPos = []
+    let arOpPos = []
+    let disjConjPos = []
+    for(var i = 0; i < char.length; i++){
+        var realChar = char[i].slice(1,-1)
+        if (relationalOperators.includes(realChar)){
+            relOpPos.push(index[i])
+        }else if(arithmeticalOperators.includes(realChar)){
+            arOpPos.push(index[i])
+        }else if(disjConjOperators.includes(realChar)){
+            disjConjPos.push(index[i])
+        }
+    }
+    positionObject["relationalOperators"] = relOpPos
+    positionObject["arithmeticalOperators"] = arOpPos
+    positionObject["disjConjOperators"] = disjConjPos
+    return positionObject;
+}
+
+function realIndexNoEscapeChar(index){
+    let realIndex = []
+    for (var i=0; i < index.length; i++){
+        realIndex.push(index[i] - (i*2))
+    }
+    return realIndex
+}
+
 function removeEscapeChar(text,index){
-    let returnObj = {}
     let returnText = ""
-    let returnIndex = []
     for (var i = 0; i < index.length ; i++){
         if (i === 0){
             returnText += text.substring(0, index[i])
         }else if(i === index.length-1){
-            returnText += text.substring(index[i-1]+1,index[i])
+            returnText += text.substring(index[i-1]+1,index[i]+1)
             returnText += text.substring(index[i]+1,text.length)
         }else{
-            returnText += text.substring(index[i-1]+1,index[i])
+            returnText += text.substring(index[i-1]+1,index[i]+1)
         }
-        returnIndex.push(index[i] - i)
     }
-    returnObj["returnText"] = returnText;
-    if(returnText === ""){
-        returnObj["returnText"] = text
-    }
-    returnObj["disjConjIndex"] = returnIndex;
-    return returnObj;
+    return returnText;
 }
 
 function structParser(obj){
@@ -367,14 +401,14 @@ function structParser(obj){
         }
         lineParsed += "\n"
     })
-    var disjConjIndex = findDisjConj(lineParsed)
-    console.log(lineParsed)
-    console.log(disjConjIndex.returnText);
-    console.log(disjConjIndex.disjConjIndex);
+    var textAndOperators = findOperators(lineParsed)
+
     // Correctness Test
-    disjConjIndex.disjConjIndex.forEach((x)=>{
-        console.log(disjConjIndex.returnText.charAt(x))
+    textAndOperators.realIndex.forEach((x)=>{
+        console.log(x, ":", textAndOperators.realText.charAt(x))
     })
+    console.log(textAndOperators.realText)
+    console.log(textAndOperators.charPos)
 }
 
 structParser(testUnparse)
