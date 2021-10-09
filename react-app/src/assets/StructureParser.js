@@ -308,7 +308,7 @@ function parseRhs(rhs){
                 rhsText += opParsed  + "~,"
             }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
                 let opParsed = parseOperator(obj.contents[1],obj.contents[0],false)
-                textDisj += opParsed
+                rhsText += opParsed  + "~,"
             }
         })
         
