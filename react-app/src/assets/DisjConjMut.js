@@ -24,7 +24,7 @@ function disjConjMut(textAndOpObj,mode,numMutant){
     if(mode === "toConj"){
         //Disjunction to Conjunction
         disjIndex.forEach(index=>{
-            let mutantText = replaceOpIndex(textAndOpObj.realText,index,",")
+            let mutantText = replaceOpIndex(textAndOpObj.realText,[index],[","])
             result.push(mutantText)
         })
         if (disjIndex.length < numMutant){
@@ -35,7 +35,7 @@ function disjConjMut(textAndOpObj,mode,numMutant){
     } else if (mode === "toDisj"){
         //Conjunction to Disjunction
         conjIndex.forEach(index=>{
-            let mutantText = replaceOpIndex(textAndOpObj.realText,index,";")
+            let mutantText = replaceOpIndex(textAndOpObj.realText,[index],[";"])
             result.push(mutantText)
         })
         if (conjIndex.length < numMutant){
@@ -48,23 +48,46 @@ function disjConjMut(textAndOpObj,mode,numMutant){
     //Summarily Mode
     else if (mode === "summToConj"){
         let numOp = disjIndex.length
-        let opArr = replM.replicateM(numOp,[",",";"]) 
-        opArr.forEach((x)=>{
-            for (var i = 0; i < numOp; i++){
-                var mutantText = replaceOpIndex(textAndOpObj.realText,disjIndex[i],x[i])
+        //Check for Mutant Amount. Max 1000
+        if (Math.pow(2,numOp) < 1000){
+            let opArr = replM.replicateM(numOp,[",",";"]) 
+            opArr.forEach((x)=>{
+                var mutantText = textAndOpObj.realText
+                for (var i = 0; i < numOp; i++){
+                    mutantText = replaceOpIndex(mutantText,[disjIndex[i]],[x[i]])
+                }
+                result.push(mutantText)
+            })
+        }else{
+            while (result.length < 1000){
+                let opElem = generateRandomChar(numOp,[",",";"])
+                let mutantText = replaceOpIndex(textAndOpObj.realText,disjIndex,opElem) 
+                if(!result.includes(mutantText)){
+                    result.push(mutantText)
+                }
             }
-            result.push(mutantText)
-        })
+        }
     }
     else if (mode === "summToDisj"){
         let numOp = conjIndex.length
-        let opArr = replM.replicateM(numOp,[",",";"]) 
-        opArr.forEach((x)=>{
-            for (var i = 0; i < numOp; i++){
-                var mutantText = replaceOpIndex(textAndOpObj.realText,conjIndex[i],x[i])
+        if (Math.pow(2,numOp) < 1000){
+            let opArr = replM.replicateM(numOp,[",",";"]) 
+            opArr.forEach((x)=>{
+                var mutantText = textAndOpObj.realText
+                for (var i = 0; i < numOp; i++){
+                    mutantText = replaceOpIndex(mutantText,[conjIndex[i]],[x[i]])
+                }
+                result.push(mutantText)
+            })
+        }else{
+            while (result.length < 1000){
+                let opElem = generateRandomChar(numOp,[",",";"])
+                let mutantText = replaceOpIndex(textAndOpObj.realText,conjIndex,opElem)
+                if(!result.includes(mutantText)){
+                    result.push(mutantText)
+                } 
             }
-            result.push(mutantText)
-        })
+        }
     }
     console.log(result)
     console.log(result.length)
@@ -87,12 +110,35 @@ function selectRandomResult(resArr,numMutant){
 }
 
 //Replace (text) at (index) with (newOp)
-function replaceOpIndex(text,index,newOp) {
-    if(index > text.length-1){
+function replaceOpIndex(text,indexArr,newOpArr) {
+    if(indexArr[0] > text.length-1){
         return text;
     } else{
-        return text.substring(0,index) + newOp + text.substring(index+1);
+        if(indexArr.length === 1){
+            return text.substring(0,indexArr[0]) + newOpArr[0] + text.substring(indexArr[0]+1);
+        }
+        let returnText = ""
+        for(var i = 0; i < indexArr.length ; i++){
+            if (i === 0){
+                returnText += text.substring(0, indexArr[i]) + newOpArr[i]
+            }else if(i === indexArr.length-1){
+                returnText += text.substring(indexArr[i-1]+1,indexArr[i]) + newOpArr[i]
+                returnText += text.substring(indexArr[i]+1,text.length)
+            }else{
+                returnText += text.substring(indexArr[i-1]+1,indexArr[i]) + newOpArr[i]
+            }
+        }
+        return returnText;
     }
+}
+
+function generateRandomChar(size,charArr){
+    let returnArray = []
+    for (var i = 0; i < size ; i++){
+        let char = charArr[Math.floor(Math.random()*charArr.length)]
+        returnArray.push(char)
+    }
+    return returnArray;
 }
 
 const textAndOpObj33 = {
@@ -146,6 +192,20 @@ const textAndOpObj47 = {
     }
 }
 
-disjConjMut(textAndOpObj47,"summToDisj",0)
+//Testing Section
+//const text47 = 'solve(A,B,C,D,E,F,G,H,I) :- generate(A,B,C,D,E,F,G,H,I),test(A,B,C,D,E,F,G,H,I).\n' +
+//'generate(A,B,C,D,E,F,G,H,I) :- permutation([0,1,2,3,4,5,6,7,8,9],[A,B,C,D,E,F,G,H,I,_]).\n' +
+//'test(A,B,C,D,E,F,G,H,I) :- V1=(((((H*10000)+(D*1000))+(G*100))+(A*10))+(B*1)),V2=(((I*100)+(H*10))+(A*1)),Sum=(V1+V2),Sum=:=(((((C*10000)+(F*1000))+(F*100))+(F*10))+(E*1)).\n'
+
+//const indexArr47 = [ 55, 247, 275, 287 ]
+
+//const opArr47 = [";",";",";",","]
+
+//console.log(replaceOpIndex(text47,indexArr47,opArr47))
+
+//disjConjMut(textAndOpObj47,"summToDisj",0)
+//disjConjMut(textAndOpObj47,"toDisj",4)
+
+//console.log(generateRandomChar(16,[",",";"]))
 
 
