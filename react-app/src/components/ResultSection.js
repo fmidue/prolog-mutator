@@ -12,25 +12,35 @@ class ResultSection extends React.Component{
         super(props);
         this.state={
             configLabel:"Upload your Config file here",
-            solutionLabel:"Upload your Solution file here",
             configText:"",
-            solutionText:"",
-            solutionStructure:[],
             configFile:{},
+            configEditorValue:"",
+
+            solutionLabel:"Upload your Solution file here",
+            solutionText:"",
             solutionFile:{},
+            solutionStructure:[],
+            solutionEditorValue:"",
+            
             responseLoaded:false,
             responseText:"",
-            configEditorValue:"",
-            solutionEditorValue:"",
-            dropdownDisabled: true,
-            checked:false,
-            disjConj:"Individually",
+
             mutantCode:[],
+
+            conjDisjCheck:false,
+            conjDisjMode:"toDisj",
+            conjDisjNum: 0,
+
+            disjConjCheck:false,
+            disjConjMode:"toConj",
+            disjConjNum:0, 
         }
-        this.handleMutButtonClick = this.handleMutButtonClick.bind(this)
-        this.handleUploadSolutionFile = this.handleUploadSolutionFile.bind(this)
-        this.handleUploadConfigFile = this.handleUploadConfigFile.bind(this)
-        this.handleTextEditorChange = this.handleTextEditorChange.bind(this)
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleMutationModeChange = this.handleMutationModeChange.bind(this);
+        this.handleMutButtonClick = this.handleMutButtonClick.bind(this);
+        this.handleUploadSolutionFile = this.handleUploadSolutionFile.bind(this);
+        this.handleUploadConfigFile = this.handleUploadConfigFile.bind(this);
+        this.handleTextEditorChange = this.handleTextEditorChange.bind(this);
     }
 
     handleUploadSolutionFile(e){
@@ -40,10 +50,10 @@ class ResultSection extends React.Component{
             fetch("http://localhost:8080/parse-file", {
             method: "POST",
             body: data
-            }).then(res => res.text()).then(data=> console.log(data))
-            //.then(data => this.setState({
-            //    solutionStructure: data
-            //}))
+            }).then(res => res.json())
+            .then(data => this.setState({
+                solutionStructure: data
+            }))
             .catch(e =>{console.log(e)})
 
             this.setState({
@@ -100,6 +110,24 @@ class ResultSection extends React.Component{
         console.log(this.state)
     }
 
+    handleCheckboxChange(event) {
+        const target = event.target
+        const checked = target.checked
+        const name = target.name
+        this.setState({
+            [name]: checked,
+        });
+        console.log(this.state);
+    }
+
+    handleMutationModeChange(event){
+        const target = event.target
+        const name = target.name
+        this.setState({
+            [name]: event.target.value
+        })
+    }
+
     render(){
         return( 
             <div>
@@ -151,25 +179,59 @@ class ResultSection extends React.Component{
                 </div>     
 
                 <div id="disjConjSelect">           
-                    <Container className="medium-container">
-                        <Form>
-                            <Row>
-                            <Col sm={8}>
-                            <div key="disjConjCheck" className="mb-3">
-                                <Form.Check
-                                type= "checkbox"
-                                id= "disjConjCheck"
-                                label="Disjunction to Conjunction Mutation"/>
-                            </div>
+                    <Container fluid className="my-3">
+                        <Form.Row>
+                            <Col>
+                                <Form>
+                                    <Form.Row>
+                                        <Col >
+                                        <div key="disjConjCheck" className="mb-3">
+                                            <Form.Check
+                                            name= "disjConjCheck"
+                                            type= "checkbox"
+                                            id= "disjConjCheck"
+                                            onChange = {this.handleCheckboxChange}
+                                            label="Disjunction to Conjunction Mutation"/>
+                                        </div>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="disjConjMode" as="select" size="sm" value={this.state.disjConjMode} onChange={this.handleMutationModeChange}>
+                                            <option value="toConj">Individually</option>
+                                            <option value="summToConj">Summarily</option>
+                                        </Form.Control>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="disjConjNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                                        </Col>
+                                    </Form.Row>
+                                </Form>
                             </Col>
-                            <Col sm={4}>
-                            <Form.Control as="select" size="sm">
-                                <option value="0">Individually</option>
-                                <option value="1">Summarily</option>
-                            </Form.Control>
+                            <Col>
+                                <Form>
+                                    <Form.Row>
+                                        <Col >
+                                        <div key="conjDisjCheck" className="mb-3">
+                                            <Form.Check
+                                            name="conjDisjCheck"
+                                            type= "checkbox"
+                                            id= "conjDisjCheck"
+                                            onChange = {this.handleCheckboxChange}
+                                            label="Conjunction to Disjunction Mutation"/>
+                                        </div>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="conjDisjMode" as="select" size="sm" value={this.state.conjDisjMode} onChange={this.handleMutationModeChange}>
+                                            <option value="toDisj">Individually</option>
+                                            <option value="summToDisj">Summarily</option>
+                                        </Form.Control>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="conjDisjNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                                        </Col>
+                                    </Form.Row>
+                                </Form>
                             </Col>
-                            </Row>
-                        </Form>
+                        </Form.Row>
                     </Container>
                 </div> 
 
