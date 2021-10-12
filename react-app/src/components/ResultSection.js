@@ -20,7 +20,8 @@ class ResultSection extends React.Component{
             solutionFile:{},
             responseLoaded:false,
             responseText:"",
-            textEditorValue:"",
+            configEditorValue:"",
+            solutionEditorValue:"",
             dropdownDisabled: true,
             checked:false,
             disjConj:"Individually",
@@ -53,7 +54,7 @@ class ResultSection extends React.Component{
             var reader = new FileReader();
             reader.onload = (e) =>{this.setState({
                 solutionText:e.target.result,
-                textEditorValue:e.target.result
+                solutionEditorValue:e.target.result
             })}
             reader.readAsText(file)
         }
@@ -67,13 +68,20 @@ class ResultSection extends React.Component{
             })
             var file = e.target.files[0];
             var reader = new FileReader();
-            reader.onload = (e) =>{this.setState({configText:e.target.result})}
+            reader.onload = (e) =>{this.setState({
+                configText:e.target.result,
+                configEditorValue:e.target.result
+            })}
             reader.readAsText(file)
         }
     }
 
     handleTextEditorChange(event) {
-        this.setState({textEditorValue: event.target.value});
+        if (event.target.id === "configEditorArea"){
+            this.setState({configEditorValue: event.target.value});
+        }else if(event.target.id === "solutionEditorArea"){
+            this.setState({solutionEditorValue: event.target.value});
+        }        
     }
 
     handleMutButtonClick(){
@@ -120,13 +128,25 @@ class ResultSection extends React.Component{
                 </div>
                 
                 <div id="codeEditor">                   
-                    <Container className="medium-container">
-                        <Form>
-                            <Form.Group controlId="exampleForm.ControlTextarea1">
-                                <Form.Label>This is your code:</Form.Label>
-                                <Form.Control as="textarea" value={this.state.textEditorValue} rows={3} onChange={this.handleTextEditorChange}/>
-                            </Form.Group>
-                        </Form>
+                    <Container fluid className="mt-5">
+                        <Row>
+                            <Col>
+                                <Form>
+                                    <Form.Group controlId="configEditorArea">
+                                        <Form.Label>This is your Configuration:</Form.Label>
+                                        <Form.Control as="textarea" value={this.state.configEditorValue} onChange={this.handleTextEditorChange}/>
+                                    </Form.Group>
+                                </Form>
+                            </Col>
+                            <Col>
+                                <Form>
+                                    <Form.Group controlId="solutionEditorArea">
+                                        <Form.Label>This is your Solution Code:</Form.Label>
+                                        <Form.Control as="textarea" value={this.state.solutionEditorValue} onChange={this.handleTextEditorChange}/>
+                                    </Form.Group>
+                                </Form>
+                            </Col>
+                        </Row>
                     </Container>
                 </div>     
 
