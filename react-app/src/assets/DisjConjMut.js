@@ -208,4 +208,6 @@ const textAndOpObj47 = {
 
 //console.log(generateRandomChar(16,[",",";"]))
 
-
+module.exports={
+    disjConjMut:disjConjMut,
+}

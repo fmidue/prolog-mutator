@@ -411,4 +411,8 @@ function structParser(obj){
     console.log(textAndOperators.charPos)
 }
 
-structParser(testUnparse)
+//structParser(testUnparse)
+
+module.exports={
+    structParser:structParser,
+}
