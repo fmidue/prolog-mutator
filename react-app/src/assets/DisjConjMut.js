@@ -89,8 +89,8 @@ function disjConjMut(textAndOpObj,mode,numMutant){
             }
         }
     }
-    console.log(result)
-    console.log(result.length)
+    //console.log(result)
+    //console.log(result.length)
     return result;
 }
 
