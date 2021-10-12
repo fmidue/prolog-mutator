@@ -404,11 +404,12 @@ function structParser(obj){
     var textAndOperators = findOperators(lineParsed)
 
     // Correctness Test
-    textAndOperators.realIndex.forEach((x)=>{
-        console.log(x, ":", textAndOperators.realText.charAt(x))
-    })
-    console.log(textAndOperators.realText)
-    console.log(textAndOperators.charPos)
+    //textAndOperators.realIndex.forEach((x)=>{
+    //    console.log(x, ":", textAndOperators.realText.charAt(x))
+    //})
+    //console.log(textAndOperators.realText)
+    //console.log(textAndOperators.charPos)
+    return textAndOperators
 }
 
 //structParser(testUnparse)
