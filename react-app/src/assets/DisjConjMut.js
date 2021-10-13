@@ -73,7 +73,7 @@ function performSummarilyMutations(text,indexArr){
             mutantArray.push(mutantText)
         })
     }else{
-        while (result.length < 1000){
+        while (mutantArray.length < 1000){
             let opElem = generateRandomChar(numOp,[",",";"])
             let mutantText = replaceOpIndex(text,indexArr,opElem) 
             if(!mutantArray.includes(mutantText)){
