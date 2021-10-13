@@ -184,7 +184,9 @@ class ResultSection extends React.Component{
 
     handleTestSolutionClick(event){
         this.setState({
-            responseLoaded:false
+            responseLoaded:false,
+            tableItems: [],
+            tableReady:false
         })
         const data = new FormData()
         data.append('config', this.state.configFile)
