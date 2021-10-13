@@ -23,75 +23,65 @@ function disjConjMut(textAndOpObj,mode,numMutant){
     //Individually Mode
     if(mode === "toConj"){
         //Disjunction to Conjunction
-        disjIndex.forEach(index=>{
-            let mutantText = replaceOpIndex(textAndOpObj.realText,[index],[","])
-            result.push(mutantText)
-        })
-        if (disjIndex.length < numMutant){
-            selectRandomResult(result,disjIndex.length)
-        }else{
-            selectRandomResult(result,numMutant)
-        }
+        let mutantArr = performIndividualMutations(textAndOpObj.realText,disjIndex,",",numMutant)
+        result = result.concat(mutantArr)
+        
     } else if (mode === "toDisj"){
         //Conjunction to Disjunction
-        conjIndex.forEach(index=>{
-            let mutantText = replaceOpIndex(textAndOpObj.realText,[index],[";"])
-            result.push(mutantText)
-        })
-        if (conjIndex.length < numMutant){
-            selectRandomResult(result,conjIndex.length)
-        }else{
-            selectRandomResult(result,numMutant)
-        }
+        let mutantArr = performIndividualMutations(textAndOpObj.realText,conjIndex,";",numMutant)
+        result = result.concat(mutantArr)
     } 
 
     //Summarily Mode
     else if (mode === "summToConj"){
-        let numOp = disjIndex.length
-        //Check for Mutant Amount. Max 1000
-        if (Math.pow(2,numOp) < 1000){
-            let opArr = replM.replicateM(numOp,[",",";"]) 
-            opArr.forEach((x)=>{
-                var mutantText = textAndOpObj.realText
-                for (var i = 0; i < numOp; i++){
-                    mutantText = replaceOpIndex(mutantText,[disjIndex[i]],[x[i]])
-                }
-                result.push(mutantText)
-            })
-        }else{
-            while (result.length < 1000){
-                let opElem = generateRandomChar(numOp,[",",";"])
-                let mutantText = replaceOpIndex(textAndOpObj.realText,disjIndex,opElem) 
-                if(!result.includes(mutantText)){
-                    result.push(mutantText)
-                }
-            }
-        }
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,disjIndex)
+        result = result.concat(mutantArr)
     }
     else if (mode === "summToDisj"){
-        let numOp = conjIndex.length
-        if (Math.pow(2,numOp) < 1000){
-            let opArr = replM.replicateM(numOp,[",",";"]) 
-            opArr.forEach((x)=>{
-                var mutantText = textAndOpObj.realText
-                for (var i = 0; i < numOp; i++){
-                    mutantText = replaceOpIndex(mutantText,[conjIndex[i]],[x[i]])
-                }
-                result.push(mutantText)
-            })
-        }else{
-            while (result.length < 1000){
-                let opElem = generateRandomChar(numOp,[",",";"])
-                let mutantText = replaceOpIndex(textAndOpObj.realText,conjIndex,opElem)
-                if(!result.includes(mutantText)){
-                    result.push(mutantText)
-                } 
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,conjIndex)
+        result = result.concat(mutantArr)
+    }
+    
+    return result;
+}
+
+function performIndividualMutations(text,indexArr,toChar,numMutant){
+    let mutantArray = []
+    indexArr.forEach(index=>{
+        let mutantText = replaceOpIndex(text,[index],[toChar])
+        mutantArray.push(mutantText);
+    })
+    if (indexArr.length < numMutant){
+        mutantArray = selectRandomResult(mutantArray,indexArr.length);
+    }else{
+        mutantArray = selectRandomResult(mutantArray,numMutant);
+    }
+    return mutantArray;
+}
+
+function performSummarilyMutations(text,indexArr){
+    let mutantArray = []
+    let numOp = indexArr.length
+    //Check for Mutant Amount. Max 1000
+    if (Math.pow(2,numOp) < 1000){
+        let opArr = replM.replicateM(numOp,[",",";"]) 
+        opArr.forEach((x)=>{
+            var mutantText = text
+            for (var i = 0; i < numOp; i++){
+                mutantText = replaceOpIndex(mutantText,[indexArr[i]],[x[i]])
+            }
+            mutantArray.push(mutantText)
+        })
+    }else{
+        while (result.length < 1000){
+            let opElem = generateRandomChar(numOp,[",",";"])
+            let mutantText = replaceOpIndex(text,indexArr,opElem) 
+            if(!mutantArray.includes(mutantText)){
+                mutantArray.push(mutantText)
             }
         }
     }
-    //console.log(result)
-    //console.log(result.length)
-    return result;
+    return mutantArray;
 }
 
 //Remove some elements to make No of Result === numMutant
@@ -203,8 +193,8 @@ const textAndOpObj47 = {
 
 //console.log(replaceOpIndex(text47,indexArr47,opArr47))
 
-//disjConjMut(textAndOpObj47,"summToDisj",0)
-//disjConjMut(textAndOpObj47,"toDisj",4)
+console.log(disjConjMut(textAndOpObj47,"summToDisj",0))
+//console.log(disjConjMut(textAndOpObj47,"toDisj",10))
 
 //console.log(generateRandomChar(16,[",",";"]))
 
