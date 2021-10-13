@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import ResultCard from "./ResultCard";
+import ResultTable from "./ResultTable";
 
 const structParser = require('../assets/StructureParser')
 const disjConjMut = require('../assets/DisjConjMut')
@@ -36,6 +37,9 @@ class ResultSection extends React.Component{
             disjConjCheck:false,
             disjConjMode:"toConj",
             disjConjNum:0,
+            
+            tableItems:[],
+            tableReady:false
         }
 
         this.handleMutButtonClick = this.handleMutButtonClick.bind(this);
@@ -46,6 +50,7 @@ class ResultSection extends React.Component{
         this.handleMutationModeChange = this.handleMutationModeChange.bind(this);
         this.performMutationOnOptions = this.performMutationOnOptions.bind(this);
         this.handleTestSolutionClick = this.handleTestSolutionClick.bind(this);
+        this.insertTableItems = this.insertTableItems.bind(this);
     }
 
     handleUploadSolutionFile(e){
@@ -99,39 +104,64 @@ class ResultSection extends React.Component{
         }        
     }
 
-    handleMutButtonClick(){
+    async handleMutButtonClick(){
+        this.setState({
+            tableItems:[],
+            tableReady:false
+        })
         var solutionObj =  structParser.structParser(this.state.solutionStructure)
-        
-        //const data = new FormData()
-        //data.append('config', this.state.configFile)
-        //data.append('solution', this.state.solutionFile)
-        //fetch("http://localhost:8080/test-files", {
-        //    method: "POST",
-        //    body: data
-        //}).then(res => res.text())
-        //.then(data => this.setState({
-        //    responseText: data,
-        //    responseLoaded: true,
-        //}))
-        //.catch(e =>{console.log(e)})
-        //console.log(this.state)
-
         var mutRes = this.performMutationOnOptions(solutionObj);
-        console.log(mutRes)
+        console.log(Object.entries(mutRes))
+        for (const [key, value] of Object.entries(mutRes)) {
+            for (var i = 0; i < value.length; i++){
+                console.log(`${key}${i}: ${value[i]}`);
+                var blob = new Blob([value[i]], { type: 'text/plain' });
+                var file = new File([blob], `${key}${i}.txt`, {type: "text/plain"});
+                const data = new FormData()
+                data.append('config', this.state.configFile)
+                data.append('solution', file)
+                await fetch("http://localhost:8080/test-files", {
+                    method: "POST",
+                    body: data
+                
+                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,data))
+            }
+        }
+        this.setState({tableReady:true})
     }
     
+    insertTableItems(fname,ftype,result){
+        console.log(fname)
+        let resultArr = this.state.tableItems
+        let resLn = result.split('\n')
+        let res;
+        if(resLn[0] ==="Success"){
+            res = 0
+        }else if (resLn[0]==="Failure"){
+            res = 1
+        }
+        let resultObj = {
+            name:fname,
+            type:ftype,
+            result:res
+        }
+        resultArr.push(resultObj);
+        this.setState({
+            tableItems:resultArr,
+        })
+    }
 
     performMutationOnOptions(solutionObj){
-        var mutantArray = []
+        var mutantObj = {}
         if(this.state.disjConjCheck){
             let mutants = disjConjMut.disjConjMut(solutionObj,this.state.disjConjMode,this.state.disjConjNum);
-            mutantArray = mutantArray.concat(mutants);
+            mutantObj["DisjunctionToConjunction"] = mutants;
         }
         if(this.state.conjDisjCheck){
             let mutants = disjConjMut.disjConjMut(solutionObj,this.state.conjDisjMode,this.state.conjDisjNum);
-            mutantArray = mutantArray.concat(mutants);
+            mutantObj["ConjunctionToDisjunction"] = mutants;
         }
-        return mutantArray;
+        return mutantObj;
     }
 
     handleCheckboxChange(event) {
@@ -281,7 +311,8 @@ class ResultSection extends React.Component{
                 </div> }
                 {this.state.responseLoaded && 
                 <Button as="input" type="submit" value="Start Mutation" className="my-3" onClick={this.handleMutButtonClick} />}
-                
+                {this.state.tableReady &&
+                <ResultTable items={this.state.tableItems}/>}
             </div>
             
         )
