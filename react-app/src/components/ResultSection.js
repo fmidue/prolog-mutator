@@ -6,6 +6,8 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import ResultCard from "./ResultCard";
 
+const structParser = require('../assets/StructureParser')
+const disjConjMut = require('../assets/DisjConjMut')
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -33,14 +35,16 @@ class ResultSection extends React.Component{
 
             disjConjCheck:false,
             disjConjMode:"toConj",
-            disjConjNum:0, 
+            disjConjNum:0,
         }
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleMutationModeChange = this.handleMutationModeChange.bind(this);
+
         this.handleMutButtonClick = this.handleMutButtonClick.bind(this);
         this.handleUploadSolutionFile = this.handleUploadSolutionFile.bind(this);
         this.handleUploadConfigFile = this.handleUploadConfigFile.bind(this);
         this.handleTextEditorChange = this.handleTextEditorChange.bind(this);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleMutationModeChange = this.handleMutationModeChange.bind(this);
+        this.performMutationOnOptions = this.performMutationOnOptions.bind(this);
     }
 
     handleUploadSolutionFile(e){
@@ -95,19 +99,38 @@ class ResultSection extends React.Component{
     }
 
     handleMutButtonClick(){
-        const data = new FormData()
-        data.append('config', this.state.configFile)
-        data.append('solution', this.state.solutionFile)
-        fetch("http://localhost:8080/test-files", {
-            method: "POST",
-            body: data
-        }).then(res => res.text())
-        .then(data => this.setState({
-            responseText: data,
-            responseLoaded: true,
-        }))
-        .catch(e =>{console.log(e)})
-        console.log(this.state)
+        var solutionObj =  structParser.structParser(this.state.solutionStructure)
+        
+        //const data = new FormData()
+        //data.append('config', this.state.configFile)
+        //data.append('solution', this.state.solutionFile)
+        //fetch("http://localhost:8080/test-files", {
+        //    method: "POST",
+        //    body: data
+        //}).then(res => res.text())
+        //.then(data => this.setState({
+        //    responseText: data,
+        //    responseLoaded: true,
+        //}))
+        //.catch(e =>{console.log(e)})
+        //console.log(this.state)
+
+        var mutRes = this.performMutationOnOptions(solutionObj);
+        console.log(mutRes)
+    }
+    
+
+    performMutationOnOptions(solutionObj){
+        var mutantArray = []
+        if(this.state.disjConjCheck){
+            let mutants = disjConjMut.disjConjMut(solutionObj,this.state.disjConjMode,this.state.disjConjNum);
+            mutantArray = mutantArray.concat(mutants);
+        }
+        if(this.state.conjDisjCheck){
+            let mutants = disjConjMut.disjConjMut(solutionObj,this.state.conjDisjMode,this.state.conjDisjNum);
+            mutantArray = mutantArray.concat(mutants);
+        }
+        return mutantArray;
     }
 
     handleCheckboxChange(event) {
