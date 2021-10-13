@@ -45,6 +45,7 @@ class ResultSection extends React.Component{
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleMutationModeChange = this.handleMutationModeChange.bind(this);
         this.performMutationOnOptions = this.performMutationOnOptions.bind(this);
+        this.handleTestSolutionClick = this.handleTestSolutionClick.bind(this);
     }
 
     handleUploadSolutionFile(e){
@@ -151,6 +152,24 @@ class ResultSection extends React.Component{
         })
     }
 
+    handleTestSolutionClick(event){
+        this.setState({
+            responseLoaded:false
+        })
+        const data = new FormData()
+        data.append('config', this.state.configFile)
+        data.append('solution', this.state.solutionFile)
+        fetch("http://localhost:8080/test-files", {
+            method: "POST",
+            body: data
+        }).then(res => res.text())
+        .then(data => this.setState({
+            responseText: data,
+            responseLoaded: true,
+        }))
+        .catch(e =>{console.log(e)})
+    }
+
     render(){
         return( 
             <div>
@@ -177,7 +196,10 @@ class ResultSection extends React.Component{
                         </Row>
                     </Container>
                 </div>
-                
+                <Button as="input" type="submit" value="Test Current Solution" className="my-3" onClick={this.handleTestSolutionClick} />{''}
+                {this.state.responseLoaded && 
+                <ResultCard responseText={this.state.responseText}/>}
+                {this.state.responseLoaded && 
                 <div id="codeEditor">                   
                     <Container fluid className="mt-5">
                         <Row>
@@ -199,8 +221,8 @@ class ResultSection extends React.Component{
                             </Col>
                         </Row>
                     </Container>
-                </div>     
-
+                </div>  }
+                {this.state.responseLoaded &&     
                 <div id="disjConjSelect">           
                     <Container fluid className="my-3">
                         <Form.Row>
@@ -256,11 +278,10 @@ class ResultSection extends React.Component{
                             </Col>
                         </Form.Row>
                     </Container>
-                </div> 
-
-                <Button as="input" type="submit" value="Start Mutation" className="my-3" onClick={this.handleMutButtonClick} />{''}
+                </div> }
                 {this.state.responseLoaded && 
-                <ResultCard responseText={this.state.responseText}/>}
+                <Button as="input" type="submit" value="Start Mutation" className="my-3" onClick={this.handleMutButtonClick} />}
+                
             </div>
             
         )
