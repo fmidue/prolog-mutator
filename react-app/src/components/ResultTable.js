@@ -10,11 +10,11 @@ const resultOptions ={
 }
 
 const columns =[
-    //{
-    //    dataField: 'id',
-    //    text: 'No.',
-    //    hidden:true
-    //},
+    {
+        dataField: 'id',
+        text: 'No.',
+        hidden:true
+    },
     {
         dataField: 'name',
         text: 'Mutant Name',

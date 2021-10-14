@@ -124,13 +124,14 @@ class ResultSection extends React.Component{
                     method: "POST",
                     body: data
                 
-                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,data))
+                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,data,i))
             }
         }
         this.setState({tableReady:true})
     }
     
-    insertTableItems(fname,ftype,result){
+    insertTableItems(fname,ftype,result,i){
+        let fid = this.getItemID(ftype,i)
         console.log(fname)
         let resultArr = this.state.tableItems
         let resLn = result.split('\n')
@@ -141,6 +142,7 @@ class ResultSection extends React.Component{
             res = 1
         }
         let resultObj = {
+            id: fid,
             name:fname,
             type:ftype,
             result:res
@@ -149,6 +151,18 @@ class ResultSection extends React.Component{
         this.setState({
             tableItems:resultArr,
         })
+    }
+
+    getItemID(ftype,i){
+        var type = ftype
+        var regex = /([A-Z])/g
+        var resultChar, id = ""
+
+        while ((resultChar = regex.exec(type))){
+            id += resultChar[0];
+        }
+        id += `${i}`
+        return id;
     }
 
     performMutationOnOptions(solutionObj){
