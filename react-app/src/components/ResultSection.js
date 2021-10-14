@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import ResultCard from "./ResultCard";
 import ResultTable from "./ResultTable";
+import LoadingSpinner from "./LoadingSpinner";
 
 const structParser = require('../assets/StructureParser')
 const disjConjMut = require('../assets/DisjConjMut')
@@ -39,7 +40,10 @@ class ResultSection extends React.Component{
             disjConjNum:0,
             
             tableItems:[],
-            tableReady:false
+            tableReady:false,
+
+            showTestingSpinner:false,
+            showTableSpinner:false,
         }
 
         this.handleMutButtonClick = this.handleMutButtonClick.bind(this);
@@ -107,7 +111,8 @@ class ResultSection extends React.Component{
     async handleMutButtonClick(){
         this.setState({
             tableItems:[],
-            tableReady:false
+            tableReady:false,
+            showTableSpinner:true,
         })
         var solutionObj =  structParser.structParser(this.state.solutionStructure)
         var mutRes = this.performMutationOnOptions(solutionObj);
@@ -127,7 +132,10 @@ class ResultSection extends React.Component{
                 }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,data,i))
             }
         }
-        this.setState({tableReady:true})
+        this.setState({
+            tableReady:true,
+            showTableSpinner:false,
+        })
     }
     
     insertTableItems(fname,ftype,result,i){
@@ -200,7 +208,8 @@ class ResultSection extends React.Component{
         this.setState({
             responseLoaded:false,
             tableItems: [],
-            tableReady:false
+            tableReady:false,
+            showTestingSpinner:true,
         })
         const data = new FormData()
         data.append('config', this.state.configFile)
@@ -212,6 +221,7 @@ class ResultSection extends React.Component{
         .then(data => this.setState({
             responseText: data,
             responseLoaded: true,
+            showTestingSpinner:false,
         }))
         .catch(e =>{console.log(e)})
     }
@@ -243,6 +253,8 @@ class ResultSection extends React.Component{
                     </Container>
                 </div>
                 <Button as="input" type="submit" value="Test Current Solution" className="my-3" onClick={this.handleTestSolutionClick} />{''}
+                {this.state.showTestingSpinner &&
+                <LoadingSpinner/>}
                 {this.state.responseLoaded && 
                 <ResultCard responseText={this.state.responseText}/>}
                 {this.state.responseLoaded && 
@@ -327,6 +339,8 @@ class ResultSection extends React.Component{
                 </div> }
                 {this.state.responseLoaded && 
                 <Button as="input" type="submit" value="Start Mutation" className="my-3" onClick={this.handleMutButtonClick} />}
+                {this.state.showTableSpinner &&
+                <LoadingSpinner/>}
                 {this.state.tableReady &&
                 <ResultTable items={this.state.tableItems}/>}
             </div>
