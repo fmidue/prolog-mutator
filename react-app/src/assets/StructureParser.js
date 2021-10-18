@@ -138,7 +138,7 @@
 //]
 
 
-const relationalOperators = ["\\=", "<", ">", "=", "=<", ">=", "=:="]
+const relationalOperators = ["\\=", "<", ">", "=", "=<", ">=", "=:=","=\\=", "\\==","=="]
 
 const arithmeticalOperators = ["+","-","*","/"]
 
