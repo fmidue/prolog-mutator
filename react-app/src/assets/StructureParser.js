@@ -1,141 +1,141 @@
-const testUnparse = [
-    {
-        "lhs": {
-            "tag": "Struct",
-            "contents": [
-                "penultimate",
-                [
-                    {
-                        "tag": "Struct",
-                        "contents": [
-                            ".",
-                            [
-                                {
-                                    "tag": "Var",
-                                    "contents": {
-                                        "tag": "VariableName",
-                                        "contents": [
-                                            0,
-                                            "X"
-                                        ]
-                                    }
-                                },
-                                {
-                                    "tag": "Struct",
-                                    "contents": [
-                                        ".",
-                                        [
-                                            {
-                                                "tag": "Var",
-                                                "contents": {
-                                                    "tag": "Wildcard",
-                                                    "contents": null
-                                                }
-                                            },
-                                            {
-                                                "tag": "Struct",
-                                                "contents": [
-                                                    "[]",
-                                                    []
-                                                ]
-                                            }
-                                        ]
-                                    ]
-                                }
-                            ]
-                        ]
-                    },
-                    {
-                        "tag": "Var",
-                        "contents": {
-                            "tag": "VariableName",
-                            "contents": [
-                                0,
-                                "X"
-                            ]
-                        }
-                    }
-                ]
-            ]
-        },
-        "rhs": []
-    },
-    {
-        "lhs": {
-            "tag": "Struct",
-            "contents": [
-                "penultimate",
-                [
-                    {
-                        "tag": "Struct",
-                        "contents": [
-                            ".",
-                            [
-                                {
-                                    "tag": "Var",
-                                    "contents": {
-                                        "tag": "Wildcard",
-                                        "contents": null
-                                    }
-                                },
-                                {
-                                    "tag": "Var",
-                                    "contents": {
-                                        "tag": "VariableName",
-                                        "contents": [
-                                            0,
-                                            "Xs"
-                                        ]
-                                    }
-                                }
-                            ]
-                        ]
-                    },
-                    {
-                        "tag": "Var",
-                        "contents": {
-                            "tag": "VariableName",
-                            "contents": [
-                                0,
-                                "X"
-                            ]
-                        }
-                    }
-                ]
-            ]
-        },
-        "rhs": [
-            {
-                "tag": "Struct",
-                "contents": [
-                    "penultimate",
-                    [
-                        {
-                            "tag": "Var",
-                            "contents": {
-                                "tag": "VariableName",
-                                "contents": [
-                                    0,
-                                    "Xs"
-                                ]
-                            }
-                        },
-                        {
-                            "tag": "Var",
-                            "contents": {
-                                "tag": "VariableName",
-                                "contents": [
-                                    0,
-                                    "X"
-                                ]
-                            }
-                        }
-                    ]
-                ]
-            }
-        ]
-    }
-]
+//const testUnparse = [
+//    {
+//        "lhs": {
+//            "tag": "Struct",
+//            "contents": [
+//                "penultimate",
+//                [
+//                    {
+//                        "tag": "Struct",
+//                        "contents": [
+//                            ".",
+//                            [
+//                                {
+//                                    "tag": "Var",
+//                                    "contents": {
+//                                        "tag": "VariableName",
+//                                        "contents": [
+//                                            0,
+//                                            "X"
+//                                        ]
+//                                    }
+//                                },
+//                                {
+//                                    "tag": "Struct",
+//                                    "contents": [
+//                                        ".",
+//                                        [
+//                                            {
+//                                                "tag": "Var",
+//                                                "contents": {
+//                                                    "tag": "Wildcard",
+//                                                    "contents": null
+//                                                }
+//                                            },
+//                                            {
+//                                                "tag": "Struct",
+//                                                "contents": [
+//                                                    "[]",
+//                                                    []
+//                                                ]
+//                                            }
+//                                        ]
+//                                    ]
+//                                }
+//                            ]
+//                        ]
+//                    },
+//                    {
+//                        "tag": "Var",
+//                        "contents": {
+//                            "tag": "VariableName",
+//                            "contents": [
+//                                0,
+//                                "X"
+//                            ]
+//                        }
+//                    }
+//                ]
+//            ]
+//        },
+//        "rhs": []
+//    },
+//    {
+//        "lhs": {
+//            "tag": "Struct",
+//            "contents": [
+//                "penultimate",
+//                [
+//                    {
+//                        "tag": "Struct",
+//                        "contents": [
+//                            ".",
+//                            [
+//                                {
+//                                    "tag": "Var",
+//                                    "contents": {
+//                                        "tag": "Wildcard",
+//                                        "contents": null
+//                                    }
+//                                },
+//                                {
+//                                    "tag": "Var",
+//                                    "contents": {
+//                                        "tag": "VariableName",
+//                                        "contents": [
+//                                            0,
+//                                            "Xs"
+//                                        ]
+//                                    }
+//                                }
+//                            ]
+//                        ]
+//                    },
+//                    {
+//                        "tag": "Var",
+//                        "contents": {
+//                            "tag": "VariableName",
+//                            "contents": [
+//                                0,
+//                                "X"
+//                            ]
+//                        }
+//                    }
+//                ]
+//            ]
+//        },
+//        "rhs": [
+//            {
+//                "tag": "Struct",
+//                "contents": [
+//                    "penultimate",
+//                    [
+//                        {
+//                            "tag": "Var",
+//                            "contents": {
+//                                "tag": "VariableName",
+//                                "contents": [
+//                                    0,
+//                                    "Xs"
+//                                ]
+//                            }
+//                        },
+//                        {
+//                            "tag": "Var",
+//                            "contents": {
+//                                "tag": "VariableName",
+//                                "contents": [
+//                                    0,
+//                                    "X"
+//                                ]
+//                            }
+//                        }
+//                    ]
+//                ]
+//            }
+//        ]
+//    }
+//]
 
 
 const relationalOperators = ["\\=", "<", ">", "=", "=<", ">=", "=:="]
@@ -168,7 +168,7 @@ function unparseList(listArr){
             list += "_|"
         }else if (obj.tag ==="Struct" && obj.contents[0] === "[]"){
             list += ""
-        }else if (obj.tag ==="Struct" && Array.isArray(obj.contents[1])&& obj.contents[1].length == 0){
+        }else if (obj.tag ==="Struct" && Array.isArray(obj.contents[1])&& obj.contents[1].length === 0){
             list += obj.contents[0] + ","
         }
     })
@@ -180,12 +180,12 @@ function getVariable(varArr){
     let variableText = "("
     varArr.forEach((obj) => {
         // Capture Predicate
-        if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi) && Array.isArray(obj.contents[1]) && obj.contents[1].length != 0){
+        if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi) && Array.isArray(obj.contents[1]) && obj.contents[1].length !== 0){
             variableText += obj.contents[0]
             let variableParsed = getVariable(obj.contents[1])
             variableText +=  variableParsed + ","
         // Capture Numbers    
-        }else if (obj.tag === "Struct" && obj.contents[1].length == 0){
+        }else if (obj.tag === "Struct" && obj.contents[1].length === 0){
                 variableText += obj.contents[0] + ","
         //Capture Variable Name
         }else if (obj.tag === "Var"){
@@ -258,7 +258,7 @@ function parseOperator(objArr,operator,fromstructure){
         if (obj.tag === "Var"){
             var varText = unparseVar(obj)
             opText += varText + "~" + operator + "~"
-        }else if (obj.tag === "Struct" && obj.contents[1].length == 0){
+        }else if (obj.tag === "Struct" && obj.contents[1].length === 0){
             opText += obj.contents[0] + "~" + operator + "~"
         }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1],obj.contents[0],true)
@@ -322,15 +322,16 @@ function findOperators(text){
     var regex = /(~(.*?)~)/g 
     var resultIndex
     var index = [];
+    var charPos 
     while ((resultIndex = regex.exec(text))){
         index.push(resultIndex.index)
     }
     var resultChar = text.match(regex)
     var realIndex = realIndexNoEscapeChar(index)
     if(resultChar !== null){
-        var charPos = getCharacterPosition(realIndex,resultChar)
+        charPos = getCharacterPosition(realIndex,resultChar)
     } else{
-        var charPos = []
+        charPos = []
     }
     
     var realText = text.replace(/~/g,"")
@@ -371,20 +372,20 @@ function realIndexNoEscapeChar(index){
     return realIndex
 }
 
-function removeEscapeChar(text,index){
-    let returnText = ""
-    for (var i = 0; i < index.length ; i++){
-        if (i === 0){
-            returnText += text.substring(0, index[i])
-        }else if(i === index.length-1){
-            returnText += text.substring(index[i-1]+1,index[i]+1)
-            returnText += text.substring(index[i]+1,text.length)
-        }else{
-            returnText += text.substring(index[i-1]+1,index[i]+1)
-        }
-    }
-    return returnText;
-}
+//function removeEscapeChar(text,index){
+//    let returnText = ""
+//    for (var i = 0; i < index.length ; i++){
+//        if (i === 0){
+//            returnText += text.substring(0, index[i])
+//        }else if(i === index.length-1){
+//            returnText += text.substring(index[i-1]+1,index[i]+1)
+//            returnText += text.substring(index[i]+1,text.length)
+//        }else{
+//            returnText += text.substring(index[i-1]+1,index[i]+1)
+//        }
+//    }
+//    return returnText;
+//}
 
 function structParser(obj){
     let lineParsed = ""

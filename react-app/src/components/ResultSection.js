@@ -118,7 +118,7 @@ class ResultSection extends React.Component{
         var mutRes = this.performMutationOnOptions(solutionObj);
         console.log(Object.entries(mutRes))
         for (const [key, value] of Object.entries(mutRes)) {
-            for (var i = 0; i < value.length; i++){
+            for (let i = 0; i < value.length; i++){
                 console.log(`${key}${i}: ${value[i]}`);
                 var blob = new Blob([value[i]], { type: 'text/plain' });
                 var file = new File([blob], `${key}${i}.txt`, {type: "text/plain"});

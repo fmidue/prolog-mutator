@@ -131,32 +131,32 @@ function generateRandomChar(size,charArr){
     return returnArray;
 }
 
-const textAndOpObj33 = {
-    realText: 'a(X) :- male(X),child(X,juliet).\n' +
-      'b(X) :- male(X),child(X,Z),child(Y,Z),female(Y).\n' +
-      'c(X) :- child(Y,X),female(Y),child(Z,X),male(Z).\n' +
-      'd(X) :- child(X,Y),male(Y),Y\\=harry.\n' +
-      'mother(X,Y) :- female(X),child(Y,X).\n' +
-      'brother(X,Y) :- male(X),child(X,Z),child(Y,Z),X\\=Y.\n' +
-      'uncle(X,Y) :- brother(X,Z),child(Y,Z).\n' +
-      'grandson(X,Y) :- male(X),child(X,Z),child(Z,Y).\n',
-    realIndex: [
-       15,  48,  59,  70, 100,
-      110, 121, 149, 157, 159,
-      192, 228, 239, 250, 252,
-      283, 320, 331
-    ],
-    charPos: {
-      relationalOperators: [ 159, 252 ],
-      arithmeticalOperators: [],
-      disjConjOperators: [
-         15,  48,  59,  70, 100,
-        110, 121, 149, 157, 192,
-        228, 239, 250, 283, 320,
-        331
-      ]
-    }
-}
+//const textAndOpObj33 = {
+//    realText: 'a(X) :- male(X),child(X,juliet).\n' +
+//      'b(X) :- male(X),child(X,Z),child(Y,Z),female(Y).\n' +
+//      'c(X) :- child(Y,X),female(Y),child(Z,X),male(Z).\n' +
+//      'd(X) :- child(X,Y),male(Y),Y\\=harry.\n' +
+//      'mother(X,Y) :- female(X),child(Y,X).\n' +
+//      'brother(X,Y) :- male(X),child(X,Z),child(Y,Z),X\\=Y.\n' +
+//      'uncle(X,Y) :- brother(X,Z),child(Y,Z).\n' +
+//      'grandson(X,Y) :- male(X),child(X,Z),child(Z,Y).\n',
+//    realIndex: [
+//       15,  48,  59,  70, 100,
+//      110, 121, 149, 157, 159,
+//      192, 228, 239, 250, 252,
+//      283, 320, 331
+//    ],
+//    charPos: {
+//      relationalOperators: [ 159, 252 ],
+//      arithmeticalOperators: [],
+//      disjConjOperators: [
+//         15,  48,  59,  70, 100,
+//        110, 121, 149, 157, 192,
+//        228, 239, 250, 283, 320,
+//        331
+//      ]
+//    }
+//}
 
 const textAndOpObj47 = {
     realText: 'solve(A,B,C,D,E,F,G,H,I) :- generate(A,B,C,D,E,F,G,H,I),test(A,B,C,D,E,F,G,H,I).\n' +
