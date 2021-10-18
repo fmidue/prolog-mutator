@@ -37,33 +37,35 @@ function performSummarilyMutations(text,indexArr){
     let mutantArray = []
     let numOp = indexArr.length
     //Check for Mutant Amount. Max 1000
-    if (Math.pow(2,numOp) < 1000){
-        let opArr = replM.replicateM(numOp,[0,1]) 
-        opArr.forEach((x)=>{
-            var mutantText = text
-            for (var i = 0; i < numOp; i++){
-                if (x[i]===1){
-                    let newOpChar = transformationMap[text.charAt(indexArr[i])]
-                    mutantText = replaceOpIndex(mutantText,[indexArr[i]],[newOpChar])
+    if (numOp !== 0){
+        if (Math.pow(2,numOp) < 1000){
+            let opArr = replM.replicateM(numOp,[0,1]) 
+            opArr.forEach((x)=>{
+                var mutantText = text
+                for (var i = 0; i < numOp; i++){
+                    if (x[i]===1){
+                        let newOpChar = transformationMap[text.charAt(indexArr[i])]
+                        mutantText = replaceOpIndex(mutantText,[indexArr[i]],[newOpChar])
+                    }
                 }
-            }
-            mutantArray.push(mutantText)
-        })
-    }else{
-        while (mutantArray.length < 1000){
-            let opElem = generateRandomChar(numOp,[0,1])
-            var opCharArr = []
-            var mutIndexArr = []
-            for (var i =0; i < opElem.length; i++){
-                if(opElem[i]===1){
-                    let newOpChar = transformationMap[text.charAt(indexArr[i])]
-                    mutIndexArr.push(indexArr[i])
-                    opCharArr.push(newOpChar)
-                }
-            }
-            let mutantText = replaceOpIndex(text,mutIndexArr,opCharArr) 
-            if(!mutantArray.includes(mutantText)){
                 mutantArray.push(mutantText)
+            })
+        }else{
+            while (mutantArray.length < 1000){
+                let opElem = generateRandomChar(numOp,[0,1])
+                var opCharArr = []
+                var mutIndexArr = []
+                for (var i =0; i < opElem.length; i++){
+                    if(opElem[i]===1){
+                        let newOpChar = transformationMap[text.charAt(indexArr[i])]
+                        mutIndexArr.push(indexArr[i])
+                        opCharArr.push(newOpChar)
+                    }
+                }
+                let mutantText = replaceOpIndex(text,mutIndexArr,opCharArr) 
+                if(!mutantArray.includes(mutantText)){
+                    mutantArray.push(mutantText)
+                }
             }
         }
     }

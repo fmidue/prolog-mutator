@@ -67,49 +67,51 @@ function performSummarilyMutations(text,indexArr){
     let mutantArray = []
     let numOp = indexArr.length
     //Check for Mutant Amount. Max 1000
-    if (Math.pow(2,numOp) < 1000){
-        let opArr = replM.replicateM(numOp,[0,1]) 
-        opArr.forEach((x)=>{
-            var mutantText = text
-            var mutateIndex = []
-            var newOpArr = []
-            for (var i = 0; i < numOp ; i ++){
-                if (x[i]===1){
-                    var operatorChar = getCompleteOperator(text,indexArr[i])
-                    var newOpChar = transformationMap[operatorChar]
-                    var opCharLn = operatorChar.length
-                    var indexPair = [indexArr[i],indexArr[i]+opCharLn]
-                    newOpArr.push(newOpChar)
-                    mutateIndex.push(indexPair)
-                    
-                }
-            }
-            if(mutateIndex.length > 0){
-                mutantText = replaceOpIndex(mutantText,mutateIndex,newOpArr)
-            }
-            mutantArray.push(mutantText)
-        })
-    }else{
-        while (mutantArray.length < 1000){
-            let opElem = generateRandomChar(numOp,[0,1])
-            for(var i = 0; i < opElem.length ; i++){
+    if (numOp !== 0){
+        if (Math.pow(2,numOp) < 1000){
+            let opArr = replM.replicateM(numOp,[0,1]) 
+            opArr.forEach((x)=>{
+                var mutantText = text
                 var mutateIndex = []
                 var newOpArr = []
-                if (opElem[i]===1){
-                    var operatorChar = getCompleteOperator(text,indexArr[i])
-                    var newOpChar = transformationMap[operatorChar]
-                    var opCharLn = operatorChar.length
-                    var indexPair = [indexArr[i],indexArr[i]+opCharLn]
-                    newOpArr.push(newOpChar)
-                    mutateIndex.push(indexPair)
+                for (var i = 0; i < numOp ; i ++){
+                    if (x[i]===1){
+                        var operatorChar = getCompleteOperator(text,indexArr[i])
+                        var newOpChar = transformationMap[operatorChar]
+                        var opCharLn = operatorChar.length
+                        var indexPair = [indexArr[i],indexArr[i]+opCharLn]
+                        newOpArr.push(newOpChar)
+                        mutateIndex.push(indexPair)
+                        
+                    }
                 }
-            }
-            if(mutateIndex.length > 0){
-                var mutantText = replaceOpIndex(text,mutateIndex,newOpArr) 
-            }
-            
-            if(!mutantArray.includes(mutantText)){
+                if(mutateIndex.length > 0){
+                    mutantText = replaceOpIndex(mutantText,mutateIndex,newOpArr)
+                }
                 mutantArray.push(mutantText)
+            })
+        }else{
+            while (mutantArray.length < 1000){
+                let opElem = generateRandomChar(numOp,[0,1])
+                for(var i = 0; i < opElem.length ; i++){
+                    var mutateIndex = []
+                    var newOpArr = []
+                    if (opElem[i]===1){
+                        var operatorChar = getCompleteOperator(text,indexArr[i])
+                        var newOpChar = transformationMap[operatorChar]
+                        var opCharLn = operatorChar.length
+                        var indexPair = [indexArr[i],indexArr[i]+opCharLn]
+                        newOpArr.push(newOpChar)
+                        mutateIndex.push(indexPair)
+                    }
+                }
+                if(mutateIndex.length > 0){
+                    var mutantText = replaceOpIndex(text,mutateIndex,newOpArr) 
+                }
+                
+                if(!mutantArray.includes(mutantText)){
+                    mutantArray.push(mutantText)
+                }
             }
         }
     }
