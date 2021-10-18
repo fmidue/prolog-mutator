@@ -10,6 +10,7 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const structParser = require('../assets/StructureParser')
 const disjConjMut = require('../assets/DisjConjMut')
+const relOpMut = require('../assets/RelOpMut')
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -38,6 +39,10 @@ class ResultSection extends React.Component{
             disjConjCheck:false,
             disjConjMode:"toConj",
             disjConjNum:0,
+
+            relOpMutCheck:false,
+            relOpMutMode:"indiv",
+            relOpMutNum: 0,
             
             tableItems:[],
             tableReady:false,
@@ -183,6 +188,10 @@ class ResultSection extends React.Component{
             let mutants = disjConjMut.disjConjMut(solutionObj,this.state.conjDisjMode,this.state.conjDisjNum);
             mutantObj["ConjunctionToDisjunction"] = mutants;
         }
+        if(this.state.relOpMutCheck){
+            let mutants = relOpMut.relOpMut(solutionObj,this.state.relOpMutMode,this.state.relOpMutNum);
+            mutantObj["RelationalOperatorMutation"] = mutants;
+        }
         return mutantObj;
     }
 
@@ -279,7 +288,7 @@ class ResultSection extends React.Component{
                             </Col>
                         </Row>
                     </Container>
-                </div>  }
+                </div>}
                 {this.state.responseLoaded &&     
                 <div id="disjConjSelect">           
                     <Container fluid className="my-3">
@@ -328,8 +337,40 @@ class ResultSection extends React.Component{
                                             <option value="summToDisj">Summarily</option>
                                         </Form.Control>
                                         </Col>
-                                        <Col >
+                                        <Col>
                                         <Form.Control name="conjDisjNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                                        </Col>
+                                    </Form.Row>
+                                </Form>
+                            </Col>
+                        </Form.Row>
+                    </Container>
+                </div>}
+                {this.state.responseLoaded &&     
+                <div id="relSelect">           
+                    <Container fluid className="my-3">
+                        <Form.Row>
+                            <Col>
+                                <Form>
+                                    <Form.Row>
+                                        <Col >
+                                        <div key="relOpMutCheck" className="mb-3">
+                                            <Form.Check
+                                            name= "relOpMutCheck"
+                                            type= "checkbox"
+                                            id= "relOpMutCheck"
+                                            onChange = {this.handleCheckboxChange}
+                                            label="Relational Operator Mutation"/>
+                                        </div>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="relOpMutMode" as="select" size="sm" value={this.state.relOpMutMode} onChange={this.handleMutationModeChange}>
+                                            <option value="indiv">Individually</option>
+                                            <option value="summ">Summarily</option>
+                                        </Form.Control>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="relOpMutNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
                                         </Col>
                                     </Form.Row>
                                 </Form>
