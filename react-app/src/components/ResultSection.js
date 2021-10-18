@@ -11,6 +11,7 @@ import LoadingSpinner from "./LoadingSpinner";
 const structParser = require('../assets/StructureParser')
 const disjConjMut = require('../assets/DisjConjMut')
 const relOpMut = require('../assets/RelOpMut')
+const ariOpMut = require('../assets/AriOpMut')
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -43,6 +44,10 @@ class ResultSection extends React.Component{
             relOpMutCheck:false,
             relOpMutMode:"indiv",
             relOpMutNum: 0,
+
+            ariOpMutCheck:false,
+            ariOpMutMode:"indiv",
+            ariOpMutNum: 0,
             
             tableItems:[],
             tableReady:false,
@@ -191,6 +196,10 @@ class ResultSection extends React.Component{
         if(this.state.relOpMutCheck){
             let mutants = relOpMut.relOpMut(solutionObj,this.state.relOpMutMode,this.state.relOpMutNum);
             mutantObj["RelationalOperatorMutation"] = mutants;
+        }
+        if(this.state.ariOpMutCheck){
+            let mutants = ariOpMut.ariOpMut(solutionObj, this.state.ariOpMutMode, this.state.ariOpMutNum);
+            mutantObj["ArithmeticalOperatorMutation"] = mutants;
         }
         return mutantObj;
     }
@@ -347,7 +356,7 @@ class ResultSection extends React.Component{
                     </Container>
                 </div>}
                 {this.state.responseLoaded &&     
-                <div id="relSelect">           
+                <div id="relAriSelect">           
                     <Container fluid className="my-3">
                         <Form.Row>
                             <Col>
@@ -371,6 +380,31 @@ class ResultSection extends React.Component{
                                         </Col>
                                         <Col >
                                         <Form.Control name="relOpMutNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                                        </Col>
+                                    </Form.Row>
+                                </Form>
+                            </Col>
+                            <Col>
+                                <Form>
+                                    <Form.Row>
+                                        <Col >
+                                        <div key="ariOpMutCheck" className="mb-3">
+                                            <Form.Check
+                                            name= "ariOpMutCheck"
+                                            type= "checkbox"
+                                            id= "ariOpMutCheck"
+                                            onChange = {this.handleCheckboxChange}
+                                            label="Arithmetical Operator Mutation"/>
+                                        </div>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="ariOpMutMode" as="select" size="sm" value={this.state.ariOpMutMode} onChange={this.handleMutationModeChange}>
+                                            <option value="indiv">Individually</option>
+                                            <option value="summ">Summarily</option>
+                                        </Form.Control>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="ariOpMutNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
                                         </Col>
                                     </Form.Row>
                                 </Form>
