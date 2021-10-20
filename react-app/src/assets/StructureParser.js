@@ -144,6 +144,8 @@ const arithmeticalOperators = ["+","-","*","/"]
 
 const disjConjOperators = [";" , ","]
 
+const alph = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+
 function unparseVar(obj){
     if (!Array.isArray(obj.contents) && obj.contents.tag === "Wildcard"){
         return "_";
@@ -387,6 +389,72 @@ function realIndexNoEscapeChar(index){
 //    return returnText;
 //}
 
+function capturePredicates(text){
+    var textChar = text.split('');
+    var bracket = 0;
+    var startCapturing = false
+    var predicate = "";
+    var tempPredArr = [];
+    var predIndex = [];
+    var returnObj = {};
+    var predicateArr = [];
+
+    for (var i = 0; i< textChar.length; i++){
+        if(startCapturing === false){
+            if (alph.includes(textChar[i])){
+                startCapturing = true;
+                predicate += textChar[i]
+            }
+        }else if(startCapturing === true){
+            if (bracket === 0){
+                if (alph.includes(textChar[i].toLowerCase())){
+                    predicate += textChar[i];
+                    continue
+                }
+                else if (textChar[i]=== "("){
+                    bracket++;
+                    predicate += textChar[i];
+                    continue
+                }else{
+                    startCapturing = false;
+                    predicate = ""
+                }
+            }
+            else if (bracket > 0){
+                if (textChar[i]=== "("){
+                    bracket++;
+                    predicate+= textChar[i];
+                    continue
+                }
+                else if(textChar[i]=== ")"){
+                    bracket--;
+                    predicate+= textChar[i];
+                    if(bracket ===  0){
+                        tempPredArr.push(predicate);
+                        predicate = "";
+                        startCapturing = false;
+                    }
+                    continue
+                }
+                else{
+                    predicate += textChar[i];
+                }
+            }
+        }
+        
+    }
+    for (let i = 0; i < tempPredArr.length; i++){
+        var frontIndex = text.indexOf(tempPredArr[i])
+        if (frontIndex !== -1){
+            predIndex.push([frontIndex, frontIndex + tempPredArr[i].length])
+            predicateArr.push(tempPredArr[i])
+        }
+    }
+    returnObj["predicates"] = predicateArr;
+    returnObj["predIndex"] = predIndex;
+    return returnObj;
+}
+
 function structParser(obj){
     let lineParsed = ""
     
@@ -403,13 +471,16 @@ function structParser(obj){
         lineParsed += "\n"
     })
     var textAndOperators = findOperators(lineParsed)
-
+    var predAndIndex = capturePredicates(textAndOperators.realText)
+    textAndOperators["predicates"] = predAndIndex.predicates
+    textAndOperators["predIndex"] = predAndIndex.predIndex
     // Correctness Test
     //textAndOperators.realIndex.forEach((x)=>{
     //    console.log(x, ":", textAndOperators.realText.charAt(x))
     //})
     //console.log(textAndOperators.realText)
     //console.log(textAndOperators.charPos)
+    //console.log(textAndOperators);
     return textAndOperators
 }
 
