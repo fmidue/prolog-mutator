@@ -12,6 +12,7 @@ const structParser = require('../assets/StructureParser')
 const disjConjMut = require('../assets/DisjConjMut')
 const relOpMut = require('../assets/RelOpMut')
 const ariOpMut = require('../assets/AriOpMut')
+const predNegMut = require('../assets/PredNegMut')
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -48,6 +49,10 @@ class ResultSection extends React.Component{
             ariOpMutCheck:false,
             ariOpMutMode:"indiv",
             ariOpMutNum: 0,
+
+            predNegMutCheck:false,
+            predNegMutMode:"indiv",
+            predNegMutNum: 0,
             
             tableItems:[],
             tableReady:false,
@@ -200,6 +205,10 @@ class ResultSection extends React.Component{
         if(this.state.ariOpMutCheck){
             let mutants = ariOpMut.ariOpMut(solutionObj, this.state.ariOpMutMode, this.state.ariOpMutNum);
             mutantObj["ArithmeticalOperatorMutation"] = mutants;
+        }
+        if(this.state.predNegMutCheck){
+            let mutants = predNegMut.predNegMut(solutionObj,this.state.predNegMutMode,this.state.predNegMutNum);
+            mutantObj["PredicateNegationMutation"] = mutants;
         }
         return mutantObj;
     }
@@ -405,6 +414,38 @@ class ResultSection extends React.Component{
                                         </Col>
                                         <Col >
                                         <Form.Control name="ariOpMutNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                                        </Col>
+                                    </Form.Row>
+                                </Form>
+                            </Col>
+                        </Form.Row>
+                    </Container>
+                </div> }
+                {this.state.responseLoaded &&     
+                <div id="negSelect">           
+                    <Container fluid className="my-3">
+                        <Form.Row>
+                            <Col>
+                                <Form>
+                                    <Form.Row>
+                                        <Col >
+                                        <div key="predNegMutCheck" className="mb-3">
+                                            <Form.Check
+                                            name= "predNegMutCheck"
+                                            type= "checkbox"
+                                            id= "predNegMutCheck"
+                                            onChange = {this.handleCheckboxChange}
+                                            label="Predicate Negation Mutation"/>
+                                        </div>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="predNegMutMode" as="select" size="sm" value={this.state.predNegMutMode} onChange={this.handleMutationModeChange}>
+                                            <option value="indiv">Individually</option>
+                                            <option value="summ">Summarily</option>
+                                        </Form.Control>
+                                        </Col>
+                                        <Col >
+                                        <Form.Control name="predNegMutNum" type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
                                         </Col>
                                     </Form.Row>
                                 </Form>
