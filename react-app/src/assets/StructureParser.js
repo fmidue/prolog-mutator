@@ -398,6 +398,7 @@ function capturePredicates(text){
     var predIndex = [];
     var returnObj = {};
     var predicateArr = [];
+    var startingIndex = 0;
 
     for (var i = 0; i< textChar.length; i++){
         if(startCapturing === false){
@@ -444,10 +445,11 @@ function capturePredicates(text){
         
     }
     for (let i = 0; i < tempPredArr.length; i++){
-        var frontIndex = text.indexOf(tempPredArr[i])
+        var frontIndex = text.indexOf(tempPredArr[i],startingIndex)
         if (frontIndex !== -1){
             predIndex.push([frontIndex, frontIndex + tempPredArr[i].length])
             predicateArr.push(tempPredArr[i])
+            startingIndex = frontIndex + tempPredArr[i].length
         }
     }
     returnObj["predicates"] = predicateArr;
