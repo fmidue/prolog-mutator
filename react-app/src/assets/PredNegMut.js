@@ -86,6 +86,15 @@ function negateSinglePredicate(text,indexArr){
     }
 }
 
+function generateRandomChar(size,charArr){
+    let returnArray = []
+    for (var i = 0; i < size ; i++){
+        let char = charArr[Math.floor(Math.random()*charArr.length)]
+        returnArray.push(char)
+    }
+    return returnArray;
+}
+
 function selectRandomResult(resArr,numMutant){
     if (resArr.length === numMutant){
         return resArr
