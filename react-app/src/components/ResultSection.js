@@ -52,7 +52,7 @@ class ResultSection extends React.Component{
 
             mutantCode:[],
 
-            mutationMode:{
+            mutationOption:{
                 conjDisjCheck:false,
                 conjDisjMode:"toDisj",
                 conjDisjNum: 0,
@@ -238,8 +238,8 @@ class ResultSection extends React.Component{
         const checked = target.checked
         const name = target.name
         this.setState(prevState =>({
-            mutationMode:{
-                ...prevState.mutationMode,
+            mutationOption:{
+                ...prevState.mutationOption,
                 [name] : checked,
             }
         }))
@@ -250,8 +250,8 @@ class ResultSection extends React.Component{
         const target = event.target
         const name = target.name
         this.setState(prevState =>({
-            mutationMode:{
-                ...prevState.mutationMode,
+            mutationOption:{
+                ...prevState.mutationOption,
                 [name]:event.target.value,
             }
         }))
@@ -351,7 +351,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="disjConjMode" as="select" size="sm" value={this.state.mutationMode.disjConjMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="disjConjMode" as="select" size="sm" value={this.state.mutationOption.disjConjMode} onChange={this.handleMutationModeChange}>
                                             <option value="toConj">Individually</option>
                                             <option value="summToConj">Summarily</option>
                                         </Form.Control>
@@ -376,7 +376,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="conjDisjMode" as="select" size="sm" value={this.state.mutationMode.conjDisjMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="conjDisjMode" as="select" size="sm" value={this.state.mutationOption.conjDisjMode} onChange={this.handleMutationModeChange}>
                                             <option value="toDisj">Individually</option>
                                             <option value="summToDisj">Summarily</option>
                                         </Form.Control>
@@ -408,7 +408,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="relOpMutMode" as="select" size="sm" value={this.state.mutationMode.relOpMutMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="relOpMutMode" as="select" size="sm" value={this.state.mutationOption.relOpMutMode} onChange={this.handleMutationModeChange}>
                                             <option value="indiv">Individually</option>
                                             <option value="summ">Summarily</option>
                                         </Form.Control>
@@ -433,7 +433,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="ariOpMutMode" as="select" size="sm" value={this.state.mutationMode.ariOpMutMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="ariOpMutMode" as="select" size="sm" value={this.state.mutationOption.ariOpMutMode} onChange={this.handleMutationModeChange}>
                                             <option value="indiv">Individually</option>
                                             <option value="summ">Summarily</option>
                                         </Form.Control>
@@ -465,7 +465,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="predNegMutMode" as="select" size="sm" value={this.state.mutationMode.predNegMutMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="predNegMutMode" as="select" size="sm" value={this.state.mutationOption.predNegMutMode} onChange={this.handleMutationModeChange}>
                                             <option value="indiv">Individually</option>
                                             <option value="summ">Summarily</option>
                                         </Form.Control>
