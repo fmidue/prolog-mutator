@@ -14,6 +14,24 @@ const relOpMut = require('../assets/RelOpMut')
 const ariOpMut = require('../assets/AriOpMut')
 const predNegMut = require('../assets/PredNegMut')
 
+const mutationRegistry = {
+    conjDisjMut : function (obj,mode){
+        disjConjMut.disjConjMut(obj,mode)
+    },
+    disjConjMut : function(obj,mode){
+        disjConjMut.disjConjMut(obj,mode)
+    },
+    relOpMut : function(obj,mode){
+        relOpMut.relOpMut(obj,mode)
+    },
+    ariOpMut : function(obj,mode){
+        ariOpMut.ariOpMut(obj,mode)
+    },
+    predNegMut : function(obj,mode){
+        predNegMut.predNegMut(obj,mode)
+    }
+}
+
 class ResultSection extends React.Component{
     constructor(props){
         super(props);
@@ -34,26 +52,28 @@ class ResultSection extends React.Component{
 
             mutantCode:[],
 
-            conjDisjCheck:false,
-            conjDisjMode:"toDisj",
-            conjDisjNum: 0,
+            mutationMode:{
+                conjDisjCheck:false,
+                conjDisjMode:"toDisj",
+                conjDisjNum: 0,
 
-            disjConjCheck:false,
-            disjConjMode:"toConj",
-            disjConjNum:0,
+                disjConjCheck:false,
+                disjConjMode:"toConj",
+                disjConjNum:0,
 
-            relOpMutCheck:false,
-            relOpMutMode:"indiv",
-            relOpMutNum: 0,
+                relOpMutCheck:false,
+                relOpMutMode:"indiv",
+                relOpMutNum: 0,
 
-            ariOpMutCheck:false,
-            ariOpMutMode:"indiv",
-            ariOpMutNum: 0,
+                ariOpMutCheck:false,
+                ariOpMutMode:"indiv",
+                ariOpMutNum: 0,
 
-            predNegMutCheck:false,
-            predNegMutMode:"indiv",
-            predNegMutNum: 0,
-            
+                predNegMutCheck:false,
+                predNegMutMode:"indiv",
+                predNegMutNum: 0,
+            },
+
             tableItems:[],
             tableReady:false,
 
@@ -217,18 +237,24 @@ class ResultSection extends React.Component{
         const target = event.target
         const checked = target.checked
         const name = target.name
-        this.setState({
-            [name]: checked,
-        });
+        this.setState(prevState =>({
+            mutationMode:{
+                ...prevState.mutationMode,
+                [name] : checked,
+            }
+        }))
         console.log(this.state);
     }
 
     handleMutationModeChange(event){
         const target = event.target
         const name = target.name
-        this.setState({
-            [name]: event.target.value
-        })
+        this.setState(prevState =>({
+            mutationMode:{
+                ...prevState.mutationMode,
+                [name]:event.target.value,
+            }
+        }))
     }
 
     handleTestSolutionClick(event){
@@ -325,7 +351,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="disjConjMode" as="select" size="sm" value={this.state.disjConjMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="disjConjMode" as="select" size="sm" value={this.state.mutationMode.disjConjMode} onChange={this.handleMutationModeChange}>
                                             <option value="toConj">Individually</option>
                                             <option value="summToConj">Summarily</option>
                                         </Form.Control>
@@ -350,7 +376,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="conjDisjMode" as="select" size="sm" value={this.state.conjDisjMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="conjDisjMode" as="select" size="sm" value={this.state.mutationMode.conjDisjMode} onChange={this.handleMutationModeChange}>
                                             <option value="toDisj">Individually</option>
                                             <option value="summToDisj">Summarily</option>
                                         </Form.Control>
@@ -382,7 +408,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="relOpMutMode" as="select" size="sm" value={this.state.relOpMutMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="relOpMutMode" as="select" size="sm" value={this.state.mutationMode.relOpMutMode} onChange={this.handleMutationModeChange}>
                                             <option value="indiv">Individually</option>
                                             <option value="summ">Summarily</option>
                                         </Form.Control>
@@ -407,7 +433,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="ariOpMutMode" as="select" size="sm" value={this.state.ariOpMutMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="ariOpMutMode" as="select" size="sm" value={this.state.mutationMode.ariOpMutMode} onChange={this.handleMutationModeChange}>
                                             <option value="indiv">Individually</option>
                                             <option value="summ">Summarily</option>
                                         </Form.Control>
@@ -439,7 +465,7 @@ class ResultSection extends React.Component{
                                         </div>
                                         </Col>
                                         <Col >
-                                        <Form.Control name="predNegMutMode" as="select" size="sm" value={this.state.predNegMutMode} onChange={this.handleMutationModeChange}>
+                                        <Form.Control name="predNegMutMode" as="select" size="sm" value={this.state.mutationMode.predNegMutMode} onChange={this.handleMutationModeChange}>
                                             <option value="indiv">Individually</option>
                                             <option value="summ">Summarily</option>
                                         </Form.Control>
