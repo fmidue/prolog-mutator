@@ -7,12 +7,13 @@ const transformationMap = {
     "/" : "-",
 }
 
-function ariOpMut(textAndOpObj,mode,numMutant){
+function ariOpMut(textAndOpObj,mode){
+    var numMutant = mode.ariOpMutNum
     var result = []
-    if (mode==="indiv"){
+    if (mode.ariOpMutMode==="indiv"){
         let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,numMutant)
         result = result.concat(mutantArr)
-    }else if (mode==="summ"){
+    }else if (mode.ariOpMutMode==="summ"){
         let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators)
         result = result.concat(mutantArr)
     }

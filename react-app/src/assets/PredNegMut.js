@@ -1,11 +1,12 @@
 const replM = require("./ReplicateM")
 
-function predNegMut(textAndOpObj,mode,numMutant){
+function predNegMut(textAndOpObj,mode){
+    var numMutant = mode.predNegMutNum
     var result = [];
-    if (mode==="indiv"){
+    if (mode.predNegMutMode==="indiv"){
         let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, numMutant)
         result = result.concat(mutantArr)
-    }else if (mode==="summ"){
+    }else if (mode.predNegMutMode==="summ"){
         let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex)
         result = result.concat(mutantArr)
     }

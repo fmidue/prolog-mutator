@@ -18,13 +18,14 @@ const transformationMap = {
     "=<":">"
 }
 
-function relOpMut(textAndOpObj,mode,numMutant){
+function relOpMut(textAndOpObj,mode){
+    var numMutant = mode.relOpMutNum
     var result = []
     //Individually Mode
-    if (mode === "indiv"){
+    if (mode.relOpMutMode === "indiv"){
         let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators,numMutant)
         result = result.concat(mutantArr)
-    }else if(mode === "summ"){
+    }else if(mode.relOpMutMode === "summ"){
         let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators)
         result = result.concat(mutantArr)
     }
