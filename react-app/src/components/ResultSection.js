@@ -15,20 +15,27 @@ const ariOpMut = require('../assets/AriOpMut')
 const predNegMut = require('../assets/PredNegMut')
 
 const mutationRegistry = {
+    result:{
+        ConjunctionToDisjunction :[],
+        DisjunctionToConjunction :[],
+        ArithmeticalOperatorMutation : [],
+        RelationalOperatorMutation : [],
+        PredicateNegationMutation : [],
+    },
     conjDisjMut : function (obj,mode){
-        disjConjMut.disjConjMut(obj,mode)
+        mutationRegistry.result.ConjunctionToDisjunction = disjConjMut.disjConjMut(obj,mode,"conjDisj")
     },
     disjConjMut : function(obj,mode){
-        disjConjMut.disjConjMut(obj,mode)
+        mutationRegistry.result.DisjunctionToConjunction = disjConjMut.disjConjMut(obj,mode,"disjConj")
     },
     relOpMut : function(obj,mode){
-        relOpMut.relOpMut(obj,mode)
+        mutationRegistry.result.RelationalOperatorMutation = relOpMut.relOpMut(obj,mode)
     },
     ariOpMut : function(obj,mode){
-        ariOpMut.ariOpMut(obj,mode)
+        mutationRegistry.result.ArithmeticalOperatorMutation = ariOpMut.ariOpMut(obj,mode)
     },
     predNegMut : function(obj,mode){
-        predNegMut.predNegMut(obj,mode)
+        mutationRegistry.result.PredicateNegationMutation = predNegMut.predNegMut(obj,mode)
     }
 }
 
@@ -90,6 +97,7 @@ class ResultSection extends React.Component{
         this.performMutationOnOptions = this.performMutationOnOptions.bind(this);
         this.handleTestSolutionClick = this.handleTestSolutionClick.bind(this);
         this.insertTableItems = this.insertTableItems.bind(this);
+        this.resetMutOptionState = this.resetMutOptionState.bind(this);
     }
 
     handleUploadSolutionFile(e){
@@ -209,28 +217,14 @@ class ResultSection extends React.Component{
     }
 
     performMutationOnOptions(solutionObj){
-        var mutantObj = {}
-        if(this.state.disjConjCheck){
-            let mutants = disjConjMut.disjConjMut(solutionObj,this.state.disjConjMode,this.state.disjConjNum);
-            mutantObj["DisjunctionToConjunction"] = mutants;
-        }
-        if(this.state.conjDisjCheck){
-            let mutants = disjConjMut.disjConjMut(solutionObj,this.state.conjDisjMode,this.state.conjDisjNum);
-            mutantObj["ConjunctionToDisjunction"] = mutants;
-        }
-        if(this.state.relOpMutCheck){
-            let mutants = relOpMut.relOpMut(solutionObj,this.state.relOpMutMode,this.state.relOpMutNum);
-            mutantObj["RelationalOperatorMutation"] = mutants;
-        }
-        if(this.state.ariOpMutCheck){
-            let mutants = ariOpMut.ariOpMut(solutionObj, this.state.ariOpMutMode, this.state.ariOpMutNum);
-            mutantObj["ArithmeticalOperatorMutation"] = mutants;
-        }
-        if(this.state.predNegMutCheck){
-            let mutants = predNegMut.predNegMut(solutionObj,this.state.predNegMutMode,this.state.predNegMutNum);
-            mutantObj["PredicateNegationMutation"] = mutants;
-        }
-        return mutantObj;
+        console.log("enterperformMut")
+        Object.values(mutationRegistry).forEach(func =>{
+            if (typeof func === 'function'){
+                func.call(this,solutionObj,this.state.mutationOption)
+            }
+        })
+        var mutantObj = mutationRegistry.result
+        return mutantObj
     }
 
     handleCheckboxChange(event) {
@@ -257,7 +251,34 @@ class ResultSection extends React.Component{
         }))
     }
 
+    resetMutOptionState(){
+        this.setState({
+            mutationOption:{
+                conjDisjCheck:false,
+                conjDisjMode:"toDisj",
+                conjDisjNum: 0,
+
+                disjConjCheck:false,
+                disjConjMode:"toConj",
+                disjConjNum:0,
+
+                relOpMutCheck:false,
+                relOpMutMode:"indiv",
+                relOpMutNum: 0,
+
+                ariOpMutCheck:false,
+                ariOpMutMode:"indiv",
+                ariOpMutNum: 0,
+
+                predNegMutCheck:false,
+                predNegMutMode:"indiv",
+                predNegMutNum: 0,
+            },
+        })
+    }
+
     handleTestSolutionClick(event){
+        this.resetMutOptionState();
         this.setState({
             responseLoaded:false,
             tableItems: [],
