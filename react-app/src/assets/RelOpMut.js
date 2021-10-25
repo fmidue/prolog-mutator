@@ -17,19 +17,23 @@ const transformationMap = {
     "<":">=",
     "=<":">"
 }
-
 function relOpMut(textAndOpObj,mode){
-    var numMutant = mode.relOpMutNum
-    var result = []
-    //Individually Mode
-    if (mode.relOpMutMode === "indiv"){
-        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators,numMutant)
-        result = result.concat(mutantArr)
-    }else if(mode.relOpMutMode === "summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators)
-        result = result.concat(mutantArr)
+    for(let i = 0; i < mode.length; i++){
+        if (mode[i].mutId === "RelOpMut"){
+            var option = mode[i]
+        }
     }
-
+    var result = []
+    if(option.checked){
+        //Individually Mode
+        if (option.mode === "indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators,option.num)
+            result = result.concat(mutantArr)
+        }else if(option.mode === "summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators)
+            result = result.concat(mutantArr)
+        }
+    }
     return result;
 }
 

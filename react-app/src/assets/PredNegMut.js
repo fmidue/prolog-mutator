@@ -1,14 +1,20 @@
 const replM = require("./ReplicateM")
 
 function predNegMut(textAndOpObj,mode){
-    var numMutant = mode.predNegMutNum
+    for(let i = 0; i < mode.length; i++){
+        if (mode[i].mutId === "PredNegMut"){
+            var option = mode[i]
+        }
+    }
     var result = [];
-    if (mode.predNegMutMode==="indiv"){
-        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, numMutant)
-        result = result.concat(mutantArr)
-    }else if (mode.predNegMutMode==="summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex)
-        result = result.concat(mutantArr)
+    if(option.checked){
+        if (option.mode==="indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, option.num)
+            result = result.concat(mutantArr)
+        }else if (option.mode==="summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex)
+            result = result.concat(mutantArr)
+        }
     }
     return result;
 }
