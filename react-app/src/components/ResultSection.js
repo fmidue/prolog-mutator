@@ -8,36 +8,8 @@ import ResultCard from "./ResultCard";
 import ResultTable from "./ResultTable";
 import LoadingSpinner from "./LoadingSpinner";
 
+const mutationReg = require('../MutationRegistry')
 const structParser = require('../assets/StructureParser')
-const disjConjMut = require('../assets/DisjConjMut')
-const relOpMut = require('../assets/RelOpMut')
-const ariOpMut = require('../assets/AriOpMut')
-const predNegMut = require('../assets/PredNegMut')
-
-const mutationRegistry = {
-    result:{
-        ConjunctionToDisjunction :[],
-        DisjunctionToConjunction :[],
-        ArithmeticalOperatorMutation : [],
-        RelationalOperatorMutation : [],
-        PredicateNegationMutation : [],
-    },
-    conjDisjMut : function (obj,mode){
-        mutationRegistry.result.ConjunctionToDisjunction = disjConjMut.disjConjMut(obj,mode,"conjDisj")
-    },
-    disjConjMut : function(obj,mode){
-        mutationRegistry.result.DisjunctionToConjunction = disjConjMut.disjConjMut(obj,mode,"disjConj")
-    },
-    relOpMut : function(obj,mode){
-        mutationRegistry.result.RelationalOperatorMutation = relOpMut.relOpMut(obj,mode)
-    },
-    ariOpMut : function(obj,mode){
-        mutationRegistry.result.ArithmeticalOperatorMutation = ariOpMut.ariOpMut(obj,mode)
-    },
-    predNegMut : function(obj,mode){
-        mutationRegistry.result.PredicateNegationMutation = predNegMut.predNegMut(obj,mode)
-    }
-}
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -217,13 +189,17 @@ class ResultSection extends React.Component{
     }
 
     performMutationOnOptions(solutionObj){
+        var mutantObj = {}
         console.log("enterperformMut")
-        Object.values(mutationRegistry).forEach(func =>{
-            if (typeof func === 'function'){
-                func.call(this,solutionObj,this.state.mutationOption)
+        Object.entries(mutationReg.mutationRegistry).forEach(entry =>{
+            console.log(Object.entries(mutationReg.mutationRegistry))
+            if (typeof entry[1].mutation === 'function'){
+                console.log("prepFunc");
+                let mutationResult = entry[1].mutation.call(this,solutionObj,this.state.mutationOption)
+                let mutationKey = entry[0]
+                mutantObj[mutationKey] = mutationResult
             }
         })
-        var mutantObj = mutationRegistry.result
         return mutantObj
     }
 
