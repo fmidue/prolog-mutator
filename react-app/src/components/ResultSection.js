@@ -14,6 +14,18 @@ const structParser = require('../assets/StructureParser')
 class ResultSection extends React.Component{
     constructor(props){
         super(props);
+
+        const optionArr = []
+        for (let i = 0; i < Object.entries(mutationReg.mutationRegistry).length; i++){
+            optionArr.push({
+                mutId : Object.entries(mutationReg.mutationRegistry)[i][0],
+                name : Object.entries(mutationReg.mutationRegistry)[i][1].name,
+                checked : false,
+                mode: "indiv",
+                num : 0,
+            })
+        }
+
         this.state={
             configLabel:"Upload your Config file here",
             configText:"",
@@ -31,27 +43,7 @@ class ResultSection extends React.Component{
 
             mutantCode:[],
 
-            mutationOption:{
-                conjDisjCheck:false,
-                conjDisjMode:"toDisj",
-                conjDisjNum: 0,
-
-                disjConjCheck:false,
-                disjConjMode:"toConj",
-                disjConjNum:0,
-
-                relOpMutCheck:false,
-                relOpMutMode:"indiv",
-                relOpMutNum: 0,
-
-                ariOpMutCheck:false,
-                ariOpMutMode:"indiv",
-                ariOpMutNum: 0,
-
-                predNegMutCheck:false,
-                predNegMutMode:"indiv",
-                predNegMutNum: 0,
-            },
+            mutationOption:optionArr,
 
             tableItems:[],
             tableReady:false,
@@ -69,7 +61,9 @@ class ResultSection extends React.Component{
         this.performMutationOnOptions = this.performMutationOnOptions.bind(this);
         this.handleTestSolutionClick = this.handleTestSolutionClick.bind(this);
         this.insertTableItems = this.insertTableItems.bind(this);
-        this.resetMutOptionState = this.resetMutOptionState.bind(this);
+        //this.resetMutOptionState = this.resetMutOptionState.bind(this);
+        this.findMutationOptionIndex = this.findMutationOptionIndex.bind(this);
+        console.log("mut",this.state.mutationOption)
     }
 
     handleUploadSolutionFile(e){
@@ -207,54 +201,76 @@ class ResultSection extends React.Component{
         const target = event.target
         const checked = target.checked
         const name = target.name
-        this.setState(prevState =>({
-            mutationOption:{
-                ...prevState.mutationOption,
-                [name] : checked,
-            }
-        }))
+        const id = target.id
+        const mutOptIndex = this.findMutationOptionIndex(id)
+        let mutationOption = [...this.state.mutationOption];
+        let mutation = {
+            ...mutationOption[mutOptIndex],
+            [name] : checked
+        }
+        mutationOption[mutOptIndex] = mutation;
+        this.setState({
+            mutationOption
+        })
         console.log(this.state);
     }
 
     handleMutationModeChange(event){
         const target = event.target
         const name = target.name
-        this.setState(prevState =>({
-            mutationOption:{
-                ...prevState.mutationOption,
-                [name]:event.target.value,
-            }
-        }))
-    }
-
-    resetMutOptionState(){
+        const id = target.id
+        const mutOptIndex = this.findMutationOptionIndex(id)
+        let mutationOption = [...this.state.mutationOption];
+        let mutation = {
+            ...mutationOption[mutOptIndex],
+            [name] : event.target.value
+        }
+        mutationOption[mutOptIndex] = mutation;
         this.setState({
-            mutationOption:{
-                conjDisjCheck:false,
-                conjDisjMode:"toDisj",
-                conjDisjNum: 0,
-
-                disjConjCheck:false,
-                disjConjMode:"toConj",
-                disjConjNum:0,
-
-                relOpMutCheck:false,
-                relOpMutMode:"indiv",
-                relOpMutNum: 0,
-
-                ariOpMutCheck:false,
-                ariOpMutMode:"indiv",
-                ariOpMutNum: 0,
-
-                predNegMutCheck:false,
-                predNegMutMode:"indiv",
-                predNegMutNum: 0,
-            },
+            mutationOption
         })
+        console.log(this.state);
     }
+
+    findMutationOptionIndex(id){
+        var returnIndex
+        this.state.mutationOption.forEach((type,index)=>{
+            console.log(type.mutId,id)
+            if (type.mutId === id){
+                returnIndex = index
+            }
+        })
+        return returnIndex;
+    }
+
+    //resetMutOptionState(){
+    //    this.setState({
+    //        mutationOption:{
+    //            conjDisjCheck:false,
+    //            conjDisjMode:"toDisj",
+    //            conjDisjNum: 0,
+//
+    //            disjConjCheck:false,
+    //            disjConjMode:"toConj",
+    //            disjConjNum:0,
+//
+    //            relOpMutCheck:false,
+    //            relOpMutMode:"indiv",
+    //            relOpMutNum: 0,
+//
+    //            ariOpMutCheck:false,
+    //            ariOpMutMode:"indiv",
+    //            ariOpMutNum: 0,
+//
+    //            predNegMutCheck:false,
+    //            predNegMutMode:"indiv",
+    //            predNegMutNum: 0,
+    //        },
+    //    })
+    //}
 
     handleTestSolutionClick(event){
-        this.resetMutOptionState();
+        //this.resetMutOptionState();
         this.setState({
             responseLoaded:false,
             tableItems: [],
@@ -330,6 +346,26 @@ class ResultSection extends React.Component{
                         </Row>
                     </Container>
                 </div>}
+
+                {this.state.mutationOption.map((mutation,index)=>(
+                    <div key = {index} id = {mutation.mutId}>
+                    <Container className = "medium-container">
+                        <Form.Check
+                            name= "checked"
+                            type= "checkbox"
+                            id= {mutation.mutId}
+                            onChange = {this.handleCheckboxChange}
+                            label={mutation.name}
+                        />
+                        <Form.Control name="mode" as="select" size="sm" id={mutation.mutId} value={mutation.mode} onChange={this.handleMutationModeChange}>
+                            <option value="indiv">Individually</option>
+                            <option value="summ">Summarily</option>
+                        </Form.Control>
+                        <Form.Control name="num" id={mutation.mutId} type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                    </Container>
+                    </div>
+                ))}
+
                 {this.state.responseLoaded &&     
                 <div id="disjConjSelect">           
                     <Container fluid className="my-3">
