@@ -243,34 +243,21 @@ class ResultSection extends React.Component{
         return returnIndex;
     }
 
-    //resetMutOptionState(){
-    //    this.setState({
-    //        mutationOption:{
-    //            conjDisjCheck:false,
-    //            conjDisjMode:"toDisj",
-    //            conjDisjNum: 0,
-//
-    //            disjConjCheck:false,
-    //            disjConjMode:"toConj",
-    //            disjConjNum:0,
-//
-    //            relOpMutCheck:false,
-    //            relOpMutMode:"indiv",
-    //            relOpMutNum: 0,
-//
-    //            ariOpMutCheck:false,
-    //            ariOpMutMode:"indiv",
-    //            ariOpMutNum: 0,
-//
-    //            predNegMutCheck:false,
-    //            predNegMutMode:"indiv",
-    //            predNegMutNum: 0,
-    //        },
-    //    })
-    //}
+    resetMutOptionState(){
+        let mutationOption = [...this.state.mutationOption];
+        for (let i = 0; i < mutationOption.length; i++){
+            let option = {...mutationOption[i]};
+            option.checked = false;
+            option.mode = "indiv";
+            option.num = 0;
+            mutationOption[i] = option
+        }
+        this.setState({mutationOption})
+        console.log("mutOpt",this.state.mutationOption)
+    }
 
     handleTestSolutionClick(event){
-        //this.resetMutOptionState();
+        this.resetMutOptionState();
         this.setState({
             responseLoaded:false,
             tableItems: [],
