@@ -19,13 +19,16 @@ function disjConjMut(textAndOpObj,opt,caller){
     var result = []
     
     //Separate Operators
-    textAndOpObj.charPos.disjConjOperators.forEach((op)=>{
-        if (textAndOpObj.realText.charAt(op) === ";"){
-            disjIndex.push(op)
-        }else{
-            conjIndex.push(op)
-        }
-    })
+    if(Array.isArray(textAndOpObj.charPos.disjConjOperators) && textAndOpObj.charPos.disjConjOperators.length !== 0){
+        textAndOpObj.charPos.disjConjOperators.forEach((op)=>{
+            if (textAndOpObj.realText.charAt(op) === ";"){
+                disjIndex.push(op)
+            }else{
+                conjIndex.push(op)
+            }
+        })
+    }else{return result}
+    
     //Disjunction to Conjunction
     if (caller === "DisjConj"){
         if (option.checked){
