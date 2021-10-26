@@ -63,7 +63,7 @@ class ResultSection extends React.Component{
         this.performMutationOnOptions = this.performMutationOnOptions.bind(this);
         this.handleTestSolutionClick = this.handleTestSolutionClick.bind(this);
         this.insertTableItems = this.insertTableItems.bind(this);
-        //this.resetMutOptionState = this.resetMutOptionState.bind(this);
+        this.resetMutOptionState = this.resetMutOptionState.bind(this);
         this.findMutationOptionIndex = this.findMutationOptionIndex.bind(this);
         console.log("mut",this.state.mutationOption)
     }
