@@ -17,13 +17,15 @@ class ResultSection extends React.Component{
 
         const optionArr = []
         for (let i = 0; i < Object.entries(mutationReg.mutationRegistry).length; i++){
-            optionArr.push({
-                mutId : Object.entries(mutationReg.mutationRegistry)[i][0],
-                name : Object.entries(mutationReg.mutationRegistry)[i][1].name,
-                checked : false,
-                mode: "indiv",
-                num : 0,
-            })
+            if(Object.entries(mutationReg.mutationRegistry)[i][1].enable){
+                optionArr.push({
+                    mutId : Object.entries(mutationReg.mutationRegistry)[i][0],
+                    name : Object.entries(mutationReg.mutationRegistry)[i][1].name,
+                    checked : false,
+                    mode: "indiv",
+                    num : 0,
+                })
+            }
         }
 
         this.state={
@@ -186,12 +188,13 @@ class ResultSection extends React.Component{
         var mutantObj = {}
         console.log("enterperformMut")
         Object.entries(mutationReg.mutationRegistry).forEach(entry =>{
-            console.log(Object.entries(mutationReg.mutationRegistry))
-            if (typeof entry[1].mutation === 'function'){
-                console.log("prepFunc");
-                let mutationResult = entry[1].mutation.call(this,solutionObj,this.state.mutationOption)
-                let mutationKey = entry[0]
-                mutantObj[mutationKey] = mutationResult
+            if(entry[1].enable){
+                if (typeof entry[1].mutation === 'function'){
+                    console.log(entry[1].mutation);
+                    let mutationResult = entry[1].mutation.call(this,solutionObj,this.state.mutationOption)
+                    let mutationKey = entry[0]
+                    mutantObj[mutationKey] = mutationResult
+                }
             }
         })
         return mutantObj
