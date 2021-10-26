@@ -207,7 +207,7 @@ const textAndOpObj47 = {
 
 //console.log(replaceOpIndex(text47,indexArr47,opArr47))
 
-console.log(disjConjMut(textAndOpObj47,"summToDisj",0))
+//console.log(disjConjMut(textAndOpObj47,"summToDisj",0))
 //console.log(disjConjMut(textAndOpObj47,"toDisj",10))
 
 //console.log(generateRandomChar(16,[",",";"]))

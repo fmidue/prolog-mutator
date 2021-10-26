@@ -44,7 +44,6 @@ function performIndividualMutations(text,indexArr,numMutant){
         let newOpChar = transformationMap[operatorChar]
         let opCharLn = operatorChar.length
         let indexPair = [index,index+opCharLn]
-        console.log("newchar:",newOpChar);
         let mutantText = replaceOpIndex(text,[indexPair],[newOpChar])
         mutantArray.push(mutantText);
     })
