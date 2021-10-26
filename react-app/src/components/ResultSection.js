@@ -65,7 +65,6 @@ class ResultSection extends React.Component{
         this.insertTableItems = this.insertTableItems.bind(this);
         this.resetMutOptionState = this.resetMutOptionState.bind(this);
         this.findMutationOptionIndex = this.findMutationOptionIndex.bind(this);
-        console.log("mut",this.state.mutationOption)
     }
 
     handleUploadSolutionFile(e){
@@ -127,10 +126,8 @@ class ResultSection extends React.Component{
         })
         var solutionObj =  structParser.structParser(this.state.solutionStructure)
         var mutRes = this.performMutationOnOptions(solutionObj);
-        console.log(Object.entries(mutRes))
         for (const [key, value] of Object.entries(mutRes)) {
             for (let i = 0; i < value.length; i++){
-                console.log(`${key}${i}: ${value[i]}`);
                 var blob = new Blob([value[i]], { type: 'text/plain' });
                 var file = new File([blob], `${key}${i}.txt`, {type: "text/plain"});
                 const data = new FormData()
@@ -151,7 +148,6 @@ class ResultSection extends React.Component{
     
     insertTableItems(fname,ftype,result,i){
         let fid = this.getItemID(ftype,i)
-        console.log(fname)
         let resultArr = this.state.tableItems
         let resLn = result.split('\n')
         let res;
@@ -186,11 +182,9 @@ class ResultSection extends React.Component{
 
     performMutationOnOptions(solutionObj){
         var mutantObj = {}
-        console.log("enterperformMut")
         Object.entries(mutationReg.mutationRegistry).forEach(entry =>{
             if(entry[1].enable){
                 if (typeof entry[1].mutation === 'function'){
-                    console.log(entry[1].mutation);
                     let mutationResult = entry[1].mutation.call(this,solutionObj,this.state.mutationOption)
                     let mutationKey = entry[0]
                     mutantObj[mutationKey] = mutationResult
@@ -215,7 +209,6 @@ class ResultSection extends React.Component{
         this.setState({
             mutationOption
         })
-        console.log(this.state);
     }
 
     handleMutationModeChange(event){
@@ -232,13 +225,11 @@ class ResultSection extends React.Component{
         this.setState({
             mutationOption
         })
-        console.log(this.state);
     }
 
     findMutationOptionIndex(id){
         var returnIndex
         this.state.mutationOption.forEach((type,index)=>{
-            console.log(type.mutId,id)
             if (type.mutId === id){
                 returnIndex = index
             }
@@ -256,7 +247,6 @@ class ResultSection extends React.Component{
             mutationOption[i] = option
         }
         this.setState({mutationOption})
-        console.log("mutOpt",this.state.mutationOption)
     }
 
     handleTestSolutionClick(event){
