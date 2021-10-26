@@ -172,29 +172,29 @@ function generateRandomChar(size,charArr){
 //    }
 //}
 
-const textAndOpObj47 = {
-    realText: 'solve(A,B,C,D,E,F,G,H,I) :- generate(A,B,C,D,E,F,G,H,I),test(A,B,C,D,E,F,G,H,I).\n' +
-      'generate(A,B,C,D,E,F,G,H,I) :- permutation([0,1,2,3,4,5,6,7,8,9],[A,B,C,D,E,F,G,H,I,_]).\n' +
-      'test(A,B,C,D,E,F,G,H,I) :- V1=(((((H*10000)+(D*1000))+(G*100))+(A*10))+(B*1)),V2=(((I*100)+(H*10))+(A*1)),Sum=(V1+V2),Sum=:=(((((C*10000)+(F*1000))+(F*100))+(F*10))+(E*1)).\n',
-    realIndex: [
-       55, 199, 206, 213, 216, 223, 226,
-      232, 235, 240, 243, 247, 250, 255,
-      260, 263, 268, 271, 275, 279, 283,
-      287, 291, 300, 307, 310, 317, 320,
-      326, 329, 334, 337
-    ],
-    charPos: {
-      relationalOperators: [ 199, 250, 279, 291 ],
-      arithmeticalOperators: [
-        206, 213, 216, 223, 226,
-        232, 235, 240, 243, 255,
-        260, 263, 268, 271, 283,
-        300, 307, 310, 317, 320,
-        326, 329, 334, 337
-      ],
-      disjConjOperators: [ 55, 247, 275, 287 ]
-    }
-}
+//const textAndOpObj47 = {
+//    realText: 'solve(A,B,C,D,E,F,G,H,I) :- generate(A,B,C,D,E,F,G,H,I),test(A,B,C,D,E,F,G,H,I).\n' +
+//      'generate(A,B,C,D,E,F,G,H,I) :- permutation([0,1,2,3,4,5,6,7,8,9],[A,B,C,D,E,F,G,H,I,_]).\n' +
+//      'test(A,B,C,D,E,F,G,H,I) :- V1=(((((H*10000)+(D*1000))+(G*100))+(A*10))+(B*1)),V2=(((I*100)+(H*10))+(A*1)),Sum=(V1+V2),Sum=:=(((((C*10000)+(F*1000))+(F*100))+(F*10))+(E*1)).\n',
+//    realIndex: [
+//       55, 199, 206, 213, 216, 223, 226,
+//      232, 235, 240, 243, 247, 250, 255,
+//      260, 263, 268, 271, 275, 279, 283,
+//      287, 291, 300, 307, 310, 317, 320,
+//      326, 329, 334, 337
+//    ],
+//    charPos: {
+//      relationalOperators: [ 199, 250, 279, 291 ],
+//      arithmeticalOperators: [
+//        206, 213, 216, 223, 226,
+//        232, 235, 240, 243, 255,
+//        260, 263, 268, 271, 283,
+//        300, 307, 310, 317, 320,
+//        326, 329, 334, 337
+//      ],
+//      disjConjOperators: [ 55, 247, 275, 287 ]
+//    }
+//}
 
 //Testing Section
 //const text47 = 'solve(A,B,C,D,E,F,G,H,I) :- generate(A,B,C,D,E,F,G,H,I),test(A,B,C,D,E,F,G,H,I).\n' +
