@@ -18,6 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "server": "cd ../prolog-test-server && stack run",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
