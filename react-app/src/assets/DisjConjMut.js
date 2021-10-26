@@ -8,12 +8,6 @@ Example: #Operator : (;) and (,) => 2
 const replM = require("./ReplicateM")
 
 function disjConjMut(textAndOpObj,opt,caller){
-    var callerText = caller + "Mut"
-    for (let i = 0; i < opt.length; i++){
-        if (callerText === opt[i].mutId){
-            var option = opt[i]
-        }
-    }
     var disjIndex = []
     var conjIndex = []
     var result = []
@@ -31,27 +25,23 @@ function disjConjMut(textAndOpObj,opt,caller){
     
     //Disjunction to Conjunction
     if (caller === "DisjConj"){
-        if (option.checked){
-            if(option.mode === "indiv"){
-                let mutantArr = performIndividualMutations(textAndOpObj.realText,disjIndex,",",option.num)
-                result = result.concat(mutantArr)
-            } else if (option.mode === "summ"){
-                let mutantArr = performSummarilyMutations(textAndOpObj.realText,disjIndex)
-                result = result.concat(mutantArr)
-            }
+        if(opt.mode === "indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,disjIndex,",",opt.num)
+            result = result.concat(mutantArr)
+        } else if (opt.mode === "summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,disjIndex)
+            result = result.concat(mutantArr)
         }
     }
     //Conjunction to Disjunction
     else if(caller === "ConjDisj"){
-        if (option.checked){
-            if (option.mode === "indiv"){
-                let mutantArr = performIndividualMutations(textAndOpObj.realText,conjIndex,";",option.num)
-                result = result.concat(mutantArr)
-            } 
-            else if (option.mode === "summ"){
-                let mutantArr = performSummarilyMutations(textAndOpObj.realText,conjIndex)
-                result = result.concat(mutantArr)
-            }
+        if (opt.mode === "indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,conjIndex,";",opt.num)
+            result = result.concat(mutantArr)
+        } 
+        else if (opt.mode === "summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,conjIndex)
+            result = result.concat(mutantArr)
         }
     }
     return result;

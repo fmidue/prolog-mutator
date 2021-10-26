@@ -183,9 +183,11 @@ class ResultSection extends React.Component{
     performMutationOnOptions(solutionObj){
         var mutantObj = {}
         Object.entries(mutationReg.mutationRegistry).forEach(entry =>{
-            if(entry[1].enable){
+            var mutOptIndex = this.findMutationOptionIndex(entry[0])
+            var mutationOption = this.state.mutationOption[mutOptIndex] 
+            if(mutationOption.checked && entry[1].enable){
                 if (typeof entry[1].mutation === 'function'){
-                    let mutationResult = entry[1].mutation.call(this,solutionObj,this.state.mutationOption)
+                    let mutationResult = entry[1].mutation.call(this,solutionObj,mutationOption)
                     let mutationKey = entry[0]
                     mutantObj[mutationKey] = mutationResult
                 }

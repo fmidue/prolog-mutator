@@ -18,21 +18,14 @@ const transformationMap = {
     "=<":">"
 }
 function relOpMut(textAndOpObj,mode){
-    for(let i = 0; i < mode.length; i++){
-        if (mode[i].mutId === "RelOpMut"){
-            var option = mode[i]
-        }
-    }
     var result = []
-    if(option.checked){
-        //Individually Mode
-        if (option.mode === "indiv"){
-            let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators,option.num)
-            result = result.concat(mutantArr)
-        }else if(option.mode === "summ"){
-            let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators)
-            result = result.concat(mutantArr)
-        }
+    //Individually Mode
+    if (mode.mode === "indiv"){
+        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators,mode.num)
+        result = result.concat(mutantArr)
+    }else if(mode.mode === "summ"){
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators)
+        result = result.concat(mutantArr)
     }
     return result;
 }

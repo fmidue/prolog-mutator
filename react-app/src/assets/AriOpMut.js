@@ -8,20 +8,13 @@ const transformationMap = {
 }
 
 function ariOpMut(textAndOpObj,mode){
-    for(let i = 0; i < mode.length; i++){
-        if (mode[i].mutId === "AriOpMut"){
-            var option = mode[i]
-        }
-    }
     var result = []
-    if(option.checked){
-        if (option.mode==="indiv"){
-            let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,option.num)
-            result = result.concat(mutantArr)
-        }else if (option.mode==="summ"){
-            let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators)
-            result = result.concat(mutantArr)
-        }
+    if (mode.mode==="indiv"){
+        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,mode.num)
+        result = result.concat(mutantArr)
+    }else if (mode.mode==="summ"){
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators)
+        result = result.concat(mutantArr)
     }
     return result;
 }
