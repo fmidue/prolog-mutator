@@ -12,12 +12,8 @@ async function externalMutation(textFile,mode,endPoint){
         body: data
     })
     .then(res => res.json())
-    //.then(data=> console.log(data.result))
     .then(data => {resArr = data.result})
     .catch(e =>{console.log(e)})
-    //const json = await response.json();
-    //console.log("json",json)
-    console.log("resArr",resArr)
     return resArr
 }
 
