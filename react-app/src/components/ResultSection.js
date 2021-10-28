@@ -200,7 +200,6 @@ class ResultSection extends React.Component{
                         let mutationResult = await Object.entries(mutationReg.mutationRegistry)[i][1].mutation.call(this,file,mutationOption)
                         let mutationKey = Object.entries(mutationReg.mutationRegistry)[i][0]
                         mutantObj[mutationKey] = mutationResult
-                        console.log("mutRes",mutationResult)
                     }
                 }
             }
