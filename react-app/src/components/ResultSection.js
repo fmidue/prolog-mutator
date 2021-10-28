@@ -125,7 +125,7 @@ class ResultSection extends React.Component{
             showTableSpinner:true,
         })
         var solutionObj =  structParser.structParser(this.state.solutionStructure)
-        var mutRes = this.performMutationOnOptions(solutionObj);
+        var mutRes = await this.performMutationOnOptions(solutionObj);
         for (const [key, value] of Object.entries(mutRes)) {
             for (let i = 0; i < value.length; i++){
                 var blob = new Blob([value[i]], { type: 'text/plain' });
@@ -180,19 +180,31 @@ class ResultSection extends React.Component{
         return id;
     }
 
-    performMutationOnOptions(solutionObj){
+    async performMutationOnOptions(solutionObj){
         var mutantObj = {}
-        Object.entries(mutationReg.mutationRegistry).forEach(entry =>{
-            var mutOptIndex = this.findMutationOptionIndex(entry[0])
+        for(let i = 0; i < Object.entries(mutationReg.mutationRegistry).length; i++){
+            var mutOptIndex = this.findMutationOptionIndex(Object.entries(mutationReg.mutationRegistry)[i][0])
             var mutationOption = this.state.mutationOption[mutOptIndex] 
-            if(mutationOption.checked && entry[1].enable){
-                if (typeof entry[1].mutation === 'function'){
-                    let mutationResult = entry[1].mutation.call(this,solutionObj,mutationOption)
-                    let mutationKey = entry[0]
-                    mutantObj[mutationKey] = mutationResult
+            if(mutationOption.checked && Object.entries(mutationReg.mutationRegistry)[i][1].enable){
+                if(!Object.entries(mutationReg.mutationRegistry)[i][1].external){
+                    if (typeof Object.entries(mutationReg.mutationRegistry)[i][1].mutation === 'function'){
+                        let mutationResult = Object.entries(mutationReg.mutationRegistry)[i][1].mutation.call(this,solutionObj,mutationOption)
+                        let mutationKey = Object.entries(mutationReg.mutationRegistry)[i][0]
+                        mutantObj[mutationKey] = mutationResult
+                    }
+                    
+                }else{
+                    if (typeof Object.entries(mutationReg.mutationRegistry)[i][1].mutation === 'function'){
+                        var blob = new Blob([solutionObj.realText], { type: 'text/plain' });
+                        var file = new File([blob], `tempText.txt`, {type: "text/plain"});
+                        let mutationResult = await Object.entries(mutationReg.mutationRegistry)[i][1].mutation.call(this,file,mutationOption)
+                        let mutationKey = Object.entries(mutationReg.mutationRegistry)[i][0]
+                        mutantObj[mutationKey] = mutationResult
+                        console.log("mutRes",mutationResult)
+                    }
                 }
             }
-        })
+        }
         return mutantObj
     }
 
