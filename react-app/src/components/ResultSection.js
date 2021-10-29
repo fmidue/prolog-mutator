@@ -321,7 +321,7 @@ class ResultSection extends React.Component{
                                 <Form>
                                     <Form.Group controlId="configEditorArea">
                                         <Form.Label>This is your Configuration:</Form.Label>
-                                        <Form.Control as="textarea" value={this.state.configEditorValue} onChange={this.handleTextEditorChange}/>
+                                        <Form.Control as="textarea" value={this.state.configEditorValue} style={{height:500}} onChange={this.handleTextEditorChange}/>
                                     </Form.Group>
                                 </Form>
                             </Col>
@@ -329,7 +329,7 @@ class ResultSection extends React.Component{
                                 <Form>
                                     <Form.Group controlId="solutionEditorArea">
                                         <Form.Label>This is your Solution Code:</Form.Label>
-                                        <Form.Control as="textarea" value={this.state.solutionEditorValue} onChange={this.handleTextEditorChange}/>
+                                        <Form.Control as="textarea" value={this.state.solutionEditorValue} style={{height:500}} onChange={this.handleTextEditorChange}/>
                                     </Form.Group>
                                 </Form>
                             </Col>
