@@ -263,9 +263,13 @@ class ResultSection extends React.Component{
             tableReady:false,
             showTestingSpinner:true,
         })
+        var solutionObj =  structParser.structParser(this.state.solutionStructure)
+        console.log(solutionObj)
+        var blob = new Blob([solutionObj.realText], { type: 'text/plain' });
+        var file = new File([blob], `solutionParsed.txt`, {type: "text/plain"});
         const data = new FormData()
         data.append('config', this.state.configFile)
-        data.append('solution', this.state.solutionFile)
+        data.append('solution', file)
         fetch("http://localhost:8080/test-files", {
             method: "POST",
             body: data
