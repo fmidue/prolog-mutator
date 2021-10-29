@@ -27,16 +27,15 @@ class ResultSection extends React.Component{
                 })
             }
         }
-
+        //SolutionFile is used to send unparsed code to call external Mutations
         this.state={
             configLabel:"Upload your Config file here",
             configText:"",
             configFile:{},
             configEditorValue:"",
-
             solutionLabel:"Upload your Solution file here",
-            solutionText:"",
             solutionFile:{},
+            solutionFileParsed:{},
             solutionStructure:[],
             solutionEditorValue:"",
             
@@ -65,29 +64,19 @@ class ResultSection extends React.Component{
         this.insertTableItems = this.insertTableItems.bind(this);
         this.resetMutOptionState = this.resetMutOptionState.bind(this);
         this.findMutationOptionIndex = this.findMutationOptionIndex.bind(this);
+        this.saveEditorValue = this.saveEditorValue.bind(this);
     }
 
     handleUploadSolutionFile(e){
         if(e.target.files.length>0){
-            const data = new FormData()
-            data.append('pl-source', e.target.files[0])
-            fetch("http://localhost:8080/parse-file", {
-            method: "POST",
-            body: data
-            }).then(res => res.json())
-            .then(data => this.setState({
-                solutionStructure: data
-            }))
-            .catch(e =>{console.log(e)})
-
             this.setState({
                 solutionLabel:e.target.files[0].name,
-                solutionFile:e.target.files[0]
+                solutionFile:e.target.files[0],
+                solutionFileParsed: e.target.files[0]
             })
             var file = e.target.files[0];
             var reader = new FileReader();
             reader.onload = (e) =>{this.setState({
-                solutionText:e.target.result,
                 solutionEditorValue:e.target.result
             })}
             reader.readAsText(file)
@@ -255,7 +244,8 @@ class ResultSection extends React.Component{
         this.setState({mutationOption})
     }
 
-    handleTestSolutionClick(event){
+    async handleTestSolutionClick(e){
+        let id = e.target.id
         this.resetMutOptionState();
         this.setState({
             responseLoaded:false,
@@ -263,21 +253,58 @@ class ResultSection extends React.Component{
             tableReady:false,
             showTestingSpinner:true,
         })
-        var solutionObj =  structParser.structParser(this.state.solutionStructure)
-        console.log(solutionObj)
-        var blob = new Blob([solutionObj.realText], { type: 'text/plain' });
-        var file = new File([blob], `solutionParsed.txt`, {type: "text/plain"});
-        const data = new FormData()
-        data.append('config', this.state.configFile)
-        data.append('solution', file)
-        fetch("http://localhost:8080/test-files", {
+        // Initial Test
+        if(id === "parseAndTest"){
+            const data = new FormData()
+            data.append('pl-source', this.state.solutionFile)
+            await fetch("http://localhost:8080/parse-file", {
             method: "POST",
             body: data
+            }).then(res => res.json())
+            .then(data => this.setState({
+                solutionStructure: data
+            }))
+            .catch(e =>{console.log(e)})
+        }
+        // Testing after making changes to Editor
+        var solutionObj =  structParser.structParser(this.state.solutionStructure)
+        var blob = new Blob([solutionObj.realText], { type: 'text/plain' });
+        var file = new File([blob], `solutionParsed.prolog`, {type: "text/plain"});
+        const testData = new FormData()
+        testData.append('config', this.state.configFile)
+        testData.append('solution', file)
+        fetch("http://localhost:8080/test-files", {
+            method: "POST",
+            body: testData
         }).then(res => res.text())
-        .then(data => this.setState({
-            responseText: data,
+        .then(returnData => this.setState({
+            solutionFileParsed: file,
+            responseText: returnData,
             responseLoaded: true,
             showTestingSpinner:false,
+            solutionEditorValue:solutionObj.realText,
+        }))
+        .catch(e =>{console.log(e)})
+    }
+
+    async saveEditorValue(){
+        //Save Config
+        var configBlob = new Blob([this.state.configEditorValue], {type:'text/plain'})
+        var newConfigFile = new File([configBlob], 'customConfig.prolog',{type:'text/plain'})
+        
+        //Save Solution
+        var blob = new Blob([this.state.solutionEditorValue], { type: 'text/plain' });
+        var file = new File([blob], `solutionRaw.prolog`, {type: "text/plain"});
+        const data = new FormData()
+        data.append('pl-source', file)
+        await fetch("http://localhost:8080/parse-file", {
+        method: "POST",
+        body: data
+        }).then(res => res.json())
+        .then(data => this.setState({
+            solutionFile: file,
+            solutionStructure: data,
+            configFile:newConfigFile
         }))
         .catch(e =>{console.log(e)})
     }
@@ -308,7 +335,7 @@ class ResultSection extends React.Component{
                         </Row>
                     </Container>
                 </div>
-                <Button as="input" type="submit" value="Test Current Solution" className="my-3" onClick={this.handleTestSolutionClick} />{''}
+                <Button id="parseAndTest" as="input" type="submit" value="Test Current Solution" className="my-3" onClick={this.handleTestSolutionClick} />{''}
                 {this.state.showTestingSpinner &&
                 <LoadingSpinner/>}
                 {this.state.responseLoaded && 
@@ -334,6 +361,12 @@ class ResultSection extends React.Component{
                                 </Form>
                             </Col>
                         </Row>
+                        <Container>
+                        <Button as="input" type="submit" value="Save Changes" className="mb-3 mx-3" onClick={this.saveEditorValue}/>
+                        </Container>
+                        <Container>
+                        <Button id="testOnly" as="input" type="submit" value="Re-Test Changes" className="mb-3" onClick={this.handleTestSolutionClick}/>
+                        </Container>
                     </Container>
                 </div>}
 
