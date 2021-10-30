@@ -6,7 +6,7 @@ class ResultCard extends React.Component{
     render(){
         return(
             <div>
-                <Container className="small-container">
+                <Container>
                     <Card>
                         <Card.Body>{this.props.responseText}</Card.Body>
                     </Card>

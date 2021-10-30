@@ -339,7 +339,11 @@ class ResultSection extends React.Component{
                 {this.state.showTestingSpinner &&
                 <LoadingSpinner/>}
                 {this.state.responseLoaded && 
-                <ResultCard responseText={this.state.responseText}/>}
+                <div id="resultCard">
+                    <Container className="small-container">
+                        <ResultCard responseText={this.state.responseText}/>
+                    </Container>
+                </div>}
                 {this.state.responseLoaded && 
                 <div id="codeEditor">                   
                     <Container fluid className="mt-5">
@@ -395,7 +399,7 @@ class ResultSection extends React.Component{
                 <LoadingSpinner/>}
                 {this.state.tableReady &&
                 <ResultTable items={this.state.tableItems}/>}
-            </div>
+                </div>
             
         )
     }
