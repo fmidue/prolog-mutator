@@ -126,7 +126,7 @@ class ResultSection extends React.Component{
                     method: "POST",
                     body: data
                 
-                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,data,i))
+                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,value[i],data,i))
             }
         }
         this.setState({
@@ -135,7 +135,7 @@ class ResultSection extends React.Component{
         })
     }
     
-    insertTableItems(fname,ftype,result,i){
+    insertTableItems(fname,ftype,mutText,result,i){
         let fid = this.getItemID(ftype,i)
         let resultArr = this.state.tableItems
         let resLn = result.split('\n')
@@ -149,7 +149,9 @@ class ResultSection extends React.Component{
             id: fid,
             name:fname,
             type:ftype,
-            result:res
+            result:res,
+            resText:result,
+            mutCode:mutText,
         }
         resultArr.push(resultObj);
         this.setState({
@@ -398,8 +400,8 @@ class ResultSection extends React.Component{
                 {this.state.showTableSpinner &&
                 <LoadingSpinner/>}
                 {this.state.tableReady &&
-                <ResultTable items={this.state.tableItems}/>}
-                </div>
+                <ResultTable items={this.state.tableItems} configText={this.state.configEditorValue} configFile={this.state.configFile}/>}
+            </div>
             
         )
     }
