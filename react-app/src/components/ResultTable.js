@@ -1,11 +1,9 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, {selectFilter} from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import MutantCard from './MutantCard';
 
 const resultOptions ={
     0: 'OK',
@@ -46,31 +44,9 @@ const columns =[
 ];
 
 const expandRow = {
-    renderer: (row,rowIndex)=>(
-        <div id="mutantDetailCard">
-            <Container style={{color:"white"}}>
-                <Row>
-                    <Col sm={6}>
-                        <Form>
-                            <Form.Group controlId="">
-                                <Form.Control as="textarea" value={row.mutCode} style={{height:500}} />
-                            </Form.Group>
-                        </Form>
-                    </Col>
-                    <Col sm={6}>
-                        <Form.Group controlId="">
-                            <Form.Control as="textarea" value={row.resText} readOnly style={{height:500}} />
-                        </Form.Group>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+    renderer:(row,rowIndex)=>(
+        <MutantCard mutCode={row.mutCode} testRes={row.resText} configFile={row.configFile}/>
     ),
-    onExpand: (row, rowIndex, e) => {
-        console.log(row);
-        console.log(rowIndex);
-        console.log(e);
-      },
 }
 
 

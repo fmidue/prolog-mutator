@@ -126,7 +126,7 @@ class ResultSection extends React.Component{
                     method: "POST",
                     body: data
                 
-                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,value[i],data,i))
+                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,value[i],this.state.configFile,data,i))
             }
         }
         this.setState({
@@ -135,7 +135,7 @@ class ResultSection extends React.Component{
         })
     }
     
-    insertTableItems(fname,ftype,mutText,result,i){
+    insertTableItems(fname,ftype,mutText,configFile,result,i){
         let fid = this.getItemID(ftype,i)
         let resultArr = this.state.tableItems
         let resLn = result.split('\n')
@@ -152,6 +152,7 @@ class ResultSection extends React.Component{
             result:res,
             resText:result,
             mutCode:mutText,
+            configFile:configFile,
         }
         resultArr.push(resultObj);
         this.setState({
