@@ -43,11 +43,6 @@ const columns =[
     },
 ];
 
-const expandRow = {
-    renderer:(row,rowIndex)=>(
-        <MutantCard mutCode={row.mutCode} testRes={row.resText} configFile={row.configFile}/>
-    ),
-}
 
 
 const paginationOptions ={
@@ -63,8 +58,26 @@ const paginationOptions ={
 
 
 class ResultTable extends React.Component{
+    constructor(props){
+        super(props)
+        this.state={
+            configFile: this.props.configFile
+        }
+        this.updateMutCard = React.createRef()
+    }
+    updateConfigFile=(cfgFile) => {
+        this.setState({
+          configFile: cfgFile
+        });
+        this.updateMutCard.current.updateConfigFile(cfgFile)
+    }
     
     render(){
+        const expandRow = {
+            renderer:(row)=>(
+                <MutantCard mutCode={row.mutCode} testRes={row.resText} configFile={this.state.configFile} ref={this.updateMutCard}/>
+            ),
+        }
         return(
                 <Container>
                     <BootstrapTable keyField = 'id' data={this.props.items} columns={columns} expandRow={expandRow} filter={filterFactory()} bootstrap4={true} pagination={paginationFactory(paginationOptions)}/> 

@@ -52,7 +52,7 @@ class ResultSection extends React.Component{
             showTestingSpinner:false,
             showTableSpinner:false,
         }
-
+        
         this.handleMutButtonClick = this.handleMutButtonClick.bind(this);
         this.handleUploadSolutionFile = this.handleUploadSolutionFile.bind(this);
         this.handleUploadConfigFile = this.handleUploadConfigFile.bind(this);
@@ -65,6 +65,7 @@ class ResultSection extends React.Component{
         this.resetMutOptionState = this.resetMutOptionState.bind(this);
         this.findMutationOptionIndex = this.findMutationOptionIndex.bind(this);
         this.saveEditorValue = this.saveEditorValue.bind(this);
+        this.updateChildCfgFile = React.createRef()
     }
 
     handleUploadSolutionFile(e){
@@ -310,6 +311,9 @@ class ResultSection extends React.Component{
             configFile:newConfigFile
         }))
         .catch(e =>{console.log(e)})
+        if(this.state.tableReady){
+            this.updateChildCfgFile.current.updateConfigFile(newConfigFile);
+        }
     }
 
     render(){
@@ -401,7 +405,7 @@ class ResultSection extends React.Component{
                 {this.state.showTableSpinner &&
                 <LoadingSpinner/>}
                 {this.state.tableReady &&
-                <ResultTable items={this.state.tableItems} configText={this.state.configEditorValue} configFile={this.state.configFile}/>}
+                <ResultTable items={this.state.tableItems} configText={this.state.configEditorValue} configFile={this.state.configFile} ref={this.updateChildCfgFile} />}
             </div>
             
         )

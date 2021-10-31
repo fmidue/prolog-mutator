@@ -17,6 +17,12 @@ class MutantCard extends React.Component{
         this.handleTestMutant = this.handleTestMutant.bind(this)
     }
 
+    updateConfigFile=(cfgFile) => {
+        this.setState({
+          configFile: cfgFile
+        });
+    }
+
     handleMutantCodeChange(e){
         this.setState({mutantCode: e.target.value});
     }
