@@ -1,4 +1,5 @@
 const replM = require("./ReplicateM")
+const helper = require("./HelperFunctions")
 
 function predNegMut(textAndOpObj,mode){
     var result = [];
@@ -20,9 +21,9 @@ function performIndividualMutations(text,indexArr,numMutant){
     })
     
     if (indexArr.length < numMutant){
-        mutantArray = selectRandomResult(mutantArray,indexArr.length);
+        mutantArray = helper.selectRandomResult(mutantArray,indexArr.length);
     }else{
-        mutantArray = selectRandomResult(mutantArray,numMutant);
+        mutantArray = helper.selectRandomResult(mutantArray,numMutant);
     }
     return mutantArray;
 }
@@ -46,7 +47,7 @@ function performSummarilyMutations(text,indexArr){
             })
         }else{
             while (mutantArray.length < 1000){
-                let variationArr = generateRandomChar(numPred,[0,1])
+                let variationArr = helper.generateRandomChar(numPred,[0,1])
                 var mutIndexArr = []
                 for (var i =0; i < variationArr.length; i++){
                     if(variationArr[i]===1){
@@ -86,28 +87,7 @@ function negateSinglePredicate(text,indexArr){
     }
 }
 
-function generateRandomChar(size,charArr){
-    let returnArray = []
-    for (var i = 0; i < size ; i++){
-        let char = charArr[Math.floor(Math.random()*charArr.length)]
-        returnArray.push(char)
-    }
-    return returnArray;
-}
 
-function selectRandomResult(resArr,numMutant){
-    if (resArr.length === numMutant){
-        return resArr
-    }else{
-        var result = resArr
-        var diff = resArr.length - numMutant
-        for (var i = 0; i < diff; i++){
-            var elemIndex = Math.floor(Math.random() * (resArr.length-i))
-            result.splice(elemIndex,1)
-        }
-        return result
-    }
-}
 
 //const textAndOpObj33 = {
 //    realText: 'a(X) :- male(X),child(X,juliet).\n' +

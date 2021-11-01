@@ -4,6 +4,7 @@ const relationalOperators = ["\\=", "<", ">", "=", "=<", ">=", "=:=", "=\\=", "\
 const atomicRelOp = ["\\","=","<",">",":"]
 
 const replM = require("./ReplicateM")
+const helper = require("./HelperFunctions")
 
 const transformationMap = {
     "=":"\\=",
@@ -37,13 +38,13 @@ function performIndividualMutations(text,indexArr,numMutant){
         let newOpChar = transformationMap[operatorChar]
         let opCharLn = operatorChar.length
         let indexPair = [index,index+opCharLn]
-        let mutantText = replaceOpIndex(text,[indexPair],[newOpChar])
+        let mutantText = replaceRelOp(text,[indexPair],[newOpChar])
         mutantArray.push(mutantText);
     })
     if (indexArr.length < numMutant){
-        mutantArray = selectRandomResult(mutantArray,indexArr.length);
+        mutantArray = helper.selectRandomResult(mutantArray,indexArr.length);
     }else{
-        mutantArray = selectRandomResult(mutantArray,numMutant);
+        mutantArray = helper.selectRandomResult(mutantArray,numMutant);
     }
     return mutantArray;
 }
@@ -83,13 +84,13 @@ function performSummarilyMutations(text,indexArr){
                     }
                 }
                 if(mutateIndex.length > 0){
-                    mutantText = replaceOpIndex(mutantText,mutateIndex,newOpArr)
+                    mutantText = replaceRelOp(mutantText,mutateIndex,newOpArr)
                 }
                 mutantArray.push(mutantText)
             })
         }else{
             while (mutantArray.length < 1000){
-                let opElem = generateRandomChar(numOp,[0,1])
+                let opElem = helper.generateRandomChar(numOp,[0,1])
                 for(var i = 0; i < opElem.length ; i++){
                     var mutateIndex = []
                     var newOpArr = []
@@ -103,7 +104,7 @@ function performSummarilyMutations(text,indexArr){
                     }
                 }
                 if(mutateIndex.length > 0){
-                    var mutantText = replaceOpIndex(text,mutateIndex,newOpArr) 
+                    var mutantText = replaceRelOp(text,mutateIndex,newOpArr) 
                 }
                 
                 if(!mutantArray.includes(mutantText)){
@@ -115,23 +116,8 @@ function performSummarilyMutations(text,indexArr){
     return mutantArray;
 }
 
-//Remove some elements to make No of Result === numMutant
-function selectRandomResult(resArr,numMutant){
-    if (resArr.length === numMutant){
-        return resArr
-    }else{
-        var result = resArr
-        var diff = resArr.length - numMutant
-        for (var i = 0; i < diff; i++){
-            var elemIndex = Math.floor(Math.random() * (resArr.length-i))
-            result.splice(elemIndex,1)
-        }
-        return result
-    }
-}
-
 //Replace (text) at (index) with (newOp)
-function replaceOpIndex(text,indexArr,newOpArr) {
+function replaceRelOp(text,indexArr,newOpArr) {
     if(indexArr[0][0] > text.length-1){
         return text;
     } else{
@@ -151,15 +137,6 @@ function replaceOpIndex(text,indexArr,newOpArr) {
         }
         return returnText;
     }
-}
-
-function generateRandomChar(size,charArr){
-    let returnArray = []
-    for (var i = 0; i < size ; i++){
-        let char = charArr[Math.floor(Math.random()*charArr.length)]
-        returnArray.push(char)
-    }
-    return returnArray;
 }
 
 //const textAndOpObj33 = {
