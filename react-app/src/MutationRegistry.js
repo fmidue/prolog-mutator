@@ -9,6 +9,11 @@ const mutationRegistry = {
         name : "Conjunction to Disjunction",
         enable: true,
         external: false,
+        defaultOpt: {
+            checked: false,
+            mode:"indiv",
+            numMut: 0
+        },
         mutation: function (obj,mode){
             return disjConjMut.disjConjMut(obj,mode,"ConjDisj")
         },
@@ -17,6 +22,11 @@ const mutationRegistry = {
         name  : "Disjunction to Conjunction",
         enable: true,
         external: false,
+        defaultOpt: {
+            checked: false,
+            mode:"indiv",
+            numMut: 0
+        },
         mutation: function (obj,mode){
             return disjConjMut.disjConjMut(obj,mode,"DisjConj")
         },
@@ -25,6 +35,11 @@ const mutationRegistry = {
         name : "Relational Operator Mutation",
         enable: true,
         external: false,
+        defaultOpt: {
+            checked: false,
+            mode:"indiv",
+            numMut: 0
+        },
         mutation: function (obj,mode){
             return relOpMut.relOpMut(obj,mode)
         },
@@ -33,6 +48,11 @@ const mutationRegistry = {
         name : "Arithmetical Operator Mutation",
         enable: true,
         external: false,
+        defaultOpt: {
+            checked: false,
+            mode:"indiv",
+            numMut: 0
+        },
         mutation: function (obj,mode){
             return ariOpMut.ariOpMut(obj,mode)
         },
@@ -41,6 +61,11 @@ const mutationRegistry = {
         name : "Predicate Negation Mutation",
         enable: true,
         external: false,
+        defaultOpt: {
+            checked: false,
+            mode:"indiv",
+            numMut: 0
+        },
         mutation: function (obj,mode){
             return predNegMut.predNegMut(obj,mode)
         },
@@ -49,6 +74,11 @@ const mutationRegistry = {
         name : "Drop Clause Mutation",
         enable: true,
         external: true,
+        defaultOpt: {
+            checked: false,
+            mode:"indiv",
+            numMut: 0
+        },
         mutation: async function(file,mode){
             return await externalMutation.externalMutation(file,mode,"drop-clause-mutation")
         }

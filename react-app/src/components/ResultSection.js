@@ -21,9 +21,9 @@ class ResultSection extends React.Component{
                 optionArr.push({
                     mutId : Object.entries(mutationReg.mutationRegistry)[i][0],
                     name : Object.entries(mutationReg.mutationRegistry)[i][1].name,
-                    checked : false,
-                    mode: "indiv",
-                    num : 0,
+                    checked : Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.checked,
+                    mode: Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.mode,
+                    num : Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.numMut,
                 })
             }
         }
@@ -240,10 +240,14 @@ class ResultSection extends React.Component{
         let mutationOption = [...this.state.mutationOption];
         for (let i = 0; i < mutationOption.length; i++){
             let option = {...mutationOption[i]};
-            option.checked = false;
-            option.mode = "indiv";
-            option.num = 0;
-            mutationOption[i] = option
+            for (let j = 0; j < Object.entries(mutationReg.mutationRegistry).length;j++){
+                if (option.mutId === Object.entries(mutationReg.mutationRegistry)[i][0]){
+                    option.checked = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.checked;
+                    option.mode = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.mode;
+                    option.num = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.numMut;
+                    mutationOption[i] = option
+                }
+            }
         }
         this.setState({mutationOption})
     }
@@ -390,12 +394,13 @@ class ResultSection extends React.Component{
                             id= {mutation.mutId}
                             onChange = {this.handleCheckboxChange}
                             label={mutation.name}
+                            defaultChecked={mutation.checked}
                         />
                         <Form.Control name="mode" as="select" size="sm" id={mutation.mutId} value={mutation.mode} onChange={this.handleMutationModeChange}>
                             <option value="indiv">Individually</option>
                             <option value="summ">Summarily</option>
                         </Form.Control>
-                        <Form.Control name="num" id={mutation.mutId} type="text" size="sm" placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                        <Form.Control name="num" id={mutation.mutId} type="number" min="0" size="sm" value={mutation.num} placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
                     </Container>
                     </div>
                 ))}
