@@ -1,143 +1,3 @@
-//const testUnparse = [
-//    {
-//        "lhs": {
-//            "tag": "Struct",
-//            "contents": [
-//                "penultimate",
-//                [
-//                    {
-//                        "tag": "Struct",
-//                        "contents": [
-//                            ".",
-//                            [
-//                                {
-//                                    "tag": "Var",
-//                                    "contents": {
-//                                        "tag": "VariableName",
-//                                        "contents": [
-//                                            0,
-//                                            "X"
-//                                        ]
-//                                    }
-//                                },
-//                                {
-//                                    "tag": "Struct",
-//                                    "contents": [
-//                                        ".",
-//                                        [
-//                                            {
-//                                                "tag": "Var",
-//                                                "contents": {
-//                                                    "tag": "Wildcard",
-//                                                    "contents": null
-//                                                }
-//                                            },
-//                                            {
-//                                                "tag": "Struct",
-//                                                "contents": [
-//                                                    "[]",
-//                                                    []
-//                                                ]
-//                                            }
-//                                        ]
-//                                    ]
-//                                }
-//                            ]
-//                        ]
-//                    },
-//                    {
-//                        "tag": "Var",
-//                        "contents": {
-//                            "tag": "VariableName",
-//                            "contents": [
-//                                0,
-//                                "X"
-//                            ]
-//                        }
-//                    }
-//                ]
-//            ]
-//        },
-//        "rhs": []
-//    },
-//    {
-//        "lhs": {
-//            "tag": "Struct",
-//            "contents": [
-//                "penultimate",
-//                [
-//                    {
-//                        "tag": "Struct",
-//                        "contents": [
-//                            ".",
-//                            [
-//                                {
-//                                    "tag": "Var",
-//                                    "contents": {
-//                                        "tag": "Wildcard",
-//                                        "contents": null
-//                                    }
-//                                },
-//                                {
-//                                    "tag": "Var",
-//                                    "contents": {
-//                                        "tag": "VariableName",
-//                                        "contents": [
-//                                            0,
-//                                            "Xs"
-//                                        ]
-//                                    }
-//                                }
-//                            ]
-//                        ]
-//                    },
-//                    {
-//                        "tag": "Var",
-//                        "contents": {
-//                            "tag": "VariableName",
-//                            "contents": [
-//                                0,
-//                                "X"
-//                            ]
-//                        }
-//                    }
-//                ]
-//            ]
-//        },
-//        "rhs": [
-//            {
-//                "tag": "Struct",
-//                "contents": [
-//                    "penultimate",
-//                    [
-//                        {
-//                            "tag": "Var",
-//                            "contents": {
-//                                "tag": "VariableName",
-//                                "contents": [
-//                                    0,
-//                                    "Xs"
-//                                ]
-//                            }
-//                        },
-//                        {
-//                            "tag": "Var",
-//                            "contents": {
-//                                "tag": "VariableName",
-//                                "contents": [
-//                                    0,
-//                                    "X"
-//                                ]
-//                            }
-//                        }
-//                    ]
-//                ]
-//            }
-//        ]
-//    }
-//]
-
-
 const relationalOperators = ["\\=", "<", ">", "=", "=<", ">=", "=:=","=\\=", "\\==","=="]
 
 const arithmeticalOperators = ["+","-","*","/"]
@@ -374,21 +234,6 @@ function realIndexNoEscapeChar(index){
     return realIndex
 }
 
-//function removeEscapeChar(text,index){
-//    let returnText = ""
-//    for (var i = 0; i < index.length ; i++){
-//        if (i === 0){
-//            returnText += text.substring(0, index[i])
-//        }else if(i === index.length-1){
-//            returnText += text.substring(index[i-1]+1,index[i]+1)
-//            returnText += text.substring(index[i]+1,text.length)
-//        }else{
-//            returnText += text.substring(index[i-1]+1,index[i]+1)
-//        }
-//    }
-//    return returnText;
-//}
-
 function capturePredicates(text){
     var textChar = text.split('');
     var bracket = 0;
@@ -476,17 +321,8 @@ function structParser(obj){
     var predAndIndex = capturePredicates(textAndOperators.realText)
     textAndOperators["predicates"] = predAndIndex.predicates
     textAndOperators["predIndex"] = predAndIndex.predIndex
-    // Correctness Test
-    //textAndOperators.realIndex.forEach((x)=>{
-    //    console.log(x, ":", textAndOperators.realText.charAt(x))
-    //})
-    //console.log(textAndOperators.realText)
-    //console.log(textAndOperators.charPos)
-    //console.log(textAndOperators);
     return textAndOperators
 }
-
-//structParser(testUnparse)
 
 module.exports={
     structParser:structParser,
