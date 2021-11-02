@@ -70,17 +70,17 @@ function negateSinglePredicate(text,indexArr){
         return text;
     }else{
         if (indexArr.length === 1){
-            return text.substring(0,indexArr[0][0]) + "\\+ " + text.substring(indexArr[0][0],text.length)
+            return text.substring(0,indexArr[0][0]) + " \\+ " + text.substring(indexArr[0][0],text.length)
         }
         let returnText = ""
         for(var i = 0; i < indexArr.length ; i++){
             if (i === 0){
-                returnText += text.substring(0, indexArr[i][0]) + "\\+ "
+                returnText += text.substring(0, indexArr[i][0]) + " \\+ "
             }else if(i === indexArr.length-1){
-                returnText += text.substring(indexArr[i-1][0],indexArr[i][0]) + "\\+ "
+                returnText += text.substring(indexArr[i-1][0],indexArr[i][0]) + " \\+ "
                 returnText += text.substring(indexArr[i][0],text.length)
             }else{
-                returnText += text.substring(indexArr[i-1][0],indexArr[i][0]) + "\\+ "
+                returnText += text.substring(indexArr[i-1][0],indexArr[i][0]) + " \\+ "
             }
         }
         return returnText;
