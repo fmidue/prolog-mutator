@@ -14,7 +14,7 @@ function ariOpMut(textAndOpObj,mode){
         let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,mode.num)
         result = result.concat(mutantArr)
     }else if (mode.mode==="summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators)
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,mode.num)
         result = result.concat(mutantArr)
     }
     return result;
@@ -34,12 +34,12 @@ function performIndividualMutations(text,indexArr,numMutant){
     return mutantArray;
 }
 
-function performSummarilyMutations(text,indexArr){
+function performSummarilyMutations(text,indexArr,numMutant){
     let mutantArray = []
     let numOp = indexArr.length
     //Check for Mutant Amount. Max 1000
     if (numOp !== 0){
-        if (Math.pow(2,numOp) < 1000){
+        if (Math.pow(2,numOp) < numMutant){
             let opArr = replM.replicateM(numOp,[0,1],true) 
             opArr.forEach((x)=>{
                 var mutantText = text
@@ -52,7 +52,7 @@ function performSummarilyMutations(text,indexArr){
                 mutantArray.push(mutantText)
             })
         }else{
-            while (mutantArray.length < 1000){
+            while (mutantArray.length < numMutant){
                 let opElem = helper.generateRandomChar(numOp,[0,1])
                 var opCharArr = []
                 var mutIndexArr = []

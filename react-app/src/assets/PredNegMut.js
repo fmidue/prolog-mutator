@@ -7,7 +7,7 @@ function predNegMut(textAndOpObj,mode){
         let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, mode.num)
         result = result.concat(mutantArr)
     }else if (mode.mode==="summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex)
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex,mode.num)
         result = result.concat(mutantArr)
     }
     return result;
@@ -28,12 +28,12 @@ function performIndividualMutations(text,indexArr,numMutant){
     return mutantArray;
 }
 
-function performSummarilyMutations(text,indexArr){
+function performSummarilyMutations(text,indexArr,numMutant){
     let mutantArray = []
     let numPred = indexArr.length
     //Check for Mutant Amount. Max 1000
     if (numPred !== 0){
-        if (Math.pow(2,numPred) < 1000){
+        if (Math.pow(2,numPred) < numMutant){
             let variationArr = replM.replicateM(numPred,[0,1],true) 
             variationArr.forEach((x)=>{
                 var mutIndexArr = []
@@ -46,7 +46,7 @@ function performSummarilyMutations(text,indexArr){
                 mutantArray.push(mutantText)
             })
         }else{
-            while (mutantArray.length < 1000){
+            while (mutantArray.length < numMutant){
                 let variationArr = helper.generateRandomChar(numPred,[0,1])
                 var mutIndexArr = []
                 for (var i =0; i < variationArr.length; i++){
