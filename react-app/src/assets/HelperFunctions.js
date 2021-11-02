@@ -36,11 +36,28 @@ function selectRandomResult(resArr,numMutant){
 
 function generateRandomChar(size,charArr){
     let returnArray = []
-    for (var i = 0; i < size ; i++){
-        let char = charArr[Math.floor(Math.random()*charArr.length)]
-        returnArray.push(char)
+    var foundRes = false
+    while (foundRes === false){
+        returnArray = []
+        for (var i = 0; i < size ; i++){
+            let char = charArr[Math.floor(Math.random()*charArr.length)]
+            returnArray.push(char)
+        }
+        if (!checkZeros(returnArray)){
+            foundRes = true
+        }
     }
     return returnArray;
+}
+
+function checkZeros(arr){
+    var zeros = true
+    arr.forEach(x=>{
+        if (x !== 0){
+            zeros = false
+        }
+    })
+    return zeros
 }
 
 module.exports={

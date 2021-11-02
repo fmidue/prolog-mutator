@@ -34,7 +34,7 @@ function performSummarilyMutations(text,indexArr){
     //Check for Mutant Amount. Max 1000
     if (numPred !== 0){
         if (Math.pow(2,numPred) < 1000){
-            let variationArr = replM.replicateM(numPred,[0,1]) 
+            let variationArr = replM.replicateM(numPred,[0,1],true) 
             variationArr.forEach((x)=>{
                 var mutIndexArr = []
                 for (var i = 0; i < numPred; i++){

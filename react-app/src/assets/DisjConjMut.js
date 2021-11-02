@@ -61,13 +61,15 @@ function performSummarilyMutations(text,indexArr){
     //Check for Mutant Amount. Max 1000
     if (numOp !== 0){
         if (Math.pow(2,numOp) < 1000){
-            let opArr = replM.replicateM(numOp,[",",";"]) 
+            let opArr = replM.replicateM(numOp,[",",";"],false) 
             opArr.forEach((x)=>{
                 var mutantText = text
                 for (var i = 0; i < numOp; i++){
                     mutantText = helper.replaceOpIndex(mutantText,[indexArr[i]],[x[i]])
                 }
-                mutantArray.push(mutantText)
+                if(mutantText !== text){
+                    mutantArray.push(mutantText)
+                }
             })
         }else{
             while (mutantArray.length < 1000){

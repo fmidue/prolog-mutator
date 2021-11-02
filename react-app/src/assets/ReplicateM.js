@@ -18,8 +18,33 @@ const sequence = list => list.reduce(liftA2)
 const replicate = (n, x) =>
   n === 0 ? [] : [x, ...replicate(n - 1, x)]
 
-const replicateM = (n, x) => sequence(replicate(n, x))
+const replicateM = (n, x, bin) => {
+  var tempRes = sequence(replicate(n, x))
+  if (bin){
+    var res = removeZeros(tempRes)
+    return res
+  }
+  return tempRes
+}
 
+function removeZeros(arr){
+  arr.forEach((x,index)=>{
+    var remove = true;
+    if (Array.isArray(x)){
+      x.forEach(char=>{
+        if (char !== 0){
+          remove = false
+        }
+      })
+    }
+    if (remove){
+      arr.splice(index,1)
+    }
+  })
+  return arr
+}
+
+console.log(replicateM(3,[0,1],true))
 
 module.exports ={
     replicateM:replicateM
