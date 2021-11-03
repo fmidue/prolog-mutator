@@ -4,7 +4,7 @@ const helper = require("./HelperFunctions")
 function predNegMut(textAndOpObj,mode){
     var result = [];
     if (mode.mode==="indiv"){
-        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, mode.num)
+        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, textAndOpObj.predicates, mode.num)
         result = result.concat(mutantArr)
     }else if (mode.mode==="summ"){
         let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex,mode.num)
@@ -13,10 +13,14 @@ function predNegMut(textAndOpObj,mode){
     return result;
 }
 
-function performIndividualMutations(text,indexArr,numMutant){
+function performIndividualMutations(text,indexArr,predicates,numMutant){
     let mutantArray = []
-    indexArr.forEach(index=>{
-        let mutantText = negateSinglePredicate(text,[index])
+    indexArr.forEach((indexPair,i)=>{
+        let negationExist = false
+        if(predicates[i].includes("\\+")){
+            negationExist = true
+        }
+        let mutantText = negateSinglePredicate(text,[indexPair],negationExist)
         mutantArray.push(mutantText);
     })
     
@@ -64,13 +68,14 @@ function performSummarilyMutations(text,indexArr,numMutant){
     return mutantArray;
 }
 
-function negateSinglePredicate(text,indexArr){
-    
-    if (indexArr[0] > text.length-1 ||indexArr.length === 0 ){
+function negateSinglePredicate(text,indexArr,negExist){
+    if (indexArr[0][0] > text.length-1 ||indexArr.length === 0 ){
         return text;
     }else{
-        if (indexArr.length === 1){
+        if (indexArr.length === 1 && !negExist){
             return text.substring(0,indexArr[0][0]) + " \\+ " + text.substring(indexArr[0][0],text.length)
+        } else if (indexArr.length === 1 && negExist){
+            return text.substring(0,indexArr[0][0]) + text.substring(indexArr[0][0]+2,text.length)
         }
         let returnText = ""
         for(var i = 0; i < indexArr.length ; i++){
