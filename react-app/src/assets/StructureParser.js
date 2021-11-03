@@ -4,6 +4,8 @@ const arithmeticalOperators = ["+","-","*","/"]
 
 const disjConjOperators = [";" , ","]
 
+const negationOperator = ["\\+"]
+
 const alph = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 
 function unparseVar(obj){
@@ -65,6 +67,9 @@ function getVariable(varArr){
         }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1],obj.contents[0],false)
             variableText += opParsed + ","
+        }else if (negationOperator.includes(obj.contents[0])&& Array.isArray(obj.contents[1])){
+            let pred = parseNegation(obj.contents[1])
+            variableText += pred + ","
         }
     })
     //remove last comma and add closing bracket
@@ -102,6 +107,9 @@ function parseDisjConj(objArr,operator,fromdisjconj){
         } else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1],obj.contents[0],true)
             textDisj += opParsed + "~" + operator + "~"
+        } else if (negationOperator.includes(obj.contents[0])&& Array.isArray(obj.contents[1])){
+            let pred = parseNegation(obj.contents[1])
+            textDisj += pred + "~" + operator + "~"
         }
     })
     if (fromdisjconj){
@@ -125,6 +133,9 @@ function parseOperator(objArr,operator,fromstructure){
         }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
             let opParsed = parseOperator(obj.contents[1],obj.contents[0],true)
             opText += opParsed + "~" +  operator + "~"
+        }else if (negationOperator.includes(obj.contents[0])&& Array.isArray(obj.contents[1])){
+            let pred = parseNegation(obj.contents[1])
+            opText += pred + "~" + operator + "~"
         }
     })
     const operatorLn = operator.length + 2
@@ -135,6 +146,17 @@ function parseOperator(objArr,operator,fromstructure){
         returnText = opText.slice(0,-operatorLn)
     }
     return returnText
+}
+
+function parseNegation(objArr){
+    let pred = "\\+"
+    objArr.forEach(obj=>{
+        if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi)&& Array.isArray(obj.contents[1])){
+            let variableParsed = getVariable(obj.contents[1])
+            pred += obj.contents[0] + variableParsed
+        }
+    })
+    return pred;
 }
 
 function parseRhs(rhs){
@@ -171,6 +193,9 @@ function parseRhs(rhs){
             }else if (arithmeticalOperators.includes(obj.contents[0]) && Array.isArray(obj.contents[1])){
                 let opParsed = parseOperator(obj.contents[1],obj.contents[0],false)
                 rhsText += opParsed  + "~,~"
+            }else if (negationOperator.includes(obj.contents[0])&& Array.isArray(obj.contents[1])){
+                let pred = parseNegation(obj.contents[1])
+                rhsText += pred + "~,~"
             }
         })
         
@@ -247,9 +272,16 @@ function capturePredicates(text){
 
     for (var i = 0; i< textChar.length; i++){
         if(startCapturing === false){
+            //Starts without negation
             if (alph.includes(textChar[i])){
                 startCapturing = true;
                 predicate += textChar[i]
+            }
+            //Capture if it starts with Negation
+            else if (textChar[i] === "\\" && textChar[i+1] === "+"){
+                startCapturing = true
+                predicate += textChar[i] + textChar[i+1]
+                i += 1;
             }
         }else if(startCapturing === true){
             if (bracket === 0){
