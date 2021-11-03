@@ -149,7 +149,7 @@ function parseOperator(objArr,operator,fromstructure){
 }
 
 function parseNegation(objArr){
-    let pred = "\\+"
+    let pred = " \\+"
     objArr.forEach(obj=>{
         if (obj.tag === "Struct" && obj.contents[0].match(/[a-z]+/gi)&& Array.isArray(obj.contents[1])){
             let variableParsed = getVariable(obj.contents[1])
