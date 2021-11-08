@@ -61,7 +61,8 @@ class ResultTable extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            configFile: this.props.configFile
+            configFile: this.props.configFile,
+            expanded : []
         }
         this.updateMutCard = React.createRef()
     }
@@ -69,7 +70,21 @@ class ResultTable extends React.Component{
         this.setState({
           configFile: cfgFile
         });
-        this.updateMutCard.current.updateConfigFile(cfgFile)
+        if(this.state.expanded.length > 0){
+            this.updateMutCard.current.updateConfigFile(cfgFile)
+        }
+    }
+
+    handleOnExpand = (row, isExpand, rowIndex, e) =>{
+        if (isExpand){
+            this.setState(()=>({
+                expanded : [...this.state.expanded,row.id]
+            }));
+        }else{
+            this.setState(()=>({
+                expanded: this.state.expanded.filter(x=> x!== row.id)
+            }));
+        }
     }
     
     render(){
@@ -77,6 +92,8 @@ class ResultTable extends React.Component{
             renderer:(row)=>(
                 <MutantCard mutCode={row.mutCode} testRes={row.resText} configFile={this.state.configFile} ref={this.updateMutCard}/>
             ),
+            expanded: this.state.expanded,
+            onExpand: this.handleOnExpand
         }
         return(
                 <Container>
