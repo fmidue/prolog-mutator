@@ -61,6 +61,7 @@ class ResultTable extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            oriCode: this.props.oriCode,
             configFile: this.props.configFile,
             expanded : []
         }
@@ -90,7 +91,7 @@ class ResultTable extends React.Component{
     render(){
         const expandRow = {
             renderer:(row)=>(
-                <MutantCard mutCode={row.mutCode} testRes={row.resText} configFile={this.state.configFile} ref={this.updateMutCard}/>
+                <MutantCard mutCode={row.mutCode} oriCode={this.state.oriCode} testRes={row.resText} configFile={this.state.configFile} ref={this.updateMutCard}/>
             ),
             expanded: this.state.expanded,
             onExpand: this.handleOnExpand

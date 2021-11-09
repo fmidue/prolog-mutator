@@ -4,11 +4,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
+import DiffView from './DiffView';
 
 class MutantCard extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            oriCode : this.props.oriCode,
             mutantCode : this.props.mutCode,
             testResult : this.props.testRes,
             configFile : this.props.configFile,
@@ -47,6 +49,7 @@ class MutantCard extends React.Component{
     render(){
         return(
         <div id="mutantDetailCard">
+            <DiffView oldStr={this.state.oriCode} newStr={this.state.mutantCode}/>
             <Container style={{color:"white"}}>
                 <Row>
                     <Col sm={6}>

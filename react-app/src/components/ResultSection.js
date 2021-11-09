@@ -410,7 +410,7 @@ class ResultSection extends React.Component{
                 {this.state.showTableSpinner &&
                 <LoadingSpinner/>}
                 {this.state.tableReady &&
-                <ResultTable items={this.state.tableItems} configText={this.state.configEditorValue} configFile={this.state.configFile} ref={this.updateChildCfgFile} />}
+                <ResultTable items={this.state.tableItems} configText={this.state.configEditorValue} oriCode={this.state.solutionEditorValue} configFile={this.state.configFile} ref={this.updateChildCfgFile} />}
             </div>
             
         )
