@@ -58,3 +58,11 @@
 .card {
   color:black;
 }
+
+.table.diff.diff-split{
+  border: none !important;
+}
+
+.diff-gutter-col {
+  width: 2ch;
+}
