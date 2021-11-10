@@ -90,9 +90,9 @@ function performSummarilyMutations(text,indexArr,numMutant){
         }else{
             while (mutantArray.length < numMutant){
                 let opElem = helper.generateRandomChar(numOp,[0,1])
+                var mutateIndex = []
+                var newOpArr = []
                 for(var i = 0; i < opElem.length ; i++){
-                    var mutateIndex = []
-                    var newOpArr = []
                     if (opElem[i]===1){
                         var operatorChar = getCompleteOperator(text,indexArr[i])
                         var newOpChar = transformationMap[operatorChar]
