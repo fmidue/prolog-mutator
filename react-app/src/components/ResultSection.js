@@ -127,7 +127,7 @@ class ResultSection extends React.Component{
                     method: "POST",
                     body: data
                 
-                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,value[i],this.state.configFile,data,i))
+                }).then(res => res.text()).then(data => this.insertTableItems(`${key}${i}`,key,value[i],this.state.configFile,data,i)).catch(e=>console.log(e))
             }
         }
         this.setState({
