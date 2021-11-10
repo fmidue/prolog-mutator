@@ -1,6 +1,6 @@
 import {tokenize, markEdits} from 'react-diff-view';
 
-export default (hunks) => {
+const TokenizeF = (hunks) => {
     if (!hunks) {
         return undefined;
     }
@@ -16,3 +16,5 @@ export default (hunks) => {
         return undefined;
     }
 };
+
+export default TokenizeF;
