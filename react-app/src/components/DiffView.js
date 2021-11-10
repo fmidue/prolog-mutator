@@ -43,19 +43,12 @@ function DiffView (props){
     console.log(diff)
     return (
         <div style={{color:"black"}}>
-            <Container className = "bt-5 bb-3"style={{backgroundColor:"gray"}}>
-                <Row>
-                    <Col>
-                    <p style={{color:"black"}}><b>Original Code</b></p>
-                    </Col>
-                    <Col>
-                    <p style={{color:"black"}}><b>Mutant Code</b></p>
-                    </Col>
-                </Row>
+            <Container className = "bt-5"style={{backgroundColor:"white"}}>
+                <p style={{color:"black", marginBottom:0,borderBottom:"solid"}}><b>Code Diff</b></p>
             </Container>
             <Container className="mb-3" style={{backgroundColor:"white"}}>
                 <Diff
-                    viewType="split"
+                    viewType="unified"
                     diffType={type}
                     hunks={hunks || EMPTY_HUNKS}
                     tokens={tokens}

@@ -66,3 +66,28 @@
 .diff-gutter-col {
   width: 2ch;
 }
+
+.diff td {
+  vertical-align: top !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding: 0.5rem !important;
+  border: none !important;
+  text-align: left;
+}
+
+.diff-line {
+  line-height: 1 !important;
+  font-family: Consolas,Courier,monospace;
+  font-family: var(--diff-font-family);
+  font-size: 80% !important;
+}
+
+.diff-gutter-col {
+  width: 5ch !important;
+}
+
+.container{
+  padding-left:0 !important;
+  padding-right:0 !important;
+}
