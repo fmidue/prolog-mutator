@@ -22,7 +22,7 @@ class ResultSection extends React.Component{
                     mutId : Object.entries(mutationReg.mutationRegistry)[i][0],
                     name : Object.entries(mutationReg.mutationRegistry)[i][1].name,
                     checked : Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.checked,
-                    mode: Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.mode,
+                    mode: Object.entries(mutationReg.mutationRegistry)[i][1].mode,
                     num : Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.numMut,
                 })
             }
@@ -52,7 +52,6 @@ class ResultSection extends React.Component{
             showTestingSpinner:false,
             showTableSpinner:false,
         }
-        
         this.handleMutButtonClick = this.handleMutButtonClick.bind(this);
         this.handleUploadSolutionFile = this.handleUploadSolutionFile.bind(this);
         this.handleUploadConfigFile = this.handleUploadConfigFile.bind(this);
@@ -243,7 +242,7 @@ class ResultSection extends React.Component{
             for (let j = 0; j < Object.entries(mutationReg.mutationRegistry).length;j++){
                 if (option.mutId === Object.entries(mutationReg.mutationRegistry)[i][0]){
                     option.checked = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.checked;
-                    option.mode = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.mode;
+                    option.mode = Object.entries(mutationReg.mutationRegistry)[i][1].mode;
                     option.num = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.numMut;
                     mutationOption[i] = option
                 }
@@ -254,7 +253,9 @@ class ResultSection extends React.Component{
 
     async handleTestSolutionClick(e){
         let id = e.target.id
+        console.log("beforeReset",this.state.mutationOption)
         this.resetMutOptionState();
+        console.log("afterReset",this.state.mutationOption)
         this.setState({
             responseLoaded:false,
             tableItems: [],
@@ -396,10 +397,6 @@ class ResultSection extends React.Component{
                             label={mutation.name}
                             defaultChecked={mutation.checked}
                         />
-                        <Form.Control name="mode" as="select" size="sm" id={mutation.mutId} value={mutation.mode} onChange={this.handleMutationModeChange}>
-                            <option value="indiv">Individually</option>
-                            <option value="summ">Summarily</option>
-                        </Form.Control>
                         <Form.Control name="num" id={mutation.mutId} type="number" min="0" size="sm" value={mutation.num} placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
                     </Container>
                     </div>
