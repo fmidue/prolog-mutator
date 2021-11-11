@@ -1,13 +1,13 @@
 const replM = require("./ReplicateM")
 const helper = require("./HelperFunctions")
 
-function predNegMut(textAndOpObj,mode){
+function predNegMut(textAndOpObj,mode,num){
     var result = [];
-    if (mode.mode==="indiv"){
-        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, textAndOpObj.predicates, mode.num)
+    if (mode==="indiv"){
+        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.predIndex, textAndOpObj.predicates,num)
         result = result.concat(mutantArr)
-    }else if (mode.mode==="summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex,textAndOpObj.predicates,mode.num)
+    }else if (mode==="summ"){
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.predIndex,textAndOpObj.predicates,num)
         result = result.concat(mutantArr)
     }
     return result;

@@ -1,7 +1,7 @@
 const replM = require("./ReplicateM")
 const helper = require("./HelperFunctions")
 
-function disjConjMut(textAndOpObj,opt,caller){
+function disjConjMut(textAndOpObj,mode,num,caller){
     var disjIndex = []
     var conjIndex = []
     var result = []
@@ -19,22 +19,22 @@ function disjConjMut(textAndOpObj,opt,caller){
     
     //Disjunction to Conjunction
     if (caller === "DisjConj"){
-        if(opt.mode === "indiv"){
-            let mutantArr = performIndividualMutations(textAndOpObj.realText,disjIndex,",",opt.num)
+        if(mode === "indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,disjIndex,",",num)
             result = result.concat(mutantArr)
-        } else if (opt.mode === "summ"){
-            let mutantArr = performSummarilyMutations(textAndOpObj.realText,disjIndex,opt.num)
+        } else if (mode === "summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,disjIndex,num)
             result = result.concat(mutantArr)
         }
     }
     //Conjunction to Disjunction
     else if(caller === "ConjDisj"){
-        if (opt.mode === "indiv"){
-            let mutantArr = performIndividualMutations(textAndOpObj.realText,conjIndex,";",opt.num)
+        if (mode === "indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,conjIndex,";",num)
             result = result.concat(mutantArr)
         } 
-        else if (opt.mode === "summ"){
-            let mutantArr = performSummarilyMutations(textAndOpObj.realText,conjIndex,opt.num)
+        else if (mode === "summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,conjIndex,num)
             result = result.concat(mutantArr)
         }
     }

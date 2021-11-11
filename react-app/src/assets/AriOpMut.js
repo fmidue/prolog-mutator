@@ -8,13 +8,13 @@ const transformationMap = {
     "/" : "-",
 }
 
-function ariOpMut(textAndOpObj,mode){
+function ariOpMut(textAndOpObj,mode,num){
     var result = []
-    if (mode.mode==="indiv"){
-        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,mode.num)
+    if (mode==="indiv"){
+        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,num)
         result = result.concat(mutantArr)
-    }else if (mode.mode==="summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,mode.num)
+    }else if (mode==="summ"){
+        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,num)
         result = result.concat(mutantArr)
     }
     return result;
