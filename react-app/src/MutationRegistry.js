@@ -13,8 +13,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,opt){
-            return disjConjMut.disjConjMut(obj,"indiv",opt,"ConjDisj")
+        mutation: function (obj,num){
+            return disjConjMut.disjConjMut(obj,"indiv",num,"ConjDisj")
         },
     },
     ConjDisjMutSumm:{
@@ -25,8 +25,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,opt){
-            return disjConjMut.disjConjMut(obj,"summ",opt,"ConjDisj")
+        mutation: function (obj,num){
+            return disjConjMut.disjConjMut(obj,"summ",num,"ConjDisj")
         },
     },
     DisjConjMutIndiv:{
@@ -37,8 +37,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,opt){
-            return disjConjMut.disjConjMut(obj,"indiv",opt,"DisjConj")
+        mutation: function (obj,num){
+            return disjConjMut.disjConjMut(obj,"indiv",num,"DisjConj")
         },
     },
     DisjConjMutSumm:{
@@ -49,8 +49,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,opt){
-            return disjConjMut.disjConjMut(obj,"summ",opt,"DisjConj")
+        mutation: function (obj,num){
+            return disjConjMut.disjConjMut(obj,"summ",num,"DisjConj")
         },
     },
     RelOpMutIndiv:{
@@ -61,8 +61,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,opt){
-            return relOpMut.relOpMut(obj,"indiv",opt)
+        mutation: function (obj,num){
+            return relOpMut.relOpMut(obj,"indiv",num)
         },
     },
     RelOpMutSumm:{
@@ -73,8 +73,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,opt){
-            return relOpMut.relOpMut(obj,"summ",opt)
+        mutation: function (obj,num){
+            return relOpMut.relOpMut(obj,"summ",num)
         },
     },
     AriOpMutIndiv:{
@@ -85,8 +85,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,opt){
-            return ariOpMut.ariOpMut(obj,"indiv",opt)
+        mutation: function (obj,num){
+            return ariOpMut.ariOpMut(obj,"indiv",num)
         },
     },
     AriOpMutSumm:{
@@ -97,8 +97,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,opt){
-            return ariOpMut.ariOpMut(obj,"summ",opt)
+        mutation: function (obj,num){
+            return ariOpMut.ariOpMut(obj,"summ",num)
         },
     },
     PredNegMutIndiv:{
@@ -109,8 +109,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,opt){
-            return predNegMut.predNegMut(obj,"indiv",opt)
+        mutation: function (obj,num){
+            return predNegMut.predNegMut(obj,"indiv",num)
         },
     },
     PredNegMutSumm:{
@@ -121,8 +121,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,opt){
-            return predNegMut.predNegMut(obj,"summ",opt)
+        mutation: function (obj,num){
+            return predNegMut.predNegMut(obj,"summ",num)
         },
     },
     DropClauseMutationIndiv:{
@@ -133,8 +133,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 10
         },
-        mutation: async function(file,opt){
-            return await externalMutation.externalMutation(file,opt,"drop-clause-mutation/indiv")
+        mutation: async function(file,num){
+            return await externalMutation.externalMutation(file,num,"drop-clause-mutation/indiv")
         }
     },
     DropClauseMutationSumm:{
@@ -145,8 +145,8 @@ const mutationRegistry = {
             checked: true,
             numMut: 1000
         },
-        mutation: async function(file,opt){
-            return await externalMutation.externalMutation(file,opt,"drop-clause-mutation/summ")
+        mutation: async function(file,num){
+            return await externalMutation.externalMutation(file,num,"drop-clause-mutation/summ")
         }
     },
 }
