@@ -9,156 +9,144 @@ const mutationRegistry = {
         name : "[Individual]Conjunction to Disjunction",
         enable: true,
         external: false,
-        mode: "indiv",
         defaultOpt: {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,mode){
-            return disjConjMut.disjConjMut(obj,mode,"ConjDisj")
+        mutation: function (obj,opt){
+            return disjConjMut.disjConjMut(obj,"indiv",opt,"ConjDisj")
         },
     },
     ConjDisjMutSumm:{
         name : "[Summary]Conjunction to Disjunction",
         enable: true,
         external: false,
-        mode: "summ",
         defaultOpt: {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,mode){
-            return disjConjMut.disjConjMut(obj,mode,"ConjDisj")
+        mutation: function (obj,opt){
+            return disjConjMut.disjConjMut(obj,"summ",opt,"ConjDisj")
         },
     },
     DisjConjMutIndiv:{
         name  : "[Individual]Disjunction to Conjunction",
         enable: true,
         external: false,
-        mode: "indiv",
         defaultOpt: {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,mode){
-            return disjConjMut.disjConjMut(obj,mode,"DisjConj")
+        mutation: function (obj,opt){
+            return disjConjMut.disjConjMut(obj,"indiv",opt,"DisjConj")
         },
     },
     DisjConjMutSumm:{
         name  : "[Summary]Disjunction to Conjunction",
         enable: true,
         external: false,
-        mode: "summ",
         defaultOpt: {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,mode){
-            return disjConjMut.disjConjMut(obj,mode,"DisjConj")
+        mutation: function (obj,opt){
+            return disjConjMut.disjConjMut(obj,"summ",opt,"DisjConj")
         },
     },
     RelOpMutIndiv:{
         name : "[Individual]Relational Operator Mutation",
         enable: true,
         external: false,
-        mode:"indiv",
         defaultOpt: {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,mode){
-            return relOpMut.relOpMut(obj,mode)
+        mutation: function (obj,opt){
+            return relOpMut.relOpMut(obj,"indiv",opt)
         },
     },
     RelOpMutSumm:{
         name : "[Summary]Relational Operator Mutation",
         enable: true,
         external: false,
-        mode:"summ",
         defaultOpt: {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,mode){
-            return relOpMut.relOpMut(obj,mode)
+        mutation: function (obj,opt){
+            return relOpMut.relOpMut(obj,"summ",opt)
         },
     },
     AriOpMutIndiv:{
         name : "[Individual]Arithmetical Operator Mutation",
         enable: true,
         external: false,
-        mode: "indiv",
         defaultOpt: {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,mode){
-            return ariOpMut.ariOpMut(obj,mode)
+        mutation: function (obj,opt){
+            return ariOpMut.ariOpMut(obj,"indiv",opt)
         },
     },
     AriOpMutSumm:{
         name : "[Summary]Arithmetical Operator Mutation",
         enable: true,
         external: false,
-        mode: "summ",
         defaultOpt: {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,mode){
-            return ariOpMut.ariOpMut(obj,mode)
+        mutation: function (obj,opt){
+            return ariOpMut.ariOpMut(obj,"summ",opt)
         },
     },
     PredNegMutIndiv:{
         name : "[Individual]Predicate Negation Mutation",
         enable: true,
         external: false,
-        mode:"indiv",
         defaultOpt: {
             checked: true,
             numMut: 10
         },
-        mutation: function (obj,mode){
-            return predNegMut.predNegMut(obj,mode)
+        mutation: function (obj,opt){
+            return predNegMut.predNegMut(obj,"indiv",opt)
         },
     },
     PredNegMutSumm:{
         name : "[Summary]Predicate Negation Mutation",
         enable: true,
         external: false,
-        mode:"summ",
         defaultOpt: {
             checked: true,
             numMut: 1000
         },
-        mutation: function (obj,mode){
-            return predNegMut.predNegMut(obj,mode)
+        mutation: function (obj,opt){
+            return predNegMut.predNegMut(obj,"summ",opt)
         },
     },
     DropClauseMutationIndiv:{
         name : "[Individual]Drop Clause Mutation",
         enable: true,
         external: true,
-        mode:"indiv",
         defaultOpt: {
             checked: true,
             numMut: 10
         },
-        mutation: async function(file,mode){
-            return await externalMutation.externalMutation(file,mode,"drop-clause-mutation")
+        mutation: async function(file,opt){
+            return await externalMutation.externalMutation(file,"indiv",opt,"drop-clause-mutation")
         }
     },
     DropClauseMutationSumm:{
         name : "[Summary]Drop Clause Mutation",
         enable: true,
         external: true,
-        mode:"summ",
         defaultOpt: {
             checked: true,
             numMut: 1000
         },
-        mutation: async function(file,mode){
-            return await externalMutation.externalMutation(file,mode,"drop-clause-mutation")
+        mutation: async function(file,opt){
+            return await externalMutation.externalMutation(file,"summ",opt,"drop-clause-mutation")
         }
     },
 }

@@ -22,7 +22,6 @@ class ResultSection extends React.Component{
                     mutId : Object.entries(mutationReg.mutationRegistry)[i][0],
                     name : Object.entries(mutationReg.mutationRegistry)[i][1].name,
                     checked : Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.checked,
-                    mode: Object.entries(mutationReg.mutationRegistry)[i][1].mode,
                     num : Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.numMut,
                 })
             }
@@ -57,7 +56,7 @@ class ResultSection extends React.Component{
         this.handleUploadConfigFile = this.handleUploadConfigFile.bind(this);
         this.handleTextEditorChange = this.handleTextEditorChange.bind(this);
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleMutationModeChange = this.handleMutationModeChange.bind(this);
+        this.handleMutantNumChange = this.handleMutantNumChange.bind(this);
         this.performMutationOnOptions = this.performMutationOnOptions.bind(this);
         this.handleTestSolutionClick = this.handleTestSolutionClick.bind(this);
         this.insertTableItems = this.insertTableItems.bind(this);
@@ -209,7 +208,7 @@ class ResultSection extends React.Component{
         })
     }
 
-    handleMutationModeChange(event){
+    handleMutantNumChange(event){
         const target = event.target
         const name = target.name
         const id = target.id
@@ -242,7 +241,6 @@ class ResultSection extends React.Component{
             for (let j = 0; j < Object.entries(mutationReg.mutationRegistry).length;j++){
                 if (option.mutId === Object.entries(mutationReg.mutationRegistry)[i][0]){
                     option.checked = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.checked;
-                    option.mode = Object.entries(mutationReg.mutationRegistry)[i][1].mode;
                     option.num = Object.entries(mutationReg.mutationRegistry)[i][1].defaultOpt.numMut;
                     mutationOption[i] = option
                 }
@@ -397,7 +395,7 @@ class ResultSection extends React.Component{
                             label={mutation.name}
                             defaultChecked={mutation.checked}
                         />
-                        <Form.Control name="num" id={mutation.mutId} type="number" min="0" size="sm" value={mutation.num} placeholder="# Mutants" onChange={this.handleMutationModeChange}/>
+                        <Form.Control name="num" id={mutation.mutId} type="number" min="0" size="sm" value={mutation.num} placeholder="# Mutants" onChange={this.handleMutantNumChange}/>
                     </Container>
                     </div>
                 ))}
