@@ -44,8 +44,6 @@ function removeZeros(arr){
   return arr
 }
 
-console.log(replicateM(3,[0,1],true))
-
 module.exports ={
     replicateM:replicateM
 }
