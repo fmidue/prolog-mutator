@@ -251,9 +251,7 @@ class ResultSection extends React.Component{
 
     async handleTestSolutionClick(e){
         let id = e.target.id
-        console.log("beforeReset",this.state.mutationOption)
         this.resetMutOptionState();
-        console.log("afterReset",this.state.mutationOption)
         this.setState({
             responseLoaded:false,
             tableItems: [],
