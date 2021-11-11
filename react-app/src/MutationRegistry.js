@@ -134,7 +134,7 @@ const mutationRegistry = {
             numMut: 10
         },
         mutation: async function(file,opt){
-            return await externalMutation.externalMutation(file,"indiv",opt,"drop-clause-mutation")
+            return await externalMutation.externalMutation(file,opt,"drop-clause-mutation/indiv")
         }
     },
     DropClauseMutationSumm:{
@@ -146,7 +146,7 @@ const mutationRegistry = {
             numMut: 1000
         },
         mutation: async function(file,opt){
-            return await externalMutation.externalMutation(file,"summ",opt,"drop-clause-mutation")
+            return await externalMutation.externalMutation(file,opt,"drop-clause-mutation/summ")
         }
     },
 }

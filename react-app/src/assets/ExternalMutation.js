@@ -2,10 +2,10 @@
 var FormData = require('form-data');
 const fetch = require('node-fetch');
 
-async function externalMutation(textFile,mode,endPoint){
+async function externalMutation(textFile,opt,endPoint){
     var resArr
+    var route = opt.num.toString()
     const data = new FormData()
-    const route = getModeAndNum(mode)
     data.append('program', textFile)
     await fetch(`http://localhost:8080/${endPoint}/${route}`,{
         method: "POST",
@@ -17,14 +17,6 @@ async function externalMutation(textFile,mode,endPoint){
     return resArr
 }
 
-
-function getModeAndNum(mode){
-    var route = mode.mode
-    if(mode.mode === "indiv"){
-        route += "/" + mode.num.toString()
-    }
-    return route
-}
 
 
 //TESTING SCRIPT
