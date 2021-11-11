@@ -5,6 +5,17 @@ import filterFactory, {selectFilter} from 'react-bootstrap-table2-filter';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import MutantCard from './MutantCard';
 
+const mutationReg = require('../MutationRegistry')
+const typeOptions = {}
+
+for (let i = 0; i < Object.entries(mutationReg.mutationRegistry).length; i++){
+    if(Object.entries(mutationReg.mutationRegistry)[i][1].enable){
+        let mutId = Object.entries(mutationReg.mutationRegistry)[i][0];
+        let name = Object.entries(mutationReg.mutationRegistry)[i][1].name;
+        typeOptions[mutId] = name;
+    }
+}
+
 const resultOptions ={
     0: 'OK',
     1: 'Fail'
@@ -25,7 +36,10 @@ const columns =[
     {
         dataField: 'type',
         text:'Mutation Type',
-        sort: true,
+        formatter: cell => typeOptions[cell],
+        filter: selectFilter({
+            options: typeOptions
+        }),
         style: {color: 'white'},
         headerStyle: {color: 'white', backgroundColor:'#424856'},
     },
@@ -97,7 +111,7 @@ class ResultTable extends React.Component{
             onExpand: this.handleOnExpand
         }
         return(
-                <Container>
+                <Container className ="pb-5">
                     <BootstrapTable keyField = 'id' data={this.props.items} columns={columns} expandRow={expandRow} filter={filterFactory()} bootstrap4={true} pagination={paginationFactory(paginationOptions)}/> 
                 </Container>   
         )
