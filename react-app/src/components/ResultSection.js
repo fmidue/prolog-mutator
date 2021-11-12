@@ -10,6 +10,11 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const mutationReg = require('../MutationRegistry')
 const structParser = require('../assets/StructureParser')
+const addr = require('../AddressConst')
+
+const serverAddress = addr.addressConst.hostServer;
+const testEndpoint = addr.addressConst.testFile;
+const parseEndPoint = addr.addressConst.parseFile;
 
 class ResultSection extends React.Component{
     constructor(props){
@@ -121,7 +126,7 @@ class ResultSection extends React.Component{
                 const data = new FormData()
                 data.append('config', this.state.configFile)
                 data.append('solution', file)
-                await fetch("http://localhost:8080/test-files", {
+                await fetch(`${serverAddress}${testEndpoint}`, {
                     method: "POST",
                     body: data
                 
@@ -262,7 +267,7 @@ class ResultSection extends React.Component{
         if(id === "parseAndTest"){
             const data = new FormData()
             data.append('pl-source', this.state.solutionFile)
-            await fetch("http://localhost:8080/parse-file", {
+            await fetch(`${serverAddress}${parseEndPoint}`, {
             method: "POST",
             body: data
             }).then(res => res.json())
@@ -278,7 +283,7 @@ class ResultSection extends React.Component{
         const testData = new FormData()
         testData.append('config', this.state.configFile)
         testData.append('solution', file)
-        fetch("http://localhost:8080/test-files", {
+        fetch(`${serverAddress}${testEndpoint}`, {
             method: "POST",
             body: testData
         }).then(res => res.text())
@@ -302,7 +307,7 @@ class ResultSection extends React.Component{
         var file = new File([blob], `solutionRaw.prolog`, {type: "text/plain"});
         const data = new FormData()
         data.append('pl-source', file)
-        await fetch("http://localhost:8080/parse-file", {
+        await fetch(`${serverAddress}${parseEndPoint}`, {
         method: "POST",
         body: data
         }).then(res => res.json())

@@ -2,11 +2,14 @@
 var FormData = require('form-data');
 const fetch = require('node-fetch');
 
+const addr = require('../AddressConst')
+const serverAddress = addr.addressConst.hostServer
+
 async function externalMutation(textFile,endPoint){
     var resArr
     const data = new FormData()
     data.append('program', textFile)
-    await fetch(`http://localhost:8080/${endPoint}`,{
+    await fetch(`${serverAddress}${endPoint}`,{
         method: "POST",
         body: data
     })

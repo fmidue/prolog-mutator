@@ -6,6 +6,10 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
 import DiffView from './DiffView';
 
+const addr = require('../AddressConst')
+const serverAddress = addr.addressConst.hostServer
+const testEndPoint = addr.addressConst.testFile
+
 class MutantCard extends React.Component{
     constructor(props){
         super(props);
@@ -35,7 +39,7 @@ class MutantCard extends React.Component{
         const data = new FormData()
         data.append('config', this.state.configFile)
         data.append('solution', file)
-        await fetch("http://localhost:8080/test-files", {
+        await fetch(`${serverAddress}${testEndPoint}`, {
             method: "POST",
             body: data
         }).then(res => res.text())
