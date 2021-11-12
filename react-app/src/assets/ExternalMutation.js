@@ -2,12 +2,11 @@
 var FormData = require('form-data');
 const fetch = require('node-fetch');
 
-async function externalMutation(textFile,num,endPoint){
+async function externalMutation(textFile,endPoint){
     var resArr
-    var route = num.toString()
     const data = new FormData()
     data.append('program', textFile)
-    await fetch(`http://localhost:8080/${endPoint}/${route}`,{
+    await fetch(`http://localhost:8080/${endPoint}`,{
         method: "POST",
         body: data
     })
