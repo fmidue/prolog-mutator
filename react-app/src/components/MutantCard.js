@@ -15,6 +15,7 @@ class MutantCard extends React.Component{
         super(props);
         this.state={
             oriCode : this.props.oriCode,
+            diffMutCode: this.props.mutCode,
             mutantCode : this.props.mutCode,
             testResult : this.props.testRes,
             configFile : this.props.configFile,
@@ -53,7 +54,7 @@ class MutantCard extends React.Component{
     render(){
         return(
         <div id="mutantDetailCard">
-            <DiffView oldStr={this.state.oriCode} newStr={this.state.mutantCode}/>
+            <DiffView oldStr={this.state.oriCode} newStr={this.state.diffMutCode}/>
             <Container style={{color:"white"}}>
                 <Row>
                     <Col sm={6}>
