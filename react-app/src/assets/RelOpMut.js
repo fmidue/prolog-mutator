@@ -18,14 +18,21 @@ const transformationMap = {
     "=<":">"
 }
 function relOpMut(textAndOpObj,mode,num){
+    //Make sure there are relational Operators
+    var relOpArr = []
+    if (textAndOpObj.charPos.relationalOperators){
+        relOpArr = textAndOpObj.charPos.relationalOperators
+    }
     var result = []
     //Individually Mode
-    if (mode === "indiv"){
-        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators,num)
-        result = result.concat(mutantArr)
-    }else if(mode === "summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.relationalOperators,num)
-        result = result.concat(mutantArr)
+    if(relOpArr.length > 0){
+        if (mode === "indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,relOpArr,num)
+            result = result.concat(mutantArr)
+        }else if(mode === "summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,relOpArr,num)
+            result = result.concat(mutantArr)
+        }
     }
     return result;
 }
@@ -72,15 +79,15 @@ function performSummarilyMutations(text,indexArr,numMutant){
                 var mutateIndex = []
                 var newOpArr = []
                 for (var i = 0; i < numOp ; i ++){
-                    if (x[i]===1){
-                        var operatorChar = getCompleteOperator(text,indexArr[i])
-                        var newOpChar = transformationMap[operatorChar]
-                        var opCharLn = operatorChar.length
-                        var indexPair = [indexArr[i],indexArr[i]+opCharLn]
-                        newOpArr.push(newOpChar)
-                        mutateIndex.push(indexPair)
-                        
-                    }
+                    //In a case only 1 operator found, replicateM will only return [1]
+                        if (x[i]===1||!Array.isArray(x)){
+                            var operatorChar = getCompleteOperator(text,indexArr[i])
+                            var newOpChar = transformationMap[operatorChar]
+                            var opCharLn = operatorChar.length
+                            var indexPair = [indexArr[i],indexArr[i]+opCharLn]
+                            newOpArr.push(newOpChar)
+                            mutateIndex.push(indexPair)
+                        }
                 }
                 if(mutateIndex.length > 0){
                     mutantText = replaceRelOp(mutantText,mutateIndex,newOpArr)

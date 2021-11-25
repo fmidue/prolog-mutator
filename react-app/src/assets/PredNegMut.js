@@ -43,13 +43,15 @@ function performSummarilyMutations(text,indexArr,predicates,numMutant){
                 var mutIndexArr = []
                 let negArray = []
                 for (var i = 0; i < numPred; i++){
-                    if (x[i]===1){
+                    if (x[i]===1||!Array.isArray(x)){
                         mutIndexArr.push(indexArr[i])
                         predicates[i].includes("\\+") ? negArray.push(true) : negArray.push(false)
                     }
                 }
-                var mutantText = negateSinglePredicate(text,mutIndexArr,negArray)
-                mutantArray.push(mutantText)
+                if(mutIndexArr.length > 0){
+                    var mutantText = negateSinglePredicate(text,mutIndexArr,negArray)
+                    mutantArray.push(mutantText)
+                }
             })
         }else{
             while (mutantArray.length < numMutant){
@@ -62,9 +64,11 @@ function performSummarilyMutations(text,indexArr,predicates,numMutant){
                         predicates[i].includes("\\+") ? negArray.push(true) : negArray.push(false)
                     }
                 }
-                let mutantText = negateSinglePredicate(text,mutIndexArr,negArray) 
-                if(!mutantArray.includes(mutantText)){
-                    mutantArray.push(mutantText)
+                if(mutIndexArr.length>0){
+                    let mutantText = negateSinglePredicate(text,mutIndexArr,negArray) 
+                    if(!mutantArray.includes(mutantText)){
+                        mutantArray.push(mutantText)
+                    }
                 }
             }
         }

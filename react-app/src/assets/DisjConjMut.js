@@ -19,23 +19,27 @@ function disjConjMut(textAndOpObj,mode,num,caller){
     
     //Disjunction to Conjunction
     if (caller === "DisjConj"){
-        if(mode === "indiv"){
-            let mutantArr = performIndividualMutations(textAndOpObj.realText,disjIndex,",",num)
-            result = result.concat(mutantArr)
-        } else if (mode === "summ"){
-            let mutantArr = performSummarilyMutations(textAndOpObj.realText,disjIndex,num)
-            result = result.concat(mutantArr)
+        if(disjIndex.length > 0){
+            if(mode === "indiv"){
+                let mutantArr = performIndividualMutations(textAndOpObj.realText,disjIndex,",",num)
+                result = result.concat(mutantArr)
+            } else if (mode === "summ"){
+                let mutantArr = performSummarilyMutations(textAndOpObj.realText,disjIndex,num)
+                result = result.concat(mutantArr)
+            }
         }
     }
     //Conjunction to Disjunction
     else if(caller === "ConjDisj"){
-        if (mode === "indiv"){
-            let mutantArr = performIndividualMutations(textAndOpObj.realText,conjIndex,";",num)
-            result = result.concat(mutantArr)
-        } 
-        else if (mode === "summ"){
-            let mutantArr = performSummarilyMutations(textAndOpObj.realText,conjIndex,num)
-            result = result.concat(mutantArr)
+        if(conjIndex.length > 0){
+            if (mode === "indiv"){
+                let mutantArr = performIndividualMutations(textAndOpObj.realText,conjIndex,";",num)
+                result = result.concat(mutantArr)
+            } 
+            else if (mode === "summ"){
+                let mutantArr = performSummarilyMutations(textAndOpObj.realText,conjIndex,num)
+                result = result.concat(mutantArr)
+            }
         }
     }
     return result;

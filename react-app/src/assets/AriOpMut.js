@@ -9,13 +9,19 @@ const transformationMap = {
 }
 
 function ariOpMut(textAndOpObj,mode,num){
+    var ariOpArr = []
+    if (textAndOpObj.charPos.arithmeticalOperators){
+        ariOpArr = textAndOpObj.charPos.arithmeticalOperators
+    }
     var result = []
-    if (mode==="indiv"){
-        let mutantArr = performIndividualMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,num)
-        result = result.concat(mutantArr)
-    }else if (mode==="summ"){
-        let mutantArr = performSummarilyMutations(textAndOpObj.realText,textAndOpObj.charPos.arithmeticalOperators,num)
-        result = result.concat(mutantArr)
+    if(ariOpArr.length > 0){
+        if (mode==="indiv"){
+            let mutantArr = performIndividualMutations(textAndOpObj.realText,ariOpArr,num)
+            result = result.concat(mutantArr)
+        }else if (mode==="summ"){
+            let mutantArr = performSummarilyMutations(textAndOpObj.realText,ariOpArr,num)
+            result = result.concat(mutantArr)
+        }
     }
     return result;
 }
@@ -44,7 +50,7 @@ function performSummarilyMutations(text,indexArr,numMutant){
             opArr.forEach((x)=>{
                 var mutantText = text
                 for (var i = 0; i < numOp; i++){
-                    if (x[i]===1){
+                    if (x[i]===1||!Array.isArray(x)){
                         let newOpChar = transformationMap[text.charAt(indexArr[i])]
                         mutantText = helper.replaceOpIndex(mutantText,[indexArr[i]],[newOpChar])
                     }
