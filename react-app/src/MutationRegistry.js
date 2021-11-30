@@ -23,7 +23,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 100
+            numMut: 1000
         },
         mutation: function (obj,num){
             return disjConjMut.disjConjMut(obj,"summ",num,"ConjDisj")
@@ -47,7 +47,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 100
+            numMut: 1000
         },
         mutation: function (obj,num){
             return disjConjMut.disjConjMut(obj,"summ",num,"DisjConj")
@@ -71,7 +71,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 100
+            numMut: 1000
         },
         mutation: function (obj,num){
             return relOpMut.relOpMut(obj,"summ",num)
@@ -95,7 +95,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 100
+            numMut: 1000
         },
         mutation: function (obj,num){
             return ariOpMut.ariOpMut(obj,"summ",num)
@@ -119,7 +119,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 100
+            numMut: 1000
         },
         mutation: function (obj,num){
             return predNegMut.predNegMut(obj,"summ",num)
@@ -130,7 +130,7 @@ const mutationRegistry = {
         enable: true,
         external: true,
         defaultOpt: {
-            checked: false,
+            checked: true,
             numMut: 10
         },
         mutation: async function(file,num){
