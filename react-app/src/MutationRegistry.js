@@ -23,7 +23,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 1000
+            numMut: 100
         },
         mutation: function (obj,num){
             return disjConjMut.disjConjMut(obj,"summ",num,"ConjDisj")
@@ -47,7 +47,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 1000
+            numMut: 100
         },
         mutation: function (obj,num){
             return disjConjMut.disjConjMut(obj,"summ",num,"DisjConj")
@@ -71,7 +71,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 1000
+            numMut: 100
         },
         mutation: function (obj,num){
             return relOpMut.relOpMut(obj,"summ",num)
@@ -95,7 +95,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 1000
+            numMut: 100
         },
         mutation: function (obj,num){
             return ariOpMut.ariOpMut(obj,"summ",num)
@@ -119,7 +119,7 @@ const mutationRegistry = {
         external: false,
         defaultOpt: {
             checked: true,
-            numMut: 1000
+            numMut: 100
         },
         mutation: function (obj,num){
             return predNegMut.predNegMut(obj,"summ",num)
@@ -130,7 +130,7 @@ const mutationRegistry = {
         enable: true,
         external: true,
         defaultOpt: {
-            checked: true,
+            checked: false,
             numMut: 10
         },
         mutation: async function(file,num){
@@ -143,10 +143,34 @@ const mutationRegistry = {
         external: true,
         defaultOpt: {
             checked: true,
-            numMut: 1000
+            numMut: ""
         },
         mutation: async function(file,num){
-            return await externalMutation.externalMutation(file,`drop-clause-mutation/summ/${num}`)
+            return await externalMutation.externalMutation(file,`drop-clause-mutation/summ/`)
+        }
+    },
+    ToAnonVariableIndiv:{
+        name : "[Individual]To Anonymous Variable",
+        enable: false,
+        external: true,
+        defaultOpt: {
+            checked: false,
+            numMut: 10
+        },
+        mutation: async function(file,num){
+            return await externalMutation.externalMutation(file,`to-anon-var-mutation/indiv/${num}`)
+        }
+    },
+    ToAnonVariableSumm:{
+        name : "[Summary]To Anonymous Variable",
+        enable: true,
+        external: true,
+        defaultOpt: {
+            checked: true,
+            numMut: ""
+        },
+        mutation: async function(file,num){
+            return await externalMutation.externalMutation(file,`to-anon-var-mutation/summ/`)
         }
     },
 }
