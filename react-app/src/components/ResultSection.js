@@ -179,18 +179,19 @@ class ResultSection extends React.Component{
     async performMutationOnOptions(solutionObj){
         var mutantObj = {}
         for(let i = 0; i < Object.entries(mutationReg.mutationRegistry).length; i++){
-            var mutOptIndex = this.findMutationOptionIndex(Object.entries(mutationReg.mutationRegistry)[i][0])
-            var mutationOption = this.state.mutationOption[mutOptIndex] 
-            let entry = Object.entries(mutationReg.mutationRegistry)[i][1]
-            if(mutationOption.checked && entry.enable && !entry.external && typeof entry.mutation === 'function'){
-                let mutationResult = Object.entries(mutationReg.mutationRegistry)[i][1].mutation.call(this,solutionObj,mutationOption.num)
-                let mutationKey = Object.entries(mutationReg.mutationRegistry)[i][0]
-                mutantObj[mutationKey] = mutationResult
-            }else if (mutationOption.checked && entry.enable && entry.external && typeof entry.mutation === 'function'){
-                let mutationResult = await Object.entries(mutationReg.mutationRegistry)[i][1].mutation.call(this,this.state.solutionFile,mutationOption.num)
-                let mutationKey = Object.entries(mutationReg.mutationRegistry)[i][0]
-                mutantObj[mutationKey] = mutationResult
-                
+            if(Object.entries(mutationReg.mutationRegistry)[i][1].enable){
+                var mutOptIndex = this.findMutationOptionIndex(Object.entries(mutationReg.mutationRegistry)[i][0])
+                var mutationOption = this.state.mutationOption[mutOptIndex] 
+                let entry = Object.entries(mutationReg.mutationRegistry)[i][1]
+                if(mutationOption.checked && entry.enable && !entry.external && typeof entry.mutation === 'function'){
+                    let mutationResult = Object.entries(mutationReg.mutationRegistry)[i][1].mutation.call(this,solutionObj,mutationOption.num)
+                    let mutationKey = Object.entries(mutationReg.mutationRegistry)[i][0]
+                    mutantObj[mutationKey] = mutationResult
+                }else if (mutationOption.checked && entry.enable && entry.external && typeof entry.mutation === 'function'){
+                    let mutationResult = await Object.entries(mutationReg.mutationRegistry)[i][1].mutation.call(this,this.state.solutionFile,mutationOption.num)
+                    let mutationKey = Object.entries(mutationReg.mutationRegistry)[i][0]
+                    mutantObj[mutationKey] = mutationResult
+                }
             }
         }
         return mutantObj
