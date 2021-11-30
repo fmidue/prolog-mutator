@@ -22,6 +22,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "server-install": "cd ../prolog-server-abgabe && stack build",
+    "server-abgabe": "cd ../prolog-server-abgabe && stack run",
     "server": "cd ../prolog-test-server && stack run",
     "build": "react-scripts build",
     "test": "react-scripts test",
