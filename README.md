@@ -17,8 +17,8 @@ Install Node.js, npm and [stack](https://docs.haskellstack.org/en/stable/).
 6. `npm run start` to start the web-application at port 3000. If it doesn't open automatically, open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 If step 3 and 4 are not working, run the following commands one after the other from the prolog-test-server directory:
-1. stack install
-2. stack run
+1. `stack install`
+2. `stack run`
 
 ### App functionality
 
