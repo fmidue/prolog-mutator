@@ -10,7 +10,7 @@ Install Node.js, npm and [stack](https://docs.haskellstack.org/en/stable/).
 ### Getting Started
 
 1. `git clone --recursive https://github.com/fmidue/prolog-mutator.git` to pull the repository including the Server Backend.
-2. `cd react-app`
+2. `cd prolog-mutator/react-app`
 3. `npm install` in the project directory (react-app) to install all the dependencies.
 4. `npm run server-install` to install the server locally.
 5. `npm run server` to run the server at port 8080
