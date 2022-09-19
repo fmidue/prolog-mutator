@@ -3,6 +3,8 @@
 This is a Tool to generate mutants for Prolog exercise tasks and to test it with the configuration. With this tool the test cases can be modified
 dynamically in runtime, in order to kill mutants and make sure that an adequate test cases is reached.
 
+Usage of the tool is described in an [article](https://wlp2022.dfki.de/data/papers/004.pdf) at [WLP 2022](https://wlp2022.dfki.de/).
+
 ### Prerequisites
 
 Install Node.js, npm and [stack](https://docs.haskellstack.org/en/stable/).
