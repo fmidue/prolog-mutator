@@ -29,3 +29,6 @@ jobs:
         cache-dependency-path: react-app/package-lock.json
     - run: npm ci
     - run: npm run build --if-present
+
+    env:
+      CI: false
