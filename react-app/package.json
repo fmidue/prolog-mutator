@@ -16,7 +16,7 @@
     "react-bootstrap-table2-paginator": "^2.1.2",
     "react-diff-view": "^2.4.8",
     "react-dom": "^16.13.1",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.1",
     "unidiff": "^1.0.2",
     "web-vitals": "^1.1.2"
   },
