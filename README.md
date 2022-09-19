@@ -16,9 +16,9 @@ Install Node.js, npm and [stack](https://docs.haskellstack.org/en/stable/).
 3. `npm install` in the project directory (`react-app`, also for the following commands) to install all the JavaScript dependencies.
 4. `npm run server-install` to install the server locally, along with its Haskell dependencies.
 5. `npm run server` to run the server at port 8080.
-6. `npm run start` to start the web application at port 3000. If it doesn't open automatically, open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+6. `npm run start` (again in `react-app`) to start the web application at port 3000. If it doesn't open automatically, open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-If steps 4 and 5 are not working, run the following commands from the `prolog-test-server` directory instead:
+If steps 4 and 5 are not working, run the following commands in the `prolog-test-server` directory instead:
 1. `stack build`
 2. `stack run`
 
