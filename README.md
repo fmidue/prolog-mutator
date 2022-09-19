@@ -13,8 +13,8 @@ Install Node.js, npm and [stack](https://docs.haskellstack.org/en/stable/).
 
 1. `git clone --recursive https://github.com/fmidue/prolog-mutator.git` to pull the repository including the server backend.
 2. `cd prolog-mutator/react-app`
-3. `npm install` in the project directory (`react-app`, also for the following commands) to install all the dependencies.
-4. `npm run server-install` to install the server locally.
+3. `npm install` in the project directory (`react-app`, also for the following commands) to install all the JavaScript dependencies.
+4. `npm run server-install` to install the server locally, along with its Haskell dependencies.
 5. `npm run server` to run the server at port 8080.
 6. `npm run start` to start the web application at port 3000. If it doesn't open automatically, open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
