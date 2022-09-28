@@ -1,6 +1,5 @@
 //var fs = require('fs');
 var FormData = require('form-data');
-const fetch = require('node-fetch');
 
 const addr = require('../AddressConst')
 const serverAddress = addr.addressConst.hostServer
