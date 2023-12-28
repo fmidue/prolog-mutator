@@ -7,7 +7,7 @@ Usage of the tool is described in an [article](https://wlp2022.dfki.de/data/pape
 
 ### Prerequisites
 
-Install Node.js 18, npm, and [stack](https://docs.haskellstack.org/en/stable/).
+Install Node.js 18 or 20 (including npm) and [stack](https://docs.haskellstack.org/en/stable/).
 
 ### Getting Started
 
