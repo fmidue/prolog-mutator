@@ -16,7 +16,7 @@
     "react-diff-view": "^2.4.10",
     "react-dom": "^16.13.1",
     "react-scripts": "5.0.1",
-    "unidiff": "^1.0.2",
+    "unidiff": "^1.0.4",
     "web-vitals": "^3.1.1"
   },
   "scripts": {
